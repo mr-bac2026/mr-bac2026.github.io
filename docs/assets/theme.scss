@@ -172,53 +172,67 @@ main table:not(.gt_table) th {
 main table:not(.gt_table) td { border-bottom: 1px solid $rule; padding: .42rem .6rem; }
 
 // --- Sélecteur de langue (navbar) ------------------------------------------
-// Le seul menu déroulant de la navbar : on le stylise en « pilule » discrète
-// avec un globe, et un menu en carte soignée.
-$globe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18'/%3E%3C/svg%3E");
+// Drapeaux SVG (autonomes) : France (fr), Royaume-Uni (en), Mauritanie (ar).
+$flag-fr: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzIDInPjxwYXRoIGZpbGw9JyNFRDI5MzknIGQ9J00wIDBoM3YySDB6Jy8+PHBhdGggZmlsbD0nI2ZmZicgZD0nTTAgMGgydjJIMHonLz48cGF0aCBmaWxsPScjMDAyMzk1JyBkPSdNMCAwaDF2MkgweicvPjwvc3ZnPg==");
+$flag-en: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2MCAzMCc+PGNsaXBQYXRoIGlkPSdhJz48cGF0aCBkPSdNMCAwdjMwaDYwVjB6Jy8+PC9jbGlwUGF0aD48Y2xpcFBhdGggaWQ9J2InPjxwYXRoIGQ9J00zMCAxNWgzMHYxNXp2MTVIMHpIMFYwelYwaDMweicvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSd1cmwoI2EpJz48cGF0aCBkPSdNMCAwdjMwaDYwVjB6JyBmaWxsPScjMDEyMTY5Jy8+PHBhdGggZD0nTTAgMCA2MCAzMG0wLTMwTDAgMzAnIHN0cm9rZT0nI2ZmZicgc3Ryb2tlLXdpZHRoPSc2Jy8+PHBhdGggZD0nTTAgMCA2MCAzMG0wLTMwTDAgMzAnIGNsaXAtcGF0aD0ndXJsKCNiKScgc3Ryb2tlPScjQzgxMDJFJyBzdHJva2Utd2lkdGg9JzQnLz48cGF0aCBkPSdNMzAgMHYzME0wIDE1aDYwJyBzdHJva2U9JyNmZmYnIHN0cm9rZS13aWR0aD0nMTAnLz48cGF0aCBkPSdNMzAgMHYzME0wIDE1aDYwJyBzdHJva2U9JyNDODEwMkUnIHN0cm9rZS13aWR0aD0nNicvPjwvZz48L3N2Zz4=");
+$flag-mr: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMCAyMCc+PHJlY3Qgd2lkdGg9JzMwJyBoZWlnaHQ9JzIwJyBmaWxsPScjY2QyYTNlJy8+PHJlY3QgeT0nNCcgd2lkdGg9JzMwJyBoZWlnaHQ9JzEyJyBmaWxsPScjMDA2MjMzJy8+PGNpcmNsZSBjeD0nMTUnIGN5PScxMS42JyByPSc0LjMnIGZpbGw9JyNmZmM0MDAnLz48Y2lyY2xlIGN4PScxNScgY3k9JzkuMScgcj0nNC4zJyBmaWxsPScjMDA2MjMzJy8+PHBhdGggZmlsbD0nI2ZmYzQwMCcgZD0nTTE1IDguMWwuNjYgMi4wM2gyLjEzbC0xLjcyIDEuMjUuNjYgMi4wM0wxNSAxMi4ybC0xLjczIDEuMjUuNjYtMi4wMy0xLjcyLTEuMjVoMi4xM3onLz48L3N2Zz4=");
+
+$flag-w: 22px;
+$flag-h: 15px;
 
 .navbar .nav-item.dropdown > .dropdown-toggle {
   display: inline-flex;
   align-items: center;
-  gap: .34rem;
-  padding: .18rem .7rem;
+  gap: .4rem;
+  padding: .22rem .6rem;
+  font-size: 0;                        // masque le code FR/EN/ع (gardé pour a11y)
   border: 1px solid $rule;
-  border-radius: 999px;
-  font-size: .8rem;
-  font-weight: 600;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: $ink-soft;
-  transition: color .15s ease, border-color .15s ease, background .15s ease;
+  border-radius: 8px;
+  transition: border-color .15s ease, background .15s ease;
 }
 .navbar .nav-item.dropdown > .dropdown-toggle::before {
   content: "";
-  width: .92rem;
-  height: .92rem;
+  width: $flag-w;
+  height: $flag-h;
   flex: 0 0 auto;
-  background-color: currentColor;
-  -webkit-mask: $globe center / contain no-repeat;
-          mask: $globe center / contain no-repeat;
+  border-radius: 2px;
+  background: no-repeat center / cover;
+  box-shadow: 0 0 0 1px rgba($ink, .12);
 }
-.navbar .nav-item.dropdown > .dropdown-toggle::after {
-  margin-inline-start: .04rem;
-  opacity: .5;
+.navbar .nav-item.dropdown > .dropdown-toggle::after {   // chevron discret
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin: 0 1px -1px 0;
+  border: 0;
+  border-right: 1.5px solid $ink-soft;
+  border-bottom: 1.5px solid $ink-soft;
+  transform: rotate(45deg);
+  transition: border-color .15s ease;
 }
 .navbar .nav-item.dropdown > .dropdown-toggle:hover,
 .navbar .nav-item.dropdown.show > .dropdown-toggle {
-  color: $accent;
-  border-color: rgba($accent, .45);
+  border-color: rgba($accent, .5);
   background: rgba($accent, .06);
 }
+.navbar .nav-item.dropdown.show > .dropdown-toggle::after { border-color: $accent; }
+
+html[lang="fr"] .navbar .dropdown-toggle::before { background-image: $flag-fr; }
+html[lang="en"] .navbar .dropdown-toggle::before { background-image: $flag-en; }
+html[lang="ar"] .navbar .dropdown-toggle::before { background-image: $flag-mr; }
 
 .navbar .dropdown-menu {
   margin-top: .5rem;
-  min-width: 10rem;
+  min-width: 11rem;
   padding: .3rem;
   border: 1px solid $rule;
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba($ink, .12);
 }
 .navbar .dropdown-menu .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
   padding: .44rem .7rem;
   border-radius: 5px;
   font-size: .95rem;
@@ -226,6 +240,18 @@ $globe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBo
   color: $ink;
   transition: background .12s ease, color .12s ease;
 }
+.navbar .dropdown-menu .dropdown-item::before {
+  content: "";
+  width: $flag-w;
+  height: $flag-h;
+  flex: 0 0 auto;
+  border-radius: 2px;
+  background: no-repeat center / cover;
+  box-shadow: 0 0 0 1px rgba($ink, .1);
+}
+.navbar .dropdown-menu .dropdown-item[href*="pages/fr/index"]::before { background-image: $flag-fr; }
+.navbar .dropdown-menu .dropdown-item[href*="pages/en/index"]::before { background-image: $flag-en; }
+.navbar .dropdown-menu .dropdown-item[href*="pages/ar/index"]::before { background-image: $flag-mr; }
 .navbar .dropdown-menu .dropdown-item:hover,
 .navbar .dropdown-menu .dropdown-item:focus {
   background: $paper-alt;
