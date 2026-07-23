@@ -4,7 +4,7 @@
 #  Éditez translations.csv (dans un tableur) pour ajouter/corriger un texte.
 # =============================================================================
 BAC_I18N <- local({
-  path <- file.path(BAC_ROOT, "translations.csv")
+  path <- file.path(BAC_ROOT, "l10n", "l10n.csv")
   df <- readr::read_csv(path, show_col_types = FALSE, progress = FALSE)
   split(df, df$key)
 })
@@ -22,7 +22,9 @@ tr <- function(key, lang = "fr") {
 # Caption « source » complète selon le contexte de la figure.
 cap_src      <- function(lang = "fr") tr("src", lang)
 cap_src_pop  <- function(lang = "fr") tr("src_pop", lang)
-cap_src_geo  <- function(lang = "fr") paste(tr("src", lang),
-                                            tr("geo_fond", lang), sep = "\n")
-cap_src_both <- function(lang = "fr") paste(tr("src", lang),
-                                            tr("src_pop", lang), sep = "\n")
+cap_src_geo  <- function(lang = "fr") {
+  paste(tr("src", lang), tr("geo_fond", lang), sep = "\n")
+}
+cap_src_both <- function(lang = "fr") {
+  paste(tr("src", lang), tr("src_pop", lang), sep = "\n")
+}

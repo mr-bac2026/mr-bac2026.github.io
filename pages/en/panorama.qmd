@@ -1,0 +1,61 @@
+---
+title: "Overview of one session"
+subtitle: "Before looking at results by region or track, let's start with the whole. What becomes of the sixty-four thousand candidates?"
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "en"
+g <- panorama_data()
+```
+
+::: {.callout-note}
+This page is being translated; the narrative text is not final.
+:::
+
+## The four outcomes of a candidacy
+
+*Text to be translated.*
+
+```{r decisions-barres}
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "Breakdown of candidates by final decision."
+fig_pano_decisions(g, lang)
+```
+
+## The steps, one by one
+
+*Text to be translated.*
+
+```{r entonnoir}
+#| fig-width: 8
+#| fig-height: 3.8
+#| fig-alt: "Funnel of candidates: registered, present, above 8, admitted."
+fig_pano_entonnoir(g, lang)
+```
+
+## The shape of the grades
+
+*Text to be translated.*
+
+```{r densite}
+#| fig-width: 8
+#| fig-height: 4.6
+#| fig-alt: "Density of present candidates' averages with thresholds."
+fig_pano_densite(g, lang)
+```
+
+## Honours
+
+*Text to be translated.*
+
+```{r mentions}
+#| fig-width: 7.5
+#| fig-height: 3.2
+#| fig-alt: "Distribution of honours among admitted candidates."
+fig_pano_mentions(g, lang)
+```

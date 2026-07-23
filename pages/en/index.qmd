@@ -1,0 +1,29 @@
+---
+title: "The 2026 baccalaureate, by the numbers"
+subtitle: "Sixty-four thousand candidates, one session, few passes. A statistical read of the results."
+date: 2026-07-22
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "en"
+g <- index_data()
+```
+
+::: {.callout-note}
+This page is being translated; the narrative text is not final.
+:::
+
+## The distribution of grades
+
+*Text to be translated.*
+
+```{r hero-distribution}
+#| fig-width: 8
+#| fig-height: 5.2
+#| fig-alt: "Distribution of 2026 baccalaureate averages, coloured by decision."
+fig_index_hist(g, lang)
+```

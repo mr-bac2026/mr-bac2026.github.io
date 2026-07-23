@@ -1,0 +1,29 @@
+---
+title: "باكالوريا 2026 بالأرقام"
+subtitle: "أربعة وستون ألف مترشح، دورة واحدة، قلة من الناجحين. قراءة إحصائية للنتائج."
+date: 2026-07-22
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "ar"
+g <- index_data()
+```
+
+::: {.callout-note}
+هذه الصفحة قيد الترجمة؛ النص السردي غير نهائي.
+:::
+
+## توزيع المعدلات
+
+*النص قيد الترجمة.*
+
+```{r hero-distribution}
+#| fig-width: 8
+#| fig-height: 5.2
+#| fig-alt: "توزيع معدلات باكالوريا 2026، ملوّنة حسب القرار."
+fig_index_hist(g, lang)
+```

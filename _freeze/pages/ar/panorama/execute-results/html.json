@@ -1,0 +1,17 @@
+{
+  "hash": "940410849c3ee8615d542fbe981d1b1a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"بانوراما دورة واحدة\"\nsubtitle: \"قبل النظر في النتائج حسب الجهة أو الشعبة، لنبدأ بالمجموع. ماذا يحل بأربعة وستين ألف مترشح؟\"\n---\n\n\n\n::: {.callout-note}\nهذه الصفحة قيد الترجمة؛ النص السردي غير نهائي.\n:::\n\n## المخرجات الأربعة للترشح\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](panorama_files/figure-html/decisions-barres-1.png){fig-alt='توزيع المترشحين حسب القرار النهائي.'}\n:::\n:::\n\n\n## المراحل، واحدة تلو الأخرى\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](panorama_files/figure-html/entonnoir-1.png){fig-alt='قمع المترشحين: المسجلون، الحاضرون، فوق 8، الناجحون.'}\n:::\n:::\n\n\n## شكل المعدلات\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](panorama_files/figure-html/densite-1.png){fig-alt='كثافة معدلات الحاضرين مع العتبات.'}\n:::\n:::\n\n\n## الملاحظات\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](panorama_files/figure-html/mentions-1.png){fig-alt='توزيع الملاحظات بين الناجحين.'}\n:::\n:::\n\n",
+    "supporting": [
+      "panorama_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

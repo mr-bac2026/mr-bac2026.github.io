@@ -1,0 +1,61 @@
+---
+title: "بانوراما دورة واحدة"
+subtitle: "قبل النظر في النتائج حسب الجهة أو الشعبة، لنبدأ بالمجموع. ماذا يحل بأربعة وستين ألف مترشح؟"
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "ar"
+g <- panorama_data()
+```
+
+::: {.callout-note}
+هذه الصفحة قيد الترجمة؛ النص السردي غير نهائي.
+:::
+
+## المخرجات الأربعة للترشح
+
+*النص قيد الترجمة.*
+
+```{r decisions-barres}
+#| fig-width: 8
+#| fig-height: 3.4
+#| fig-alt: "توزيع المترشحين حسب القرار النهائي."
+fig_pano_decisions(g, lang)
+```
+
+## المراحل، واحدة تلو الأخرى
+
+*النص قيد الترجمة.*
+
+```{r entonnoir}
+#| fig-width: 8
+#| fig-height: 3.8
+#| fig-alt: "قمع المترشحين: المسجلون، الحاضرون، فوق 8، الناجحون."
+fig_pano_entonnoir(g, lang)
+```
+
+## شكل المعدلات
+
+*النص قيد الترجمة.*
+
+```{r densite}
+#| fig-width: 8
+#| fig-height: 4.6
+#| fig-alt: "كثافة معدلات الحاضرين مع العتبات."
+fig_pano_densite(g, lang)
+```
+
+## الملاحظات
+
+*النص قيد الترجمة.*
+
+```{r mentions}
+#| fig-width: 7.5
+#| fig-height: 3.2
+#| fig-alt: "توزيع الملاحظات بين الناجحين."
+fig_pano_mentions(g, lang)
+```

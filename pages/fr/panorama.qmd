@@ -6,8 +6,10 @@ subtitle: "Avant de regarder les résultats par région ou par filière, commen�
 ```{r setup}
 #| include: false
 source("R/common.R")
-d <- lire_bac()
-n_tot <- nrow(d)
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "fr"
+g <- panorama_data()
 ```
 
 ::: {.chapo}
@@ -22,25 +24,7 @@ Le résultat tient en quelques catégories. Un candidat peut être **admis**, **
 #| fig-width: 8
 #| fig-height: 3.4
 #| fig-alt: "Répartition des candidats selon la décision finale."
-rep <- d |> count(decision) |> mutate(part = n / sum(n))
-
-ggplot(rep, aes(x = n, y = fct_rev(decision), fill = decision)) +
-  geom_col(width = 0.68) +
-  geom_text(aes(label = paste0(format(n, big.mark = " "), "  ·  ",
-                               pct_fr(part))),
-            hjust = -0.05, family = BAC_FONT_BODY, size = 3.1,
-            colour = BAC_COL$encre) +
-  scale_fill_manual(values = BAC_PAL_DECISION, guide = "none") +
-  scale_x_continuous(limits = c(0, max(rep$n) * 1.22),
-                     expand = expansion(c(0, 0))) +
-  labs(title = "Un admis pour sept ajournés",
-       subtitle = glue("Répartition des {format(n_tot, big.mark=' ')} ",
-                       "candidats de la session normale ",
-                       "selon la décision finale."),
-       x = NULL, y = NULL, caption = SRC) +
-  theme_bac() +
-  theme(panel.grid.major.y = element_blank(),
-        axis.text.x = element_blank(), panel.grid.major.x = element_blank())
+fig_pano_decisions(g, lang)
 ```
 
 Le déséquilibre est net. Les ajournés sont de loin les plus nombreux : à eux seuls, ils représentent plus des deux tiers des candidats. Les admis et les sessionnaires forment deux groupes bien plus petits. Les absents, eux, montrent qu'environ un candidat sur seize ne se présente pas à l'épreuve.
@@ -54,28 +38,7 @@ Reprenons les mêmes candidats, mais étape par étape. On part de tous les insc
 #| fig-height: 3.8
 #| fig-alt: >
 #|   Entonnoir des candidats : inscrits, présents, au-dessus de 8, admis.
-niv <- c("Inscrits", "Présents à l'épreuve", "Moyenne ≥ 8", "Admis (≥ 10)")
-etapes <- tibble::tibble(
-  etape = factor(niv, levels = niv),
-  n = c(n_tot,
-        sum(d$present == 1),
-        sum(d$present == 1 & d$moyenne >= 8, na.rm = TRUE),
-        sum(d$admis))
-) |> mutate(part = n / n_tot)
-
-ggplot(etapes, aes(x = etape, y = n)) +
-  geom_col(width = 0.6, fill = BAC_COL$terre) +
-  geom_text(aes(label = paste0(format(n, big.mark = " "), "\n",
-                               pct_fr(part, 1))),
-            vjust = -0.25, family = BAC_FONT_BODY, size = 3.1,
-            colour = BAC_COL$encre, lineheight = 0.95) +
-  scale_y_continuous(labels = label_number(big.mark = " "),
-                     expand = expansion(c(0, 0.15))) +
-  labs(title = "De soixante-quatre mille inscrits à huit mille admis",
-       subtitle = "Effectif subsistant à chaque filtre de la session normale.",
-       x = NULL, y = NULL, caption = SRC) +
-  theme_bac() +
-  theme(panel.grid.major.x = element_blank())
+fig_pano_entonnoir(g, lang)
 ```
 
 Le résultat est parlant. Presque tous les candidats se présentent. C'est le seuil de 8 qui écarte le plus grand nombre, puis celui de l'admission. Autrement dit, la difficulté du baccalauréat ne vient pas de l'absentéisme, mais du niveau demandé le jour de l'épreuve.
@@ -88,30 +51,10 @@ Derrière les catégories, il y a les notes elles-mêmes. Le graphique ci-dessou
 #| fig-width: 8
 #| fig-height: 4.6
 #| fig-alt: "Densité des moyennes des présents avec seuils."
-pres <- d |> filter(present == 1, !is.na(moyenne))
-med <- median(pres$moyenne)
-
-ggplot(pres, aes(x = moyenne)) +
-  geom_histogram(aes(y = after_stat(density)), binwidth = 0.5, boundary = 0,
-                 fill = BAC_COL$papier_alt, colour = BAC_COL$papier,
-                 linewidth = 0.15) +
-  geom_density(colour = BAC_COL$terre, linewidth = 0.9, adjust = 1.1) +
-  geom_vline(xintercept = c(8, 10), linetype = "dashed",
-             colour = BAC_COL$encre_douce, linewidth = 0.4) +
-  geom_vline(xintercept = med, colour = BAC_COL$vert, linewidth = 0.6) +
-  annotate("text", x = med, y = Inf,
-           label = paste0("médiane ", num_fr(med, 0.1)),
-           hjust = -0.08, vjust = 2, family = BAC_FONT_BODY, size = 3,
-           colour = BAC_COL$vert) +
-  scale_x_continuous(breaks = seq(0, 18, 2), limits = c(0, 18)) +
-  labs(title = "Une distribution qui penche à gauche",
-       subtitle = paste("Densité des moyennes des candidats présents.",
-                        "Les tirets marquent les seuils de 8 et 10."),
-       x = "Moyenne générale (sur 20)", y = "Densité", caption = SRC) +
-  theme_bac()
+fig_pano_densite(g, lang)
 ```
 
-La médiane des présents est d'environ `r num_fr(median(d$moyenne[d$present==1], na.rm=TRUE), 0.1)` : la moitié des candidats n'atteignent même pas ce niveau. La part de la courbe située au-delà de 10 est très petite. C'est exactement ce que traduit le faible taux d'admission.
+La médiane des présents est d'environ `r num_fr(g$med, 0.1)` : la moitié des candidats n'atteignent même pas ce niveau. La part de la courbe située au-delà de 10 est très petite. C'est exactement ce que traduit le faible taux d'admission.
 
 ## Les mentions
 
@@ -133,21 +76,7 @@ La plupart des admis obtiennent la mention « passable », avec une moyenne entr
 #| fig-width: 7.5
 #| fig-height: 3.2
 #| fig-alt: "Répartition des mentions parmi les admis."
-men <- d |> filter(decision == "Admis") |> count(mention) |>
-  mutate(part = n / sum(n))
-
-ggplot(men, aes(x = mention, y = n)) +
-  geom_col(width = 0.66, fill = BAC_COL$or) +
-  geom_text(aes(label = paste0(format(n, big.mark = " "), " · ",
-                               pct_fr(part))),
-            vjust = -0.3, family = BAC_FONT_BODY, size = 3,
-            colour = BAC_COL$encre) +
-  scale_y_continuous(labels = label_number(big.mark = " "),
-                     expand = expansion(c(0, 0.16))) +
-  labs(title = "La plupart des admis passent de justesse",
-       subtitle = "Répartition des mentions parmi les seuls admis.",
-       x = NULL, y = NULL, caption = SRC) +
-  theme_bac() + theme(panel.grid.major.x = element_blank())
+fig_pano_mentions(g, lang)
 ```
 
 Ce graphique complète le tableau. Obtenir le baccalauréat en 2026 est déjà rare ; l'obtenir avec une bonne mention l'est encore plus. Les pages suivantes cherchent à comprendre **qui** réussit, et ce que changent la région, la filière et le parcours de chaque candidat.

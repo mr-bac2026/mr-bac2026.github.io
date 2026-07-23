@@ -7,33 +7,29 @@ date: 2026-07-22
 ```{r setup}
 #| include: false
 source("R/common.R")
-d <- lire_bac()
-
-n_tot   <- nrow(d)
-n_adm   <- sum(d$admis)
-tx_adm  <- n_adm / n_tot
-moy_gen <- mean(d$moyenne, na.rm = TRUE)
-n_abs   <- sum(d$decision == "Absent")
-moy_pres <- mean(d$moyenne[d$present == 1], na.rm = TRUE)
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "fr"
+g <- index_data()
 ```
 
 ::: {.chapo}
-Le baccalauréat est un moment important pour les élèves mauritaniens. C'est l'examen qui ouvre l'accès à l'université, et le seul que l'on mesure à l'échelle de tout le pays. La session normale de 2026 a réuni **`r format(n_tot, big.mark = " ")` candidats**. Le premier constat est simple : réussir reste rare.
+Le baccalauréat est un moment important pour les élèves mauritaniens. C'est l'examen qui ouvre l'accès à l'université, et le seul que l'on mesure à l'échelle de tout le pays. La session normale de 2026 a réuni **`r format(g$n_tot, big.mark = " ")` candidats**. Le premier constat est simple : réussir reste rare.
 :::
 
-Sur l'ensemble des candidats, `r format(n_adm, big.mark = " ")` ont été admis, soit un taux de réussite de **`r scales::percent(tx_adm, accuracy = 0.1, decimal.mark = ",")`**. Les autres sont ajournés, absents, ou renvoyés à la session complémentaire. La moyenne générale des présents est de **`r scales::number(moy_pres, accuracy = 0.01, decimal.mark = ",")` sur 20**, soit deux points sous le seuil de la session complémentaire et quatre sous celui de l'admission.
+Sur l'ensemble des candidats, `r format(g$n_adm, big.mark = " ")` ont été admis, soit un taux de réussite de **`r scales::percent(g$tx_adm, accuracy = 0.1, decimal.mark = ",")`**. Les autres sont ajournés, absents, ou renvoyés à la session complémentaire. La moyenne générale des présents est de **`r scales::number(g$moy_pres, accuracy = 0.01, decimal.mark = ",")` sur 20**, soit deux points sous le seuil de la session complémentaire et quatre sous celui de l'admission.
 
 ::: {.reperes}
 ::: {.repere}
-[`r format(n_tot, big.mark = " ")`]{.chiffre}
+[`r format(g$n_tot, big.mark = " ")`]{.chiffre}
 [Candidats inscrits à la session normale]{.libelle}
 :::
 ::: {.repere}
-[`r scales::percent(tx_adm, accuracy = 0.1, decimal.mark = ",")`]{.chiffre .vert}
+[`r scales::percent(g$tx_adm, accuracy = 0.1, decimal.mark = ",")`]{.chiffre .vert}
 [Taux d'admission direct]{.libelle}
 :::
 ::: {.repere}
-[`r scales::number(moy_pres, accuracy = 0.01, decimal.mark = ",")`]{.chiffre .or}
+[`r scales::number(g$moy_pres, accuracy = 0.01, decimal.mark = ",")`]{.chiffre .or}
 [Moyenne générale des présents, sur 20]{.libelle}
 :::
 ::: {.repere}
@@ -55,32 +51,7 @@ Le graphique ci-dessous montre la moyenne de chaque candidat présent. Deux lign
 #| fig-height: 5.2
 #| fig-alt: >
 #|   Distribution des moyennes au baccalauréat 2026, colorée par décision.
-pres <- d |> filter(present == 1, !is.na(moyenne))
-
-ggplot(pres, aes(x = moyenne, fill = decision)) +
-  geom_histogram(binwidth = 0.5, colour = BAC_COL$papier, linewidth = 0.15,
-                 boundary = 0, closed = "left") +
-  geom_vline(xintercept = c(8, 10), colour = BAC_COL$encre,
-             linewidth = 0.4, linetype = "dashed") +
-  annotate("text", x = 8, y = Inf, label = "Seuil de rattrapage : 8",
-           family = BAC_FONT_BODY, hjust = 1.03, vjust = 1.6, size = 3,
-           colour = BAC_COL$encre_douce, angle = 90) +
-  annotate("text", x = 10, y = Inf, label = "Seuil d'admission : 10",
-           family = BAC_FONT_BODY, hjust = 1.03, vjust = -0.7, size = 3,
-           colour = BAC_COL$encre_douce, angle = 90) +
-  scale_fill_manual(values = BAC_PAL_DECISION, name = NULL,
-                    guide = guide_legend(override.aes = list(linewidth = 0))) +
-  scale_x_continuous(breaks = seq(0, 18, 2), limits = c(0, 18)) +
-  scale_y_continuous(labels = label_number(big.mark = " "),
-                     expand = expansion(c(0, 0.05))) +
-  labs(
-    title = "Peu de candidats franchissent la barre des 10",
-    subtitle = paste("Nombre de candidats présents selon la moyenne",
-                     "obtenue au baccalauréat 2026."),
-    x = "Moyenne générale (sur 20)", y = "Candidats",
-    caption = SRC
-  ) +
-  theme_bac()
+fig_index_hist(g, lang)
 ```
 
 La lecture est claire. La plupart des candidats ont une moyenne entre 4 et 7 : ce sont les ajournés, de loin les plus nombreux. Plus on va vers la droite, moins il y a de candidats. Dépasser 10 est déjà difficile, et obtenir une très bonne note est rare.

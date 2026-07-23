@@ -1,0 +1,58 @@
+---
+title: "The tracks facing the exam"
+subtitle: "One diploma, but very different paths. Depending on the chosen track, the syllabus and the odds of success are not the same."
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "en"
+g <- filieres_data()
+```
+
+::: {.callout-note}
+This page is being translated; the narrative text is not final.
+:::
+
+## The weight of each track
+
+*Text to be translated.*
+
+```{r effectifs-serie}
+#| fig-width: 8
+#| fig-height: 3.8
+#| fig-alt: "Candidate counts by track."
+fig_fil_effectifs(g, lang)
+```
+
+## Pass rate by track
+
+*Text to be translated.*
+
+```{r taux-serie}
+#| fig-width: 8
+#| fig-height: 4.2
+#| fig-alt: "Pass rate by track with confidence intervals."
+fig_fil_taux(g, lang)
+```
+
+## The distribution of grades, track by track
+
+*Text to be translated.*
+
+```{r ridgeline}
+#| fig-width: 8
+#| fig-height: 5.2
+#| fig-alt: "Distributions of averages by track (ridgeline)."
+fig_fil_ridgeline(g, lang)
+```
+
+## Are track and success linked?
+
+*Text to be translated.*
+
+## Truly different grade levels?
+
+*Text to be translated.*
