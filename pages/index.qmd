@@ -58,7 +58,7 @@ pres <- d |> filter(present == 1, !is.na(moyenne))
 
 ggplot(pres, aes(x = moyenne, fill = decision)) +
   geom_histogram(binwidth = 0.5, colour = BAC_COL$papier, linewidth = 0.15,
-                 boundary = 0) +
+                 boundary = 0, closed = "left") +
   geom_vline(xintercept = c(8, 10), colour = BAC_COL$encre,
              linewidth = 0.4, linetype = "dashed") +
   annotate("text", x = 8, y = Inf, label = "Seuil de rattrapage : 8", family = BAC_FONT_BODY,
