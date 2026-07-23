@@ -19,10 +19,7 @@ suppressPackageStartupMessages({
 # --- Chemins ----------------------------------------------------------------
 BAC_ROOT <- tryCatch(rprojroot::find_root(rprojroot::has_file("_quarto.yml")),
                      error = function(e) getwd())
-BAC_CSV  <- file.path(
-  BAC_ROOT, "data",
-  "RESULTATS_BAC_2026_Session_Normale_64532_22-07-2026__RESULTATS_BAC_2026_Session_Norm.csv"
-)
+BAC_CSV  <- file.path(BAC_ROOT, "data", "bac2026.csv")
 BAC_GEO  <- file.path(BAC_ROOT, "mrt_adm1.geojson")
 
 # --- Typographie ------------------------------------------------------------
