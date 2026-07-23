@@ -355,3 +355,200 @@ fig_fil_ridgeline <- function(g, lang = "fr") {
     theme_bac(lang = lang) +
     theme(panel.grid.major.y = element_blank())
 }
+
+# =============================================================================
+#  FIGURES PARTAGÉES — Réussir (régression logistique)
+# =============================================================================
+reussite_data <- function() {
+  d <- lire_bac()
+  dm <- d |>
+    filter(present == 1, !is.na(moyenne), !is.na(age_val)) |>
+    mutate(
+      serie  = fct_lump_min(serie, min = 200),
+      serie  = fct_relevel(factor(serie), "Sciences Naturelles"),
+      wilaya = fct_relevel(factor(wilaya), "Nouakchott Ouest")
+    )
+  mod <- glm(admis ~ serie + wilaya + age_val, data = dm, family = binomial())
+  co <- summary(mod)$coefficients
+  ors <- data.frame(
+    terme = rownames(co),
+    or    = exp(co[, "Estimate"]),
+    bas   = exp(co[, "Estimate"] - 1.96 * co[, "Std. Error"]),
+    haut  = exp(co[, "Estimate"] + 1.96 * co[, "Std. Error"]),
+    p     = co[, "Pr(>|z|)"],
+    row.names = NULL
+  )
+  os <- ors |> filter(grepl("^serie", terme)) |>
+    mutate(lab = gsub("^serie", "", terme))
+  ow <- ors |> filter(grepl("^wilaya", terme)) |>
+    mutate(lab = joli_nom(gsub("^wilaya", "", terme)),
+           ns  = p >= 0.05, lab = fct_reorder(lab, or))
+  pa <- dm |> group_by(age_val) |>
+    summarise(n = n(), taux = mean(admis), .groups = "drop") |>
+    filter(n >= 50)
+  or_age <- ors$or[ors$terme == "age_val"]
+  mod0 <- glm(admis ~ 1, data = dm, family = binomial())
+  mcfadden <- 1 - as.numeric(logLik(mod)) / as.numeric(logLik(mod0))
+  pr <- predict(mod, type = "response")
+  r  <- rank(pr)
+  n1 <- sum(dm$admis == 1)
+  n0 <- sum(dm$admis == 0)
+  auc <- (sum(r[dm$admis == 1]) - n1 * (n1 + 1) / 2) / (n1 * n0)
+  list(dm = dm, ors = ors, os = os, ow = ow, pa = pa,
+       or_age = or_age, mcfadden = mcfadden, auc = auc)
+}
+
+fig_reu_serie <- function(g, lang = "fr") {
+  ggplot(g$os, aes(x = or, y = fct_reorder(lab, or))) +
+    geom_vline(xintercept = 1, colour = BAC_COL$encre_douce, linewidth = 0.4) +
+    geom_segment(aes(x = bas, xend = haut, yend = lab),
+                 colour = BAC_COL$trait, linewidth = 1.5) +
+    geom_point(colour = BAC_COL$terre, size = 3) +
+    scale_x_log10() +
+    labs(title = tr("reu_serie_title", lang),
+         subtitle = tr("reu_serie_sub", lang),
+         x = tr("reu_or_x", lang), y = NULL, caption = cap_src(lang)) +
+    theme_bac(lang = lang) + theme(panel.grid.major.y = element_blank())
+}
+
+fig_reu_wilaya <- function(g, lang = "fr") {
+  ggplot(g$ow, aes(x = or, y = lab)) +
+    geom_vline(xintercept = 1, colour = BAC_COL$encre, linewidth = 0.5) +
+    geom_segment(aes(x = bas, xend = haut, yend = lab),
+                 colour = BAC_COL$trait, linewidth = 1.4) +
+    geom_point(aes(fill = or), shape = 21, colour = BAC_COL$papier,
+               size = 3.4, stroke = 0.6) +
+    geom_point(data = ~ subset(.x, ns), shape = 21, fill = NA,
+               colour = BAC_COL$encre, size = 5, stroke = 0.7) +
+    scale_fill_gradientn(colours = rev(BAC_SEQ_CHAUD), guide = "none") +
+    scale_x_log10(expand = expansion(c(0.05, 0.08))) +
+    labs(title = tr("reu_wil_title", lang),
+         subtitle = tr("reu_wil_sub", lang),
+         x = tr("reu_wil_x", lang), y = NULL, caption = cap_src(lang)) +
+    theme_bac(lang = lang) + theme(panel.grid.major.y = element_blank())
+}
+
+fig_reu_age <- function(g, lang = "fr") {
+  ggplot(g$pa, aes(x = age_val, y = taux)) +
+    geom_line(colour = BAC_COL$trait, linewidth = 0.8) +
+    geom_point(aes(size = n), colour = BAC_COL$terre) +
+    scale_size_area(max_size = 6, guide = "none") +
+    scale_y_continuous(labels = label_percent(accuracy = 1)) +
+    scale_x_continuous(breaks = seq(15, 30, 1)) +
+    labs(title = tr("reu_age_title", lang),
+         subtitle = tr("reu_age_sub", lang),
+         x = tr("reu_age_x", lang), y = tr("ax_taux", lang),
+         caption = cap_src(lang)) +
+    theme_bac(lang = lang)
+}
+
+# =============================================================================
+#  FIGURES PARTAGÉES — Établissements (tableaux gt + entonnoir)
+# =============================================================================
+etab_data <- function() {
+  suppressPackageStartupMessages(library(gt))
+  d <- lire_bac()
+  tx_global <- mean(d$admis)
+  par_etab <- d |>
+    group_by(etab, wilaya) |>
+    summarise(n = n(), admis = sum(admis),
+              moyenne = mean(moyenne, na.rm = TRUE), .groups = "drop") |>
+    mutate(ic_wilson(admis, n)) |>
+    rename(taux = p)
+  top <- par_etab |> filter(n >= 30) |> arrange(desc(taux)) |> head(12)
+  solides <- par_etab |> filter(n >= 50, bas > tx_global) |>
+    arrange(desc(taux)) |> head(12)
+  grille <- tibble::tibble(n = 10^seq(log10(10), log10(max(par_etab$n)),
+                                      length.out = 250)) |>
+    mutate(se  = sqrt(tx_global * (1 - tx_global) / n),
+           h95 = pmin(1, tx_global + 1.96 * se),
+           b95 = pmax(0, tx_global - 1.96 * se),
+           h99 = pmin(1, tx_global + 2.58 * se),
+           b99 = pmax(0, tx_global - 2.58 * se))
+  list(tx_global = tx_global, par_etab = par_etab, top = top,
+       solides = solides, grille = grille)
+}
+
+tbl_etab_top <- function(g, lang = "fr") {
+  g$top |>
+    transmute(etablissement = etab, wilaya = wilaya, candidats = n,
+              taux = taux, moyenne = moyenne) |>
+    gt() |>
+    cols_label(etablissement = tr("col_etab", lang),
+               wilaya = tr("col_wilaya", lang),
+               candidats = tr("col_candidats", lang),
+               taux = tr("col_taux", lang),
+               moyenne = tr("col_moyenne", lang)) |>
+    fmt_percent(columns = taux, decimals = 1, dec_mark = ",",
+                sep_mark = " ") |>
+    fmt_number(columns = moyenne, decimals = 2, dec_mark = ",") |>
+    data_color(columns = taux,
+               fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
+    cols_align("left", columns = c(etablissement, wilaya)) |>
+    tab_header(title = md(tr("etab_top_title", lang)),
+               subtitle = tr("etab_top_sub", lang)) |>
+    tab_source_note(md(tr("src_note", lang))) |>
+    tab_options(table.font.size = px(13), table.width = pct(100),
+                heading.title.font.size = px(16))
+}
+
+tbl_etab_solides <- function(g, lang = "fr") {
+  g$solides |>
+    transmute(etablissement = etab, wilaya = wilaya, candidats = n,
+              taux = taux, ic_bas = bas) |>
+    gt() |>
+    cols_label(etablissement = tr("col_etab", lang),
+               wilaya = tr("col_wilaya", lang),
+               candidats = tr("col_candidats", lang),
+               taux = tr("col_taux_court", lang),
+               ic_bas = tr("col_ic_bas", lang)) |>
+    fmt_percent(columns = c(taux, ic_bas), decimals = 1, dec_mark = ",",
+                sep_mark = " ") |>
+    data_color(columns = taux,
+               fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
+    cols_align("left", columns = c(etablissement, wilaya)) |>
+    tab_header(title = md(tr("etab_sol_title", lang)),
+               subtitle = tr("etab_sol_sub", lang)) |>
+    tab_source_note(md(tr("src_note", lang))) |>
+    tab_options(table.font.size = px(13), table.width = pct(100),
+                heading.title.font.size = px(16))
+}
+
+fig_etab_funnel <- function(g, lang = "fr") {
+  n_lab  <- 12
+  se_lab <- sqrt(g$tx_global * (1 - g$tx_global) / n_lab)
+  ggplot() +
+    geom_ribbon(data = g$grille, aes(n, ymin = b99, ymax = h99),
+                fill = "#eef1f4") +
+    geom_ribbon(data = g$grille, aes(n, ymin = b95, ymax = h95),
+                fill = "#d3e0f7") +
+    geom_hline(yintercept = g$tx_global, colour = BAC_COL$terre,
+               linewidth = 0.7) +
+    geom_point(data = g$par_etab |> filter(n >= 10), aes(n, taux, size = n),
+               shape = 21, fill = scales::alpha(BAC_COL$encre_douce, 0.35),
+               colour = BAC_COL$papier, stroke = 0.2) +
+    annotate("text", x = n_lab, y = g$tx_global + 2.58 * se_lab,
+             label = "99 %", hjust = 0, vjust = -0.35,
+             family = bac_font(lang), size = 2.9,
+             colour = BAC_COL$encre_douce) +
+    annotate("text", x = n_lab, y = g$tx_global + 1.96 * se_lab,
+             label = "95 %", hjust = 0, vjust = -0.35,
+             family = bac_font(lang), size = 2.9,
+             colour = BAC_COL$encre_douce) +
+    annotate("label", x = 10, y = g$tx_global,
+             label = paste0(tr("etab_fun_moyenne", lang),
+                            pct_fr(g$tx_global)),
+             hjust = 0, vjust = 0.5, family = bac_font(lang), size = 2.9,
+             colour = BAC_COL$terre, fill = BAC_COL$papier,
+             label.size = 0, label.padding = unit(1.6, "pt")) +
+    scale_size_area(max_size = 6, guide = "none") +
+    scale_x_log10(labels = label_number(big.mark = " "),
+                  expand = expansion(c(0.02, 0.03))) +
+    scale_y_continuous(labels = label_percent(accuracy = 1),
+                       limits = c(0, NA)) +
+    labs(title = tr("etab_fun_title", lang),
+         subtitle = tr("etab_fun_sub", lang),
+         x = tr("etab_fun_x", lang), y = tr("ax_taux", lang),
+         caption = cap_src(lang)) +
+    theme_bac(lang = lang)
+}

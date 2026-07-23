@@ -1,0 +1,17 @@
+{
+  "hash": "3974b1ac3232c005ac23cbfa99606781",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"ما يؤثر في النجاح\"\nsubtitle: \"الجهة، الشعبة، العمر: عوامل مترابطة. يقيس نموذج إحصائي ما يضيفه كل عامل فعليًا بعد أخذ البقية في الحسبان.\"\n---\n\n\n\n::: {.callout-note}\nهذه الصفحة قيد الترجمة؛ النص السردي غير نهائي.\n:::\n\n## المبدأ\n\n*النص قيد الترجمة.*\n\n## أثر الشعبة\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](reussite_files/figure-html/or-serie-1.png){fig-alt='نسب الأرجحية حسب الشعبة.'}\n:::\n:::\n\n\n## أثر الجهة\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](reussite_files/figure-html/or-wilaya-1.png){fig-alt='نسب الأرجحية حسب الولاية.'}\n:::\n:::\n\n\n## أثر العمر\n\n*النص قيد الترجمة.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](reussite_files/figure-html/age-1.png){fig-alt='نسبة النجاح حسب العمر.'}\n:::\n:::\n\n\n## هل النموذج موثوق؟\n\n*النص قيد الترجمة.*\n",
+    "supporting": [
+      "reussite_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

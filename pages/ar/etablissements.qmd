@@ -1,0 +1,46 @@
+---
+title: "ترتيب المؤسسات"
+subtitle: "على مستوى المؤسسات تكون الفوارق أكبر. لكن هناك أيضًا يسهل الوقوع في الخطأ."
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "ar"
+g <- etab_data()
+```
+
+::: {.callout-note}
+هذه الصفحة قيد الترجمة؛ النص السردي غير نهائي.
+:::
+
+## الترتيب الخام
+
+*النص قيد الترجمة.*
+
+```{r top-etab}
+#| echo: false
+tbl_etab_top(g, lang)
+```
+
+## مخطط القمع
+
+*النص قيد الترجمة.*
+
+```{r funnel}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "مخطط القمع للمؤسسات."
+fig_etab_funnel(g, lang)
+```
+
+## المؤسسات فوق المعدل فعلًا
+
+*النص قيد الترجمة.*
+
+```{r solides}
+#| echo: false
+tbl_etab_solides(g, lang)
+```

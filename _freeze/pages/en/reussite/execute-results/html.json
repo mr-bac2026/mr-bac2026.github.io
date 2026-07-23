@@ -1,0 +1,17 @@
+{
+  "hash": "4b0c7bd6ef9610c0429507ab97704cc5",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"What drives success\"\nsubtitle: \"Region, track, age: these factors are linked. A statistical model measures what each really contributes, once the others are accounted for.\"\n---\n\n\n\n::: {.callout-note}\nThis page is being translated; the narrative text is not final.\n:::\n\n## The principle\n\n*Text to be translated.*\n\n## The track effect\n\n*Text to be translated.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](reussite_files/figure-html/or-serie-1.png){fig-alt='Odds ratios by track.'}\n:::\n:::\n\n\n## The region effect\n\n*Text to be translated.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](reussite_files/figure-html/or-wilaya-1.png){fig-alt='Odds ratios by wilaya.'}\n:::\n:::\n\n\n## The age effect\n\n*Text to be translated.*\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](reussite_files/figure-html/age-1.png){fig-alt='Pass rate by age.'}\n:::\n:::\n\n\n## Is the model reliable?\n\n*Text to be translated.*\n",
+    "supporting": [
+      "reussite_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

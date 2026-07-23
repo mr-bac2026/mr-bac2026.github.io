@@ -1,0 +1,46 @@
+---
+title: "The school ranking"
+subtitle: "It's at the school level that gaps are widest. But it's also where it's easiest to be misled."
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "en"
+g <- etab_data()
+```
+
+::: {.callout-note}
+This page is being translated; the narrative text is not final.
+:::
+
+## The raw ranking
+
+*Text to be translated.*
+
+```{r top-etab}
+#| echo: false
+tbl_etab_top(g, lang)
+```
+
+## The funnel plot
+
+*Text to be translated.*
+
+```{r funnel}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Funnel plot of schools."
+fig_etab_funnel(g, lang)
+```
+
+## Schools genuinely above average
+
+*Text to be translated.*
+
+```{r solides}
+#| echo: false
+tbl_etab_solides(g, lang)
+```

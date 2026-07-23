@@ -6,17 +6,10 @@ subtitle: "C'est au niveau des établissements que les écarts sont les plus gra
 ```{r setup}
 #| include: false
 source("R/common.R")
-library(gt)
-d <- lire_bac()
-
-tx_global <- mean(d$admis)
-
-par_etab <- d |>
-  group_by(etab, wilaya) |>
-  summarise(n = n(), admis = sum(admis), moyenne = mean(moyenne, na.rm = TRUE),
-            .groups = "drop") |>
-  mutate(ic_wilson(admis, n)) |>
-  rename(taux = p)
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "fr"
+g <- etab_data()
 ```
 
 ::: {.chapo}
@@ -29,24 +22,7 @@ Commençons par le classement simple, pour ensuite en montrer les limites. Voici
 
 ```{r top-etab}
 #| echo: false
-top <- par_etab |> filter(n >= 30) |> arrange(desc(taux)) |> head(12)
-
-top |>
-  transmute(Établissement = etab, Wilaya = wilaya, Candidats = n,
-            `Taux d'admission` = taux, `Moyenne` = moyenne) |>
-  gt() |>
-  fmt_percent(columns = `Taux d'admission`, decimals = 1,
-              dec_mark = ",", sep_mark = " ") |>
-  fmt_number(columns = Moyenne, decimals = 2, dec_mark = ",") |>
-  data_color(columns = `Taux d'admission`,
-             fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
-  cols_align("left", columns = c(Établissement, Wilaya)) |>
-  tab_header(title = md("**Les douze établissements les mieux classés**"),
-             subtitle = paste("Parmi ceux ayant présenté au moins 30",
-                              "candidats (session normale 2026)")) |>
-  tab_source_note(md(SRC_NOTE)) |>
-  tab_options(table.font.size = px(13), table.width = pct(100),
-              heading.title.font.size = px(16))
+tbl_etab_top(g, lang)
 ```
 
 Ces chiffres sont impressionnants. Mais une question se pose : un établissement avec un taux très élevé sur trente candidats est-il vraiment meilleur qu'un autre, un peu en dessous, mais sur trois cents ? Pas forcément. Avec un petit nombre de candidats, le taux est instable : quelques copies suffisent à le faire changer beaucoup.
@@ -59,47 +35,7 @@ L'outil adapté s'appelle le **graphique en entonnoir** (*funnel plot*). Chaque 
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Graphique en entonnoir des établissements."
-grille <- tibble::tibble(n = 10^seq(log10(10), log10(max(par_etab$n)),
-                                    length.out = 250)) |>
-  mutate(
-    se  = sqrt(tx_global * (1 - tx_global) / n),
-    h95 = pmin(1, tx_global + 1.96 * se), b95 = pmax(0, tx_global - 1.96 * se),
-    h99 = pmin(1, tx_global + 2.58 * se), b99 = pmax(0, tx_global - 2.58 * se)
-  )
-
-n_lab  <- 12
-se_lab <- sqrt(tx_global * (1 - tx_global) / n_lab)
-
-ggplot() +
-  # bandes emboîtées : 99 % (gris clair) puis 95 % (bleu clair) par-dessus
-  geom_ribbon(data = grille, aes(n, ymin = b99, ymax = h99), fill = "#eef1f4") +
-  geom_ribbon(data = grille, aes(n, ymin = b95, ymax = h95), fill = "#d3e0f7") +
-  geom_hline(yintercept = tx_global, colour = BAC_COL$terre, linewidth = 0.7) +
-  geom_point(data = par_etab |> filter(n >= 10), aes(n, taux, size = n),
-             shape = 21, fill = scales::alpha(BAC_COL$encre_douce, 0.35),
-             colour = BAC_COL$papier, stroke = 0.2) +
-  annotate("text", x = n_lab, y = tx_global + 2.58 * se_lab, label = "99 %",
-           hjust = 0, vjust = -0.35, family = BAC_FONT_BODY, size = 2.9,
-           colour = BAC_COL$encre_douce) +
-  annotate("text", x = n_lab, y = tx_global + 1.96 * se_lab, label = "95 %",
-           hjust = 0, vjust = -0.35, family = BAC_FONT_BODY, size = 2.9,
-           colour = BAC_COL$encre_douce) +
-  annotate("label", x = 10, y = tx_global,
-           label = paste0("moyenne nationale : ", pct_fr(tx_global)),
-           hjust = 0, vjust = 0.5, family = BAC_FONT_BODY, size = 2.9,
-           colour = BAC_COL$terre, fill = BAC_COL$papier,
-           label.size = 0, label.padding = unit(1.6, "pt")) +
-  scale_size_area(max_size = 6, guide = "none") +
-  scale_x_log10(labels = label_number(big.mark = " "),
-                expand = expansion(c(0.02, 0.03))) +
-  scale_y_continuous(labels = label_percent(accuracy = 1), limits = c(0, NA)) +
-  labs(title = "Les établissements qui sortent vraiment du lot",
-       subtitle = paste("Chaque point est un établissement.",
-                        "Bandes : intervalles attendus à 95 % et 99 %."),
-       x = "Nombre de candidats (échelle logarithmique)",
-       y = "Taux d'admission",
-       caption = SRC) +
-  theme_bac()
+fig_etab_funnel(g, lang)
 ```
 
 La forme en entonnoir est très parlante. À gauche, les petits établissements sont très dispersés : certains ont des taux très élevés, d'autres très bas, mais ces écarts sont surtout dus au hasard. À droite, les grands établissements sont regroupés autour de la moyenne : leur taux, calculé sur des centaines de candidats, est fiable. Les points qui dépassent la bande du haut tout en ayant beaucoup de candidats sont les seuls dont on peut vraiment dire qu'ils réussissent mieux que la moyenne.
@@ -110,27 +46,7 @@ En combinant deux conditions (un nombre suffisant de candidats *et* une borne ba
 
 ```{r solides}
 #| echo: false
-solides <- par_etab |>
-  filter(n >= 50, bas > tx_global) |>
-  arrange(desc(taux)) |>
-  head(12)
-
-solides |>
-  transmute(Établissement = etab, Wilaya = wilaya, Candidats = n,
-            `Taux` = taux, `IC 95 % (bas)` = bas) |>
-  gt() |>
-  fmt_percent(columns = c(Taux, `IC 95 % (bas)`), decimals = 1,
-              dec_mark = ",", sep_mark = " ") |>
-  data_color(columns = Taux,
-             fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
-  cols_align("left", columns = c(Établissement, Wilaya)) |>
-  tab_header(title = md("**Les établissements les plus solides**"),
-             subtitle = paste("Au moins 50 candidats et borne basse",
-                              "de l'IC 95 % au-dessus de la moyenne",
-                              "nationale")) |>
-  tab_source_note(md(SRC_NOTE)) |>
-  tab_options(table.font.size = px(13), table.width = pct(100),
-              heading.title.font.size = px(16))
+tbl_etab_solides(g, lang)
 ```
 
 Cette seconde liste est le vrai classement. Elle est plus courte que la première, sans les résultats dus au hasard, et elle mélange souvent des établissements moyens et quelques grands lycées. C'est là, et non dans les taux bruts, qu'il faut chercher les établissements qui réussissent durablement, ceux dont on gagnerait à étudier l'exemple de près.

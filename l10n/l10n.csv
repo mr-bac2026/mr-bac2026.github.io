@@ -59,3 +59,28 @@ fil_taux_title,"Les mathématiques en tête, les sciences naturelles à la traî
 fil_taux_sub,Taux d'admission par série (≥ 100 candidats) et intervalle de confiance à 95 %.,Pass rate per track (≥ 100 candidates) and 95% confidence interval.,نسبة النجاح حسب الشعبة (≥ 100 مترشح) ومجال الثقة 95%.
 fil_ridge_title,Toutes les séries ont leur sommet sous la barre des 10,Every track peaks below the 10 mark,كل الشعب تبلغ ذروتها تحت عتبة 10
 fil_ridge_sub,"Distribution des moyennes par série, ordonnée par médiane croissante. Tiret : seuil d'admission.","Distribution of averages per track, ordered by rising median. Dash: pass threshold.",توزيع المعدلات حسب الشعبة، مرتبة حسب الوسيط التصاعدي. الخط المتقطع: عتبة النجاح.
+reu_or_x,Rapport de cotes (admission),Odds ratio (admission),نسبة الأرجحية (النجاح)
+reu_serie_title,"À région égale, la série compte toujours","At equal region, the track still matters",عند تساوي الجهة، تبقى الشعبة مؤثرة
+reu_serie_sub,"Rapports de cotes d'admission par série, référence : sciences naturelles. Échelle logarithmique.","Admission odds ratios by track, reference: Natural Sciences. Log scale.",نسب أرجحية النجاح حسب الشعبة، المرجع: العلوم الطبيعية. مقياس لوغاريتمي.
+reu_wil_title,"Après la filière, la géographie garde du poids","Beyond track, geography still weighs",بعد الشعبة، تبقى الجغرافيا مؤثرة
+reu_wil_sub,Rapports de cotes d'admission par wilaya (référence : Nouakchott Ouest). Le cercle évidé marque le seul écart non significatif à 5 %.,Admission odds ratios by wilaya (reference: Nouakchott Ouest). The hollow circle marks the only gap not significant at 5%.,نسب أرجحية النجاح حسب الولاية (المرجع: نواكشوط الغربية). الدائرة المفرغة تشير إلى الفارق الوحيد غير الدال عند 5%.
+reu_wil_x,"Rapport de cotes (admission, échelle logarithmique)","Odds ratio (admission, log scale)",نسبة الأرجحية (النجاح، مقياس لوغاريتمي)
+reu_age_title,"Passer tôt, réussir mieux","Sit early, do better",الاجتياز مبكرًا، نجاح أفضل
+reu_age_sub,Taux d'admission selon l'âge du candidat (points dimensionnés par effectif).,Pass rate by candidate age (points sized by headcount).,نسبة النجاح حسب عمر المترشح (حجم النقاط حسب العدد).
+reu_age_x,Âge au moment de l'examen,Age at the exam,العمر وقت الامتحان
+col_etab,Établissement,School,المؤسسة
+col_wilaya,Wilaya,Wilaya,الولاية
+col_candidats,Candidats,Candidates,المترشحون
+col_taux,Taux d'admission,Pass rate,نسبة النجاح
+col_taux_court,Taux,Pass rate,نسبة النجاح
+col_moyenne,Moyenne,Average,المعدل
+col_ic_bas,IC 95 % (bas),95% CI (lower),مجال الثقة 95% (الأدنى)
+src_note,*Source : Direction des examens. Calculs de l'auteur.*,*Source: Examinations Directorate. Author's calculations.*,*المصدر: إدارة الامتحانات. حسابات المؤلف.*
+etab_top_title,**Les douze établissements les mieux classés**,**The twelve top-ranked schools**,**المؤسسات الاثنتا عشرة الأعلى ترتيبًا**
+etab_top_sub,Parmi ceux ayant présenté au moins 30 candidats (session normale 2026),Among those with at least 30 candidates (2026 normal session),من بين التي قدّمت 30 مترشحًا على الأقل (الدورة العادية 2026)
+etab_sol_title,**Les établissements les plus solides**,**The most robust schools**,**المؤسسات الأكثر متانة**
+etab_sol_sub,Au moins 50 candidats et borne basse de l'IC 95 % au-dessus de la moyenne nationale,At least 50 candidates and lower 95% CI bound above the national average,50 مترشحًا على الأقل والحد الأدنى لمجال الثقة 95% فوق المعدل الوطني
+etab_fun_title,Les établissements qui sortent vraiment du lot,The schools that truly stand out,المؤسسات التي تتميّز فعلًا
+etab_fun_sub,Chaque point est un établissement. Bandes : intervalles attendus à 95 % et 99 %.,Each point is a school. Bands: expected 95% and 99% intervals.,كل نقطة مؤسسة. الأشرطة: المجالات المتوقعة عند 95% و99%.
+etab_fun_x,Nombre de candidats (échelle logarithmique),Number of candidates (log scale),عدد المترشحين (مقياس لوغاريتمي)
+etab_fun_moyenne,moyenne nationale : ,national average: ,المعدل الوطني: 
