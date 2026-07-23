@@ -1,6 +1,8 @@
 ---
 title: "La carte de la réussite"
-subtitle: "La Mauritanie est un grand pays peu peuplé. Ses quinze wilayas ne réussissent pas toutes de la même façon au baccalauréat."
+subtitle: >
+  La Mauritanie est un grand pays peu peuplé. Ses quinze wilayas ne
+  réussissent pas toutes de la même façon au baccalauréat.
 ---
 
 ```{r setup}
@@ -18,8 +20,10 @@ par_forme <- synth_taux(d, shapeName)
 
 carte_j <- carte |> left_join(par_forme, by = "shapeName")
 # centroïdes approx pour étiquettes
-cent <- carte |> group_by(shapeName) |>
-  summarise(long = mean(range(long)), lat = mean(range(lat)), .groups = "drop") |>
+cent <- carte |>
+  group_by(shapeName) |>
+  summarise(long = mean(range(long)), lat = mean(range(lat)),
+            .groups = "drop") |>
   left_join(par_forme, by = "shapeName")
 ```
 
@@ -41,9 +45,12 @@ ggplot(carte_j, aes(long, lat, group = group)) +
                        labels = label_number(big.mark = " "),
                        trans = "sqrt") +
   coord_quickmap() +
-  labs(title = "La plupart des candidats sont au Sud et à Nouakchott",
-       subtitle = "Nombre de candidats à la session normale 2026, par région administrative.",
-       caption = paste(SRC, "Fonds : geoBoundaries (ADM1).", sep = "\n")) +
+  labs(
+    title = "La plupart des candidats sont au Sud et à Nouakchott",
+    subtitle = paste("Nombre de candidats à la session normale 2026,",
+                     "par région administrative."),
+    caption = paste(SRC, "Fonds : geoBoundaries (ADM1).", sep = "\n")
+  ) +
   theme_bac_carte()
 ```
 
@@ -65,7 +72,8 @@ ggplot(par_pop, aes(x = pop, y = fct_reorder(shapeName, pop))) +
   geom_col(width = 0.68, fill = BAC_COL$vert) +
   geom_text(aes(label = format(pop, big.mark = " ")), hjust = -0.08,
             family = BAC_FONT_BODY, size = 2.7, colour = BAC_COL$encre) +
-  scale_x_continuous(limits = c(0, max(par_pop$pop) * 1.15), expand = expansion(c(0, 0))) +
+  scale_x_continuous(limits = c(0, max(par_pop$pop) * 1.15),
+                     expand = expansion(c(0, 0))) +
   labs(title = "Nouakchott concentre près d'un tiers des habitants",
        subtitle = "Population par région au recensement de 2023.",
        x = NULL, y = NULL, caption = SRC_POP) +
@@ -87,12 +95,16 @@ ggplot(par_pop, aes(x = pm, y = fct_reorder(shapeName, pm))) +
   geom_col(aes(fill = pm), width = 0.68) +
   geom_text(aes(label = num_fr(pm, 0.1)), hjust = -0.15,
             family = BAC_FONT_BODY, size = 2.8, colour = BAC_COL$encre) +
-  annotate("text", x = nat_pm, y = 0.7, label = paste0("moyenne : ", num_fr(nat_pm, 0.1)),
-           hjust = -0.05, family = BAC_FONT_BODY, size = 2.7, colour = BAC_COL$encre_douce) +
+  annotate("text", x = nat_pm, y = 0.7,
+           label = paste0("moyenne : ", num_fr(nat_pm, 0.1)),
+           hjust = -0.05, family = BAC_FONT_BODY, size = 2.7,
+           colour = BAC_COL$encre_douce) +
   scale_fill_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
-  scale_x_continuous(limits = c(0, max(par_pop$pm) * 1.12), expand = expansion(c(0, 0))) +
+  scale_x_continuous(limits = c(0, max(par_pop$pm) * 1.12),
+                     expand = expansion(c(0, 0))) +
   labs(title = "Du simple au sextuple selon la région",
-       subtitle = "Nombre de candidats au baccalauréat 2026 pour 1 000 habitants.",
+       subtitle = paste("Nombre de candidats au baccalauréat 2026",
+                        "pour 1 000 habitants."),
        x = "Candidats pour 1 000 habitants", y = NULL,
        caption = paste(SRC, SRC_POP, sep = "\n")) +
   theme_bac() +
@@ -115,7 +127,8 @@ ggplot(carte_j, aes(long, lat, group = group)) +
                        labels = label_percent(accuracy = 1)) +
   coord_quickmap() +
   labs(title = "Le taux d'admission ne suit pas le nombre de candidats",
-       subtitle = "Part des candidats admis à la session normale 2026, par région.",
+       subtitle = paste("Part des candidats admis à la session normale 2026,",
+                        "par région."),
        caption = paste(SRC, "Fonds : geoBoundaries (ADM1).", sep = "\n")) +
   theme_bac_carte()
 ```
@@ -129,7 +142,9 @@ Une carte permet mal de comparer des valeurs proches. Le graphique suivant class
 ```{r classement-wilaya}
 #| fig-width: 8
 #| fig-height: 5.6
-#| fig-alt: "Classement des wilayas par taux d'admission avec intervalles de confiance."
+#| fig-alt: >
+#|   Classement des wilayas par taux d'admission avec intervalles de
+#|   confiance.
 par_wilaya <- par_wilaya |> mutate(nom = joli_nom(wilaya))
 ggplot(par_wilaya, aes(x = taux, y = fct_reorder(nom, taux))) +
   geom_segment(aes(x = bas, xend = haut, yend = nom),
@@ -141,7 +156,8 @@ ggplot(par_wilaya, aes(x = taux, y = fct_reorder(nom, taux))) +
   scale_x_continuous(labels = label_percent(accuracy = 1),
                      limits = c(0, max(par_wilaya$haut) * 1.08)) +
   labs(title = "Le taux d'admission varie fortement selon la wilaya",
-       subtitle = "Taux d'admission et intervalle de confiance à 95 % (méthode de Wilson).",
+       subtitle = paste("Taux d'admission et intervalle de confiance à 95 %",
+                        "(méthode de Wilson)."),
        x = "Taux d'admission", y = NULL, caption = SRC) +
   theme_bac() +
   theme(panel.grid.major.y = element_blank())
@@ -160,17 +176,22 @@ Faut-il opposer Nouakchott au reste du pays ? La capitale a plus de moyens et pl
 par_pole <- synth_taux(d, pole)
 
 ggplot(par_pole, aes(x = taux, y = pole)) +
-  geom_segment(aes(x = 0, xend = taux, yend = pole), colour = BAC_COL$trait, linewidth = 5) +
+  geom_segment(aes(x = 0, xend = taux, yend = pole),
+               colour = BAC_COL$trait, linewidth = 5) +
   geom_point(size = 5, colour = BAC_COL$terre) +
-  geom_text(aes(label = paste0(pct_fr(taux), "  (", format(n, big.mark = " "), " candidats)")),
-            hjust = -0.12, family = BAC_FONT_BODY, size = 3.1, colour = BAC_COL$encre) +
+  geom_text(aes(label = paste0(pct_fr(taux), "  (",
+                               format(n, big.mark = " "), " candidats)")),
+            hjust = -0.12, family = BAC_FONT_BODY, size = 3.1,
+            colour = BAC_COL$encre) +
   scale_x_continuous(labels = label_percent(accuracy = 1),
                      limits = c(0, max(par_pole$taux) * 1.5)) +
   labs(title = "Cinq points d'écart entre Nouakchott et l'intérieur",
-       subtitle = "Taux d'admission comparé de la capitale et de l'ensemble de l'intérieur.",
+       subtitle = paste("Taux d'admission comparé de la capitale et de",
+                        "l'ensemble de l'intérieur."),
        x = NULL, y = NULL, caption = SRC) +
   theme_bac() +
-  theme(panel.grid.major.y = element_blank(), panel.grid.major.x = element_blank())
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_blank())
 ```
 
 Nouakchott admet une part plus élevée que l'intérieur (près de 15 % contre 10 %), mais cet écart de cinq points reste modéré au regard des différences entre wilayas, qui vont du simple au quadruple. Certaines régions de l'intérieur, comme le Hodh el Gharbi, rivalisent d'ailleurs avec les wilayas de la capitale. Les vraies différences se jouent donc surtout au niveau des wilayas et des établissements. Pour aller plus loin, il faut mesurer ce qui, dans le parcours de chaque candidat, joue vraiment sur ses chances. C'est le sujet de la page [Réussir](reussite.qmd).
