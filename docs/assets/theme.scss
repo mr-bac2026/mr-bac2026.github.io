@@ -171,6 +171,67 @@ main table:not(.gt_table) th {
 }
 main table:not(.gt_table) td { border-bottom: 1px solid $rule; padding: .42rem .6rem; }
 
+// --- Sélecteur de langue (navbar) ------------------------------------------
+// Le seul menu déroulant de la navbar : on le stylise en « pilule » discrète
+// avec un globe, et un menu en carte soignée.
+$globe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18'/%3E%3C/svg%3E");
+
+.navbar .nav-item.dropdown > .dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .34rem;
+  padding: .18rem .7rem;
+  border: 1px solid $rule;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.navbar .nav-item.dropdown > .dropdown-toggle::before {
+  content: "";
+  width: .92rem;
+  height: .92rem;
+  flex: 0 0 auto;
+  background-color: currentColor;
+  -webkit-mask: $globe center / contain no-repeat;
+          mask: $globe center / contain no-repeat;
+}
+.navbar .nav-item.dropdown > .dropdown-toggle::after {
+  margin-inline-start: .04rem;
+  opacity: .5;
+}
+.navbar .nav-item.dropdown > .dropdown-toggle:hover,
+.navbar .nav-item.dropdown.show > .dropdown-toggle {
+  color: $accent;
+  border-color: rgba($accent, .45);
+  background: rgba($accent, .06);
+}
+
+.navbar .dropdown-menu {
+  margin-top: .5rem;
+  min-width: 10rem;
+  padding: .3rem;
+  border: 1px solid $rule;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba($ink, .12);
+}
+.navbar .dropdown-menu .dropdown-item {
+  padding: .44rem .7rem;
+  border-radius: 5px;
+  font-size: .95rem;
+  font-weight: 500;
+  color: $ink;
+  transition: background .12s ease, color .12s ease;
+}
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+  background: $paper-alt;
+  color: $accent;
+}
+
 // --- Divers ----------------------------------------------------------------
 a { text-underline-offset: 2px; }
 pre.sourceCode { background: $paper-alt; border: 1px solid $rule; border-radius: 3px; }
