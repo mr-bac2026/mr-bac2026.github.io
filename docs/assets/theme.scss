@@ -34,6 +34,8 @@ $border-color: $rule;
 
 /*-- scss:rules --*/
 
+:root { --switcher-rev: 3; }   // force un nouveau hash CSS (anti-cache)
+
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
