@@ -4,12 +4,20 @@
 # Construire le site avec ./render.sh (rend chaque profil).
 project:
   type: website
-  output-dir: docs
+  # Sortie « par défaut », c.-à-d. sans --profile : un bac à sable. Les rendus
+  # déclenchés par l'IDE (extension Quarto de VS Code) n'indiquent aucun
+  # profil ; s'ils écrivaient dans docs/, ils écraseraient les pages du site
+  # fusionné par une version sans navbar. Seul render.sh assemble docs/.
+  output-dir: _build/scratch
   execute-dir: project
+  # Le « / » initial ancre le motif à la racine du projet. Sans lui, Quarto
+  # applique le glob à TOUT l'arbre : « index.html » attrapait aussi les pages
+  # déjà construites dans _build/<lang>/ et docs/, que chaque profil recopiait
+  # alors dans sa propre sortie, d'où une croissance exponentielle du build.
   resources:
-    - "assets/**"
-    - "index.html"
-    - ".nojekyll"
+    - "/assets/**"
+    - "/index.html"
+    - "/.nojekyll"
 
 execute:
   freeze: auto
