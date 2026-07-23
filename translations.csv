@@ -1,0 +1,24 @@
+key,fr,en,ar
+src,"Source : Direction des examens, résultats du baccalauréat 2026 (session normale). Calculs de l'auteur.","Source: Examinations Directorate, 2026 baccalaureate results (normal session). Author's calculations.",المصدر: إدارة الامتحانات، نتائج باكالوريا 2026 (الدورة العادية). حسابات المؤلف.
+src_pop,"Population : RGPH 2023 (ANSADE), 5e recensement général de la population et de l'habitat.","Population: RGPH 2023 (ANSADE), 5th general population and housing census.",السكان: التعداد العام للسكان والسكنى 2023 (المكتب الوطني للإحصاء)، الإحصاء الخامس.
+geo_fond,Fonds : geoBoundaries (ADM1).,Basemap: geoBoundaries (ADM1).,الخريطة الأساسية: geoBoundaries (المستوى الإداري الأول).
+word_candidats,candidats,candidates,مترشح
+geo_eff_title,La plupart des candidats sont au Sud et à Nouakchott,Most candidates are in the South and in Nouakchott,معظم المترشحين في الجنوب وفي نواكشوط
+geo_eff_sub,"Nombre de candidats à la session normale 2026, par région administrative.","Number of candidates in the 2026 normal session, by administrative region.",عدد المترشحين في الدورة العادية 2026، حسب الجهة الإدارية.
+geo_eff_legend,Candidats,Candidates,المترشحون
+geo_pop_title,Nouakchott concentre près d'un tiers des habitants,Nouakchott holds nearly a third of the population,تضم نواكشوط قرابة ثلث السكان
+geo_pop_sub,Population par région au recensement de 2023.,Population by region at the 2023 census.,عدد السكان حسب الجهة في تعداد 2023.
+geo_pm_title,Du simple au sextuple selon la région,A sixfold gap from region to region,فارق يصل إلى ستة أضعاف بين الجهات
+geo_pm_sub,Nombre de candidats au baccalauréat 2026 pour 1 000 habitants.,"Number of 2026 baccalaureate candidates per 1,000 inhabitants.",عدد مترشحي باكالوريا 2026 لكل 1000 نسمة.
+geo_pm_x,Candidats pour 1 000 habitants,"Candidates per 1,000 inhabitants",المترشحون لكل 1000 نسمة
+geo_pm_moyenne,moyenne : ,average: ,المعدل: 
+geo_taux_title,Le taux d'admission ne suit pas le nombre de candidats,The pass rate does not track the number of candidates,نسبة النجاح لا تتبع عدد المترشحين
+geo_taux_sub,"Part des candidats admis à la session normale 2026, par région.","Share of candidates admitted in the 2026 normal session, by region.",نسبة المترشحين الناجحين في الدورة العادية 2026، حسب الجهة.
+geo_taux_legend,Taux\nd'admission,Pass\nrate,نسبة\nالنجاح
+geo_rank_title,Le taux d'admission varie fortement selon la wilaya,The pass rate varies widely by wilaya,تتفاوت نسبة النجاح بشدة حسب الولاية
+geo_rank_sub,Taux d'admission et intervalle de confiance à 95 % (méthode de Wilson).,Pass rate and 95% confidence interval (Wilson method).,نسبة النجاح ومجال الثقة 95% (طريقة ويلسون).
+geo_rank_x,Taux d'admission,Pass rate,نسبة النجاح
+geo_pole_title,Cinq points d'écart entre Nouakchott et l'intérieur,A five-point gap between Nouakchott and the interior,فارق خمس نقاط بين نواكشوط والداخل
+geo_pole_sub,Taux d'admission comparé de la capitale et de l'ensemble de l'intérieur.,Pass rate of the capital compared with the interior as a whole.,مقارنة نسبة النجاح بين العاصمة ومجموع الداخل.
+pole_nkc,Nouakchott,Nouakchott,نواكشوط
+pole_int,Intérieur,Interior,الداخل

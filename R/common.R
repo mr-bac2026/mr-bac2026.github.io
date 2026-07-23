@@ -27,15 +27,25 @@ BAC_GEO  <- file.path(BAC_ROOT, "mrt_adm1.geojson")
 # Chargement défensif : si la police distante échoue, on retombe sur "serif".
 BAC_FONT_TITLE <- "serif"
 BAC_FONT_BODY  <- "serif"
+# Police arabe (Amiri, serif RTL) ; fallback "sans" si le chargement échoue.
+BAC_FONT_AR    <- "sans"
 suppressWarnings(suppressMessages(tryCatch({
   library(showtext)
   library(sysfonts)
   sysfonts::font_add_google("Source Serif 4", "sourceserif")
+  sysfonts::font_add_google("Amiri", "amiri")
   showtext::showtext_auto()
   showtext::showtext_opts(dpi = 300)
   BAC_FONT_TITLE <<- "sourceserif"
   BAC_FONT_BODY  <<- "sourceserif"
+  BAC_FONT_AR    <<- "amiri"
 }, error = function(e) invisible(NULL))))
+
+# Police à utiliser selon la langue (l'arabe bascule sur Amiri).
+bac_font       <- function(lang = "fr")
+  if (identical(lang, "ar")) BAC_FONT_AR else BAC_FONT_BODY
+bac_font_title <- function(lang = "fr")
+  if (identical(lang, "ar")) BAC_FONT_AR else BAC_FONT_TITLE
 
 # =============================================================================
 #  PALETTE  — « données modernes » : blanc, encre, un accent cobalt.
@@ -74,8 +84,8 @@ BAC_SEQ_FROID <- c("#f2f2f0", "#d6d6d3", "#adadaa", "#7d7d7a", "#4e4e4c", "#2424
 # =============================================================================
 #  THÈME
 # =============================================================================
-theme_bac <- function(base_size = 12) {
-  theme_minimal(base_size = base_size, base_family = BAC_FONT_BODY) +
+theme_bac <- function(base_size = 12, lang = "fr") {
+  theme_minimal(base_size = base_size, base_family = bac_font(lang)) +
     theme(
       plot.background   = element_rect(fill = BAC_COL$papier, colour = NA),
       panel.background  = element_rect(fill = BAC_COL$papier, colour = NA),
@@ -84,7 +94,7 @@ theme_bac <- function(base_size = 12) {
       axis.text         = element_text(colour = BAC_COL$encre_douce, size = rel(0.85)),
       axis.title        = element_text(colour = BAC_COL$encre_douce, size = rel(0.9)),
       plot.title        = element_text(
-        family = BAC_FONT_TITLE, colour = BAC_COL$encre, size = rel(1.4),
+        family = bac_font_title(lang), colour = BAC_COL$encre, size = rel(1.4),
         face = "bold", lineheight = 1.08, hjust = 0, margin = margin(b = 5)),
       plot.subtitle     = element_text(
         colour = BAC_COL$encre_douce, size = rel(0.95), lineheight = 1.2,
@@ -103,8 +113,8 @@ theme_bac <- function(base_size = 12) {
 }
 
 # Thème carte (dépouillé)
-theme_bac_carte <- function() {
-  theme_bac() + theme(
+theme_bac_carte <- function(lang = "fr") {
+  theme_bac(lang = lang) + theme(
     axis.text = element_blank(), axis.title = element_blank(),
     panel.grid = element_blank(),
     legend.position = "right", legend.key.height = unit(24, "pt"),

@@ -4,6 +4,8 @@ project:
   execute-dir: project
   render:
     - "fr/*.qmd"
+    - "en/*.qmd"
+    - "ar/*.qmd"
   resources:
     - "assets/**"
     - "index.html"

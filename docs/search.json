@@ -1,5 +1,47 @@
 [
   {
+    "objectID": "ar/geographie.html",
+    "href": "ar/geographie.html",
+    "title": "خريطة النجاح",
+    "section": "",
+    "text": "Note\n\n\n\nهذه الصفحة قيد الترجمة؛ النص السردي غير نهائي."
+  },
+  {
+    "objectID": "ar/geographie.html#أين-يوجد-المترشحون",
+    "href": "ar/geographie.html#أين-يوجد-المترشحون",
+    "title": "خريطة النجاح",
+    "section": "أين يوجد المترشحون",
+    "text": "أين يوجد المترشحون\nالنص قيد الترجمة."
+  },
+  {
+    "objectID": "ar/geographie.html#بالنسبة-إلى-السكان",
+    "href": "ar/geographie.html#بالنسبة-إلى-السكان",
+    "title": "خريطة النجاح",
+    "section": "بالنسبة إلى السكان",
+    "text": "بالنسبة إلى السكان\nالنص قيد الترجمة."
+  },
+  {
+    "objectID": "ar/geographie.html#أين-ينجح-المترشحون",
+    "href": "ar/geographie.html#أين-ينجح-المترشحون",
+    "title": "خريطة النجاح",
+    "section": "أين ينجح المترشحون",
+    "text": "أين ينجح المترشحون\nالنص قيد الترجمة."
+  },
+  {
+    "objectID": "ar/geographie.html#الترتيب-وهامش-الخطأ",
+    "href": "ar/geographie.html#الترتيب-وهامش-الخطأ",
+    "title": "خريطة النجاح",
+    "section": "الترتيب وهامش الخطأ",
+    "text": "الترتيب وهامش الخطأ\nالنص قيد الترجمة."
+  },
+  {
+    "objectID": "ar/geographie.html#نواكشوط-والداخل",
+    "href": "ar/geographie.html#نواكشوط-والداخل",
+    "title": "خريطة النجاح",
+    "section": "نواكشوط والداخل",
+    "text": "نواكشوط والداخل\nالنص قيد الترجمة."
+  },
+  {
     "objectID": "fr/reussite.html",
     "href": "fr/reussite.html",
     "title": "Ce qui joue sur la réussite",
@@ -243,5 +285,47 @@
     "title": "Panorama d’une session",
     "section": "Les mentions",
     "text": "Les mentions\nLa mention ne figure pas dans les données : le fichier ne donne que la moyenne et la décision. Nous la reconstruisons donc à partir de la moyenne, en utilisant les seuils habituels du baccalauréat, et uniquement pour les candidats admis.\n\nLes seuils des mentions Pour un candidat admis, la mention est définie à partir de sa moyenne sur 20 :\n\nPassable : de 10 à moins de 12\nAssez bien : de 12 à moins de 14\nBien : de 14 à moins de 16\nTrès bien : 16 et plus\n\n\nLa plupart des admis obtiennent la mention « passable », avec une moyenne entre 10 et 12. Les mentions plus élevées sont de plus en plus rares, et la mention « très bien » ne concerne qu’un très petit nombre de candidats.\n\n\n\n\n\n\n\n\n\nCe graphique complète le tableau. Obtenir le baccalauréat en 2026 est déjà rare ; l’obtenir avec une bonne mention l’est encore plus. Les pages suivantes cherchent à comprendre qui réussit, et ce que changent la région, la filière et le parcours de chaque candidat."
+  },
+  {
+    "objectID": "en/geographie.html",
+    "href": "en/geographie.html",
+    "title": "The map of success",
+    "section": "",
+    "text": "Note\n\n\n\nThis page is being translated; the narrative text is not final."
+  },
+  {
+    "objectID": "en/geographie.html#where-the-candidates-are",
+    "href": "en/geographie.html#where-the-candidates-are",
+    "title": "The map of success",
+    "section": "Where the candidates are",
+    "text": "Where the candidates are\nText to be translated."
+  },
+  {
+    "objectID": "en/geographie.html#relative-to-population",
+    "href": "en/geographie.html#relative-to-population",
+    "title": "The map of success",
+    "section": "Relative to population",
+    "text": "Relative to population\nText to be translated."
+  },
+  {
+    "objectID": "en/geographie.html#where-students-succeed",
+    "href": "en/geographie.html#where-students-succeed",
+    "title": "The map of success",
+    "section": "Where students succeed",
+    "text": "Where students succeed\nText to be translated."
+  },
+  {
+    "objectID": "en/geographie.html#the-ranking-and-its-margin-of-error",
+    "href": "en/geographie.html#the-ranking-and-its-margin-of-error",
+    "title": "The map of success",
+    "section": "The ranking and its margin of error",
+    "text": "The ranking and its margin of error\nText to be translated."
+  },
+  {
+    "objectID": "en/geographie.html#nouakchott-and-the-interior",
+    "href": "en/geographie.html#nouakchott-and-the-interior",
+    "title": "The map of success",
+    "section": "Nouakchott and the interior",
+    "text": "Nouakchott and the interior\nText to be translated."
   }
 ]

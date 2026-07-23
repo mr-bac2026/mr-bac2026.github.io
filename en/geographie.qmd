@@ -1,0 +1,81 @@
+---
+title: "The map of success"
+subtitle: >
+  Mauritania is a large, sparsely populated country. Its fifteen wilayas do
+  not all succeed equally at the baccalaureate.
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "en"
+g <- geo_data()
+```
+
+::: {.callout-note}
+This page is being translated; the narrative text is not final.
+:::
+
+## Where the candidates are
+
+*Text to be translated.*
+
+```{r carte-effectifs}
+#| fig-width: 8
+#| fig-height: 6.4
+#| fig-alt: "Map of candidate counts by region."
+fig_geo_effectifs(g, lang)
+```
+
+## Relative to population
+
+*Text to be translated.*
+
+```{r population}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Population by region (RGPH 2023)."
+fig_geo_population(g, lang)
+```
+
+```{r candidats-par-habitant}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Baccalaureate candidates per 1000 inhabitants, by region."
+fig_geo_par_habitant(g, lang)
+```
+
+## Where students succeed
+
+*Text to be translated.*
+
+```{r carte-taux}
+#| fig-width: 8
+#| fig-height: 6.4
+#| fig-alt: "Map of the pass rate by region."
+fig_geo_carte_taux(g, lang)
+```
+
+## The ranking and its margin of error
+
+*Text to be translated.*
+
+```{r classement-wilaya}
+#| fig-width: 8
+#| fig-height: 5.6
+#| fig-alt: "Wilayas ranked by pass rate with confidence intervals."
+fig_geo_classement(g, lang)
+```
+
+## Nouakchott and the interior
+
+*Text to be translated.*
+
+```{r pole}
+#| fig-width: 7.5
+#| fig-height: 2.8
+#| fig-alt: "Nouakchott versus the interior."
+fig_geo_pole(g, lang)
+```

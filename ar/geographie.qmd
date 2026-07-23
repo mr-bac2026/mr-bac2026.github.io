@@ -1,0 +1,81 @@
+---
+title: "خريطة النجاح"
+subtitle: >
+  موريتانيا بلد شاسع قليل السكان. ولاياتها الخمس عشرة لا تنجح جميعها بالقدر
+  نفسه في الباكالوريا.
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+source("R/i18n.R")
+source("R/figures.R")
+lang <- "ar"
+g <- geo_data()
+```
+
+::: {.callout-note}
+هذه الصفحة قيد الترجمة؛ النص السردي غير نهائي.
+:::
+
+## أين يوجد المترشحون
+
+*النص قيد الترجمة.*
+
+```{r carte-effectifs}
+#| fig-width: 8
+#| fig-height: 6.4
+#| fig-alt: "خريطة أعداد المترشحين حسب الجهة."
+fig_geo_effectifs(g, lang)
+```
+
+## بالنسبة إلى السكان
+
+*النص قيد الترجمة.*
+
+```{r population}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "عدد السكان حسب الجهة (تعداد 2023)."
+fig_geo_population(g, lang)
+```
+
+```{r candidats-par-habitant}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "مترشحو الباكالوريا لكل 1000 نسمة، حسب الجهة."
+fig_geo_par_habitant(g, lang)
+```
+
+## أين ينجح المترشحون
+
+*النص قيد الترجمة.*
+
+```{r carte-taux}
+#| fig-width: 8
+#| fig-height: 6.4
+#| fig-alt: "خريطة نسبة النجاح حسب الجهة."
+fig_geo_carte_taux(g, lang)
+```
+
+## الترتيب وهامش الخطأ
+
+*النص قيد الترجمة.*
+
+```{r classement-wilaya}
+#| fig-width: 8
+#| fig-height: 5.6
+#| fig-alt: "ترتيب الولايات حسب نسبة النجاح مع مجالات الثقة."
+fig_geo_classement(g, lang)
+```
+
+## نواكشوط والداخل
+
+*النص قيد الترجمة.*
+
+```{r pole}
+#| fig-width: 7.5
+#| fig-height: 2.8
+#| fig-alt: "نواكشوط مقابل الداخل."
+fig_geo_pole(g, lang)
+```
