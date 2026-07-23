@@ -1,0 +1,176 @@
+---
+title: "La carte de la réussite"
+subtitle: "La Mauritanie est un grand pays peu peuplé. Ses quinze wilayas ne réussissent pas toutes de la même façon au baccalauréat."
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+d <- lire_bac()
+carte <- lire_carte()
+
+# Stats par wilaya (échelle des données, 15 unités)
+par_wilaya <- synth_taux(d, wilaya) |> arrange(desc(taux))
+
+# Agrégation au niveau des polygones (Nouakchott = une seule forme)
+d <- d |> mutate(shapeName = BAC_CROSSWALK[wilaya])
+par_forme <- synth_taux(d, shapeName)
+
+carte_j <- carte |> left_join(par_forme, by = "shapeName")
+# centroïdes approx pour étiquettes
+cent <- carte |> group_by(shapeName) |>
+  summarise(long = mean(range(long)), lat = mean(range(lat)), .groups = "drop") |>
+  left_join(par_forme, by = "shapeName")
+```
+
+::: {.chapo}
+La population mauritanienne se concentre surtout dans le Sud et dans la capitale. Le Nord, en grande partie désertique, est presque vide. Le baccalauréat suit cette répartition : la plupart des candidats composent à Nouakchott ou dans les wilayas du Sud, tandis que les régions du Nord ne comptent que quelques centaines de candidats. Cette page regarde trois choses : combien de candidats compte chaque région, ce que cela représente rapporté à sa population, et quelle part d'entre eux réussit.
+:::
+
+## Où se trouvent les candidats
+
+Commençons par le nombre de candidats. La première carte colore chaque région selon le nombre de candidats qui y ont composé. Le contraste entre le Sud-Ouest et le Nord est immédiat.
+
+```{r carte-effectifs}
+#| fig-width: 8
+#| fig-height: 6.4
+#| fig-alt: "Carte des effectifs de candidats par région."
+ggplot(carte_j, aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = n), colour = BAC_COL$papier, linewidth = 0.3) +
+  scale_fill_gradientn(colours = BAC_SEQ_FROID, name = "Candidats",
+                       labels = label_number(big.mark = " "),
+                       trans = "sqrt") +
+  coord_quickmap() +
+  labs(title = "La plupart des candidats sont au Sud et à Nouakchott",
+       subtitle = "Nombre de candidats à la session normale 2026, par région administrative.",
+       caption = paste(SRC, "Fonds : geoBoundaries (ADM1).", sep = "\n")) +
+  theme_bac_carte()
+```
+
+Nouakchott rassemble à elle seule plus du tiers des candidats du pays. En ajoutant le Trarza et les wilayas du fleuve (Gorgol, Brakna, les deux Hodh), on obtient la grande majorité des candidats. Les régions du Nord, comme le Tiris Zemmour, l'Adrar ou l'Inchiri, en comptent chacune quelques centaines seulement.
+
+## Rapporté à la population
+
+Ce nombre de candidats dépend d'abord de la population de chaque région. Pour comparer les régions à leur juste mesure, il faut donc rapporter les candidats au nombre d'habitants. On utilise pour cela les chiffres du dernier recensement (RGPH 2023), qui donne une population totale de `r format(sum(BAC_POP_2023), big.mark=" ")` habitants. Voici d'abord cette population, région par région.
+
+```{r population}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Population par région (RGPH 2023)."
+par_pop <- par_forme |>
+  mutate(pop = BAC_POP_2023[shapeName],
+         pm  = 1000 * n / pop)
+
+ggplot(par_pop, aes(x = pop, y = fct_reorder(shapeName, pop))) +
+  geom_col(width = 0.68, fill = BAC_COL$vert) +
+  geom_text(aes(label = format(pop, big.mark = " ")), hjust = -0.08,
+            family = BAC_FONT_BODY, size = 2.7, colour = BAC_COL$encre) +
+  scale_x_continuous(limits = c(0, max(par_pop$pop) * 1.15), expand = expansion(c(0, 0))) +
+  labs(title = "Nouakchott concentre près d'un tiers des habitants",
+       subtitle = "Population par région au recensement de 2023.",
+       x = NULL, y = NULL, caption = SRC_POP) +
+  theme_bac() +
+  theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
+```
+
+On peut maintenant calculer le **nombre de candidats pour 1 000 habitants** dans chaque région. Ce chiffre mesure la place du baccalauréat dans la population, indépendamment de la taille de la région. En moyenne nationale, on compte `r num_fr(1000*sum(par_pop$n)/sum(par_pop$pop), 0.1)` candidats pour 1 000 habitants.
+
+```{r candidats-par-habitant}
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "Candidats au baccalauréat pour 1000 habitants, par région."
+nat_pm <- 1000 * sum(par_pop$n) / sum(par_pop$pop)
+
+ggplot(par_pop, aes(x = pm, y = fct_reorder(shapeName, pm))) +
+  geom_vline(xintercept = nat_pm, colour = BAC_COL$encre_douce, linewidth = 0.4,
+             linetype = "dashed") +
+  geom_col(aes(fill = pm), width = 0.68) +
+  geom_text(aes(label = num_fr(pm, 0.1)), hjust = -0.15,
+            family = BAC_FONT_BODY, size = 2.8, colour = BAC_COL$encre) +
+  annotate("text", x = nat_pm, y = 0.7, label = paste0("moyenne : ", num_fr(nat_pm, 0.1)),
+           hjust = -0.05, family = BAC_FONT_BODY, size = 2.7, colour = BAC_COL$encre_douce) +
+  scale_fill_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
+  scale_x_continuous(limits = c(0, max(par_pop$pm) * 1.12), expand = expansion(c(0, 0))) +
+  labs(title = "Du simple au sextuple selon la région",
+       subtitle = "Nombre de candidats au baccalauréat 2026 pour 1 000 habitants.",
+       x = "Candidats pour 1 000 habitants", y = NULL,
+       caption = paste(SRC, SRC_POP, sep = "\n")) +
+  theme_bac() +
+  theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
+```
+
+L'écart est frappant. Nouakchott envoie plus de 24 candidats pour 1 000 habitants, contre moins de 4 dans le Guidimaka et le Hodh ech Chargui : un rapport de un à six. Les régions urbaines et du Nord (Adrar, Inchiri, Dakhlet Nouadhibou) se situent bien au-dessus de la moyenne, tandis que les régions rurales du Sud restent nettement en dessous. Ce chiffre ne mesure pas la réussite, mais l'accès à la scolarité : là où peu de jeunes atteignent la terminale, peu de candidats se présentent, quelle que soit leur valeur.
+
+## Où l'on réussit
+
+Voici maintenant la carte du taux d'admission. Cette fois, la couleur ne montre plus le nombre de candidats, mais la part de ceux qui sont admis dans chaque région.
+
+```{r carte-taux}
+#| fig-width: 8
+#| fig-height: 6.4
+#| fig-alt: "Carte du taux d'admission par région."
+ggplot(carte_j, aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = taux), colour = BAC_COL$papier, linewidth = 0.3) +
+  scale_fill_gradientn(colours = BAC_SEQ_CHAUD, name = "Taux\nd'admission",
+                       labels = label_percent(accuracy = 1)) +
+  coord_quickmap() +
+  labs(title = "Le taux d'admission ne suit pas le nombre de candidats",
+       subtitle = "Part des candidats admis à la session normale 2026, par région.",
+       caption = paste(SRC, "Fonds : geoBoundaries (ADM1).", sep = "\n")) +
+  theme_bac_carte()
+```
+
+En comparant la carte des candidats et celle du taux d'admission, on remarque quelque chose d'intéressant. Les régions qui ont le plus de candidats ne sont pas forcément celles qui réussissent le mieux. Certaines wilayas de l'intérieur, avec peu de candidats, ont de bons taux d'admission. Le nombre de candidats détermine le nombre d'admis, mais pas les chances de réussir.
+
+## Le classement et sa marge d'erreur
+
+Une carte permet mal de comparer des valeurs proches. Le graphique suivant classe donc les quinze wilayas par taux d'admission. Ici, Nouakchott est de nouveau séparée en ses trois wilayas. Chaque barre est accompagnée de son **intervalle de confiance à 95 % (méthode de Wilson)** : quand une région a peu de candidats, l'estimation est moins sûre, et le segment est plus long.
+
+```{r classement-wilaya}
+#| fig-width: 8
+#| fig-height: 5.6
+#| fig-alt: "Classement des wilayas par taux d'admission avec intervalles de confiance."
+par_wilaya <- par_wilaya |> mutate(nom = joli_nom(wilaya))
+ggplot(par_wilaya, aes(x = taux, y = fct_reorder(nom, taux))) +
+  geom_segment(aes(x = bas, xend = haut, yend = nom),
+               colour = BAC_COL$trait, linewidth = 1.4) +
+  geom_point(aes(colour = taux), size = 2.8) +
+  geom_text(aes(label = pct_fr(taux)), hjust = -0.35, vjust = -0.4,
+            family = BAC_FONT_BODY, size = 2.7, colour = BAC_COL$encre_douce) +
+  scale_colour_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
+  scale_x_continuous(labels = label_percent(accuracy = 1),
+                     limits = c(0, max(par_wilaya$haut) * 1.08)) +
+  labs(title = "Le taux d'admission varie fortement selon la wilaya",
+       subtitle = "Taux d'admission et intervalle de confiance à 95 % (méthode de Wilson).",
+       x = "Taux d'admission", y = NULL, caption = SRC) +
+  theme_bac() +
+  theme(panel.grid.major.y = element_blank())
+```
+
+L'écart entre la première et la dernière wilaya est important : Nouakchott Ouest, en tête avec près de 18 %, admet environ quatre fois plus que le Guidimaka, en bas de classement sous les 4 %. Mais les intervalles de confiance des petites régions sont larges. Avec seulement quelques centaines de candidats, il ne faut pas prendre le classement au rang près. On retiendra la tendance générale, pas la position exacte.
+
+## Nouakchott et l'intérieur
+
+Faut-il opposer Nouakchott au reste du pays ? La capitale a plus de moyens et plus d'établissements, on peut donc s'attendre à ce qu'elle réussisse mieux. C'est le cas, mais l'écart reste mesuré : environ cinq points séparent la capitale de l'intérieur.
+
+```{r pole}
+#| fig-width: 7.5
+#| fig-height: 2.8
+#| fig-alt: "Comparaison Nouakchott / intérieur."
+par_pole <- synth_taux(d, pole)
+
+ggplot(par_pole, aes(x = taux, y = pole)) +
+  geom_segment(aes(x = 0, xend = taux, yend = pole), colour = BAC_COL$trait, linewidth = 5) +
+  geom_point(size = 5, colour = BAC_COL$terre) +
+  geom_text(aes(label = paste0(pct_fr(taux), "  (", format(n, big.mark = " "), " candidats)")),
+            hjust = -0.12, family = BAC_FONT_BODY, size = 3.1, colour = BAC_COL$encre) +
+  scale_x_continuous(labels = label_percent(accuracy = 1),
+                     limits = c(0, max(par_pole$taux) * 1.5)) +
+  labs(title = "Cinq points d'écart entre Nouakchott et l'intérieur",
+       subtitle = "Taux d'admission comparé de la capitale et de l'ensemble de l'intérieur.",
+       x = NULL, y = NULL, caption = SRC) +
+  theme_bac() +
+  theme(panel.grid.major.y = element_blank(), panel.grid.major.x = element_blank())
+```
+
+Nouakchott admet une part plus élevée que l'intérieur (près de 15 % contre 10 %), mais cet écart de cinq points reste modéré au regard des différences entre wilayas, qui vont du simple au quadruple. Certaines régions de l'intérieur, comme le Hodh el Gharbi, rivalisent d'ailleurs avec les wilayas de la capitale. Les vraies différences se jouent donc surtout au niveau des wilayas et des établissements. Pour aller plus loin, il faut mesurer ce qui, dans le parcours de chaque candidat, joue vraiment sur ses chances. C'est le sujet de la page [Réussir](reussite.qmd).

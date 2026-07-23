@@ -1,0 +1,148 @@
+---
+title: "Ce qui joue sur la réussite"
+subtitle: "Région, filière, âge : ces facteurs sont liés entre eux. Un modèle statistique permet de mesurer ce que chacun apporte vraiment, une fois les autres pris en compte."
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+d <- lire_bac()
+
+# On modélise la population présente à l'épreuve, dotée d'un âge plausible.
+dm <- d |>
+  filter(present == 1, !is.na(moyenne), !is.na(age_val)) |>
+  mutate(
+    serie  = fct_lump_min(serie, min = 200),
+    serie  = fct_relevel(factor(serie), "Sciences Naturelles"),
+    wilaya = fct_relevel(factor(wilaya), "Nouakchott Ouest")
+  )
+```
+
+::: {.chapo}
+Les pages précédentes ont regardé séparément l'effet de la région et celui de la filière. Mais ces deux facteurs sont liés : certaines wilayas ont plus de séries scientifiques, d'autres plus de séries littéraires. Attribuer un écart à la région alors qu'il vient en fait de la série (ou l'inverse) serait une erreur. Pour l'éviter, on utilise un modèle qui prend tous les facteurs en même temps et mesure l'effet de chacun, à situation comparable.
+:::
+
+## Le principe
+
+On utilise une **régression logistique**. Elle cherche à expliquer une variable simple (admis ou non) chez les candidats présents, à partir de trois facteurs : la série, la wilaya et l'âge. Pour chaque cas, le modèle donne un **rapport de cotes** : un nombre supérieur à 1 veut dire plus de chances de réussir que la référence, un nombre inférieur à 1 veut dire moins de chances.
+
+```{r modele}
+#| include: false
+mod <- glm(admis ~ serie + wilaya + age_val, data = dm, family = binomial())
+
+# Rapports de cotes et intervalles de Wald à 95 %
+co <- summary(mod)$coefficients
+ors <- data.frame(
+  terme = rownames(co),
+  or    = exp(co[, "Estimate"]),
+  bas   = exp(co[, "Estimate"] - 1.96 * co[, "Std. Error"]),
+  haut  = exp(co[, "Estimate"] + 1.96 * co[, "Std. Error"]),
+  p     = co[, "Pr(>|z|)"],
+  row.names = NULL
+)
+```
+
+Deux points pour bien lire les résultats. D'abord, chaque effet est mesuré à série et région fixées : on compare deux séries dans la même wilaya, et inversement. Ensuite, il faut une référence : les séries sont comparées aux **sciences naturelles**, et les wilayas à **Nouakchott Ouest**, la région qui a le plus de candidats. Tout se lit donc par rapport à ce candidat de référence.
+
+## L'effet de la filière
+
+```{r or-serie}
+#| fig-width: 8
+#| fig-height: 3.6
+#| fig-alt: "Rapports de cotes par série."
+os <- ors |>
+  filter(grepl("^serie", terme)) |>
+  mutate(lab = gsub("^serie", "", terme))
+
+ggplot(os, aes(x = or, y = fct_reorder(lab, or))) +
+  geom_vline(xintercept = 1, colour = BAC_COL$encre_douce, linewidth = 0.4) +
+  geom_segment(aes(x = bas, xend = haut, yend = lab), colour = BAC_COL$trait, linewidth = 1.5) +
+  geom_point(colour = BAC_COL$terre, size = 3) +
+  scale_x_log10() +
+  labs(title = "À région égale, la série compte toujours",
+       subtitle = "Rapports de cotes d'admission par série, référence : sciences naturelles. Échelle logarithmique.",
+       x = "Rapport de cotes (admission)", y = NULL, caption = SRC) +
+  theme_bac() + theme(panel.grid.major.y = element_blank())
+```
+
+Le résultat confirme ce que montraient déjà les taux bruts. Même à région identique, les mathématiques gardent leur avantage sur les sciences naturelles, et le retard des séries littéraires ne vient pas de leur localisation : il tient à la filière elle-même. Autrement dit, deux candidats de la même wilaya et du même âge, l'un en sciences et l'autre en lettres, n'ont pas les mêmes chances de réussite.
+
+## L'effet de la région
+
+```{r or-wilaya}
+#| fig-width: 8
+#| fig-height: 5.2
+#| fig-alt: "Rapports de cotes par wilaya."
+ow <- ors |>
+  filter(grepl("^wilaya", terme)) |>
+  mutate(lab = joli_nom(gsub("^wilaya", "", terme)),
+         ns  = p >= 0.05,
+         lab = fct_reorder(lab, or))
+
+ggplot(ow, aes(x = or, y = lab)) +
+  geom_vline(xintercept = 1, colour = BAC_COL$encre, linewidth = 0.5) +
+  geom_segment(aes(x = bas, xend = haut, yend = lab), colour = BAC_COL$trait, linewidth = 1.4) +
+  geom_point(aes(fill = or), shape = 21, colour = BAC_COL$papier, size = 3.4, stroke = 0.6) +
+  # la seule wilaya dont l'écart n'est pas significatif est signalée par un contour
+  geom_point(data = ~ subset(.x, ns), shape = 21, fill = NA,
+             colour = BAC_COL$encre, size = 5, stroke = 0.7) +
+  scale_fill_gradientn(colours = rev(BAC_SEQ_CHAUD), guide = "none") +
+  scale_x_log10(expand = expansion(c(0.05, 0.08))) +
+  labs(title = "Après la filière, la géographie garde du poids",
+       subtitle = "Rapports de cotes d'admission par wilaya (référence : Nouakchott Ouest). Le cercle évidé marque le seul écart non significatif à 5 %.",
+       x = "Rapport de cotes (admission, échelle logarithmique)", y = NULL, caption = SRC) +
+  theme_bac() + theme(panel.grid.major.y = element_blank())
+```
+
+Le résultat est clair : même à filière identique, Nouakchott Ouest (la référence) reste en tête, et presque toutes les autres wilayas sont en dessous. Prendre en compte la série réduit un peu les écarts, ce qui montre qu'une partie du retard de certaines régions venait de leur grand nombre de séries littéraires. Mais l'essentiel demeure : du haut en bas du classement, le rapport de cotes varie encore du simple au quadruple. La région joue donc un rôle propre, que la seule filière ne suffit pas à expliquer.
+
+## L'effet de l'âge
+
+L'âge du candidat entre aussi dans le modèle. Son effet est modéré mais clair. Pour le voir simplement, le graphique ci-dessous montre le taux d'admission selon l'âge.
+
+```{r age}
+#| fig-width: 8
+#| fig-height: 3.8
+#| fig-alt: "Taux d'admission selon l'âge."
+pa <- dm |> group_by(age_val) |>
+  summarise(n = n(), taux = mean(admis), .groups = "drop") |>
+  filter(n >= 50)
+or_age <- ors$or[ors$terme == "age_val"]
+
+ggplot(pa, aes(x = age_val, y = taux)) +
+  geom_line(colour = BAC_COL$trait, linewidth = 0.8) +
+  geom_point(aes(size = n), colour = BAC_COL$terre) +
+  scale_size_area(max_size = 6, guide = "none") +
+  scale_y_continuous(labels = label_percent(accuracy = 1)) +
+  scale_x_continuous(breaks = seq(15, 30, 1)) +
+  labs(title = "Passer tôt, réussir mieux",
+       subtitle = "Taux d'admission selon l'âge du candidat (points dimensionnés par effectif).",
+       x = "Âge au moment de l'examen", y = "Taux d'admission", caption = SRC) +
+  theme_bac()
+```
+
+La tendance est claire : plus le candidat est âgé, plus ses chances baissent. Le rapport de cotes lié à l'âge vaut environ `r num_fr(or_age, 0.01)` par année. Les candidats « à l'heure » réussissent mieux que les redoublants ou les candidats plus âgés. C'est un résultat attendu : le retard scolaire va souvent de pair avec des difficultés.
+
+## Le modèle est-il fiable ?
+
+Un modèle ne vaut que s'il prédit correctement. On mesure sa qualité avec deux indicateurs : le **pseudo-R² de McFadden**, et l'**aire sous la courbe ROC** (AUC). L'AUC donne la probabilité que le modèle attribue un meilleur score à un admis pris au hasard qu'à un non-admis.
+
+```{r qualite}
+#| include: false
+# Pseudo-R2 de McFadden
+mod0 <- glm(admis ~ 1, data = dm, family = binomial())
+mcfadden <- 1 - as.numeric(logLik(mod)) / as.numeric(logLik(mod0))
+
+# AUC via la statistique de Mann-Whitney (sans dépendance externe)
+pr  <- predict(mod, type = "response")
+r   <- rank(pr)
+n1  <- sum(dm$admis == 1); n0 <- sum(dm$admis == 0)
+auc <- (sum(r[dm$admis == 1]) - n1 * (n1 + 1) / 2) / (n1 * n0)
+```
+
+Le pseudo-R² de McFadden vaut **`r num_fr(mcfadden, 0.001)`** et l'AUC **`r num_fr(auc, 0.001)`**. Ces valeurs sont modérées, et c'est déjà une information. Avec seulement la série, la région et l'âge, on prédit l'admission mieux que le hasard (une AUC de `r num_fr(auc, 0.001)` reste bien au-dessus de 0,5, la valeur du pur hasard), mais on est loin de tout expliquer. Ce qui sépare vraiment un admis d'un recalé dépend surtout d'autres choses : l'établissement, la qualité de la préparation, le parcours de chacun. Ces informations ne sont pas dans les données. Le modèle donne les grandes tendances, mais il ne résume pas tout.
+
+::: {.encadre}
+[Comment lire un rapport de cotes]{.etiquette}
+Un rapport de cotes de 2 veut dire que la *cote* d'admission (le rapport « chances de réussir sur chances d'échouer ») est deux fois plus élevée que pour la référence, les autres facteurs restant identiques. Ce n'est pas exactement la même chose que doubler la *probabilité* : quand le taux de base est faible, les deux sont proches, mais l'écart grandit quand la probabilité s'approche de 100 %.
+:::

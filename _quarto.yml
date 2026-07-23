@@ -1,0 +1,74 @@
+project:
+  type: website
+  output-dir: docs
+  execute-dir: project
+  render:
+    - "pages/*.qmd"
+  resources:
+    - "assets/**"
+    - "index.html"
+    - ".nojekyll"
+
+execute:
+  freeze: auto
+  warning: false
+  message: false
+  echo: false
+
+website:
+  title: "Baccalauréat 2026"
+  description: "Une lecture statistique des résultats du baccalauréat mauritanien session normale 2026."
+  site-url: "https://mr-bac2026.github.io/"
+  favicon: assets/logo.svg
+  page-navigation: true
+  reader-mode: false
+  back-to-top-navigation: true
+  navbar:
+    background: light
+    title: false
+    collapse-below: lg
+    left:
+      - text: "Ouverture"
+        href: pages/index.qmd
+      - text: "Panorama"
+        href: pages/panorama.qmd
+      - text: "Géographie"
+        href: pages/geographie.qmd
+      - text: "Filières"
+        href: pages/filieres.qmd
+      - text: "Réussir"
+        href: pages/reussite.qmd
+      - text: "Établissements"
+        href: pages/etablissements.qmd
+      - text: "Méthode"
+        href: pages/methodologie.qmd
+    right:
+      - icon: github
+        href: https://github.com/mr-bac2026/mr-bac2026.github.io
+        aria-label: "Code source sur GitHub"
+  page-footer:
+    border: true
+    left: "Résultats du baccalauréat 2026 (session normale)"
+
+format:
+  html:
+    lang: fr
+    theme:
+      - cosmo
+      - assets/theme.scss
+    toc: true
+    toc-title: "Sur cette page"
+    toc-depth: 3
+    number-sections: false
+    fig-align: center
+    fig-dpi: 300
+    fig-format: png
+    code-fold: false
+    code-tools: false
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-newwindow: true
+    grid:
+      body-width: 900px
+      sidebar-width: 240px
+      margin-width: 240px

@@ -1,0 +1,118 @@
+---
+title: "Les filières face à l'examen"
+subtitle: "Un même diplôme, mais des chemins très différents. Selon la série choisie, le programme et les chances de réussite ne sont pas les mêmes."
+---
+
+```{r setup}
+#| include: false
+source("R/common.R")
+library(ggridges)
+d <- lire_bac()
+
+# Ordonne les séries par effectif décroissant, regroupe les marginales
+par_serie <- synth_taux(d, serie) |> arrange(desc(n))
+ordre_serie <- par_serie$serie
+d <- d |> mutate(serie = factor(serie, levels = ordre_serie))
+```
+
+::: {.chapo}
+Le baccalauréat n'est pas un examen unique : il se décline en plusieurs séries. Sciences naturelles, mathématiques, lettres modernes, lettres originelles : chaque série a son propre programme. Les effectifs sont très inégaux. Quelques grandes filières scientifiques et littéraires rassemblent presque tous les candidats, alors que les séries techniques n'en comptent que quelques dizaines. Et ces filières n'offrent pas les mêmes chances de réussite.
+:::
+
+## Le poids de chaque filière
+
+Avant de comparer les taux, regardons les effectifs. La série des sciences naturelles est de loin la plus nombreuse. Les deux séries de lettres viennent ensuite. Les séries techniques et les langues ne comptent, elles, que quelques dizaines de candidats.
+
+```{r effectifs-serie}
+#| fig-width: 8
+#| fig-height: 3.8
+#| fig-alt: "Effectifs par série."
+ggplot(par_serie, aes(x = n, y = fct_reorder(serie, n))) +
+  geom_col(width = 0.68, fill = BAC_COL$encre_douce) +
+  geom_text(aes(label = format(n, big.mark = " ")), hjust = -0.12,
+            family = BAC_FONT_BODY, size = 3, colour = BAC_COL$encre) +
+  scale_x_continuous(limits = c(0, max(par_serie$n) * 1.15), expand = expansion(c(0, 0))) +
+  labs(title = "Les sciences naturelles, série la plus choisie",
+       subtitle = "Nombre de candidats par série à la session normale 2026.",
+       x = NULL, y = NULL, caption = SRC) +
+  theme_bac() +
+  theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
+```
+
+## Le taux d'admission par série
+
+Voici le point central. Chaque série a son taux d'admission, avec son intervalle de confiance. Pour les très petites filières, l'incertitude est grande : mieux vaut ne pas trop se fier à leur rang. Pour les grandes filières, en revanche, les écarts sont fiables.
+
+```{r taux-serie}
+#| fig-width: 8
+#| fig-height: 4.2
+#| fig-alt: "Taux d'admission par série avec intervalles de confiance."
+ps <- par_serie |> filter(n >= 100)  # on écarte les séries trop rares du classement
+ggplot(ps, aes(x = taux, y = fct_reorder(serie, taux))) +
+  geom_segment(aes(x = bas, xend = haut, yend = serie),
+               colour = BAC_COL$trait, linewidth = 1.5) +
+  geom_point(aes(colour = taux), size = 3.2) +
+  geom_text(aes(label = pct_fr(taux)), hjust = -0.35, vjust = -0.5,
+            family = BAC_FONT_BODY, size = 2.9, colour = BAC_COL$encre_douce) +
+  scale_colour_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
+  scale_x_continuous(labels = label_percent(accuracy = 1),
+                     limits = c(0, max(ps$haut) * 1.1)) +
+  labs(title = "Les séries scientifiques réussissent mieux",
+       subtitle = "Taux d'admission par série (≥ 100 candidats) et intervalle de confiance à 95 %.",
+       x = "Taux d'admission", y = NULL, caption = SRC) +
+  theme_bac() + theme(panel.grid.major.y = element_blank())
+```
+
+La différence est nette. Les séries scientifiques, avec les mathématiques en tête puis les sciences naturelles, réussissent bien mieux que les séries littéraires. Les lettres originelles, qui regroupent pourtant un candidat sur cinq, sont en bas du classement des grandes filières. Ce n'est pas un jugement sur les disciplines, mais un constat sur les résultats.
+
+## La répartition des notes, série par série
+
+Un taux résume beaucoup de choses en un seul chiffre. Pour voir comment les notes se répartissent dans chaque série, le graphique ci-dessous superpose leurs distributions. Chaque courbe représente une filière, et la ligne verticale marque le seuil d'admission à 10.
+
+```{r ridgeline}
+#| fig-width: 8
+#| fig-height: 5.2
+#| fig-alt: "Distributions des moyennes par série (ridgeline)."
+dr <- d |> filter(present == 1, !is.na(moyenne), serie %in% ps$serie)
+
+ggplot(dr, aes(x = moyenne, y = fct_reorder(serie, moyenne, .fun = median),
+               fill = after_stat(x))) +
+  ggridges::geom_density_ridges_gradient(scale = 2.1, rel_min_height = 0.01,
+                                         colour = BAC_COL$papier, linewidth = 0.3) +
+  geom_vline(xintercept = 10, linetype = "dashed", colour = BAC_COL$encre, linewidth = 0.4) +
+  scale_fill_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
+  scale_x_continuous(breaks = seq(0, 18, 2), limits = c(0, 18)) +
+  labs(title = "Toutes les séries ont leur sommet sous la barre des 10",
+       subtitle = "Distribution des moyennes par série, ordonnée par médiane croissante. Tiret : seuil d'admission.",
+       x = "Moyenne générale (sur 20)", y = NULL, caption = SRC) +
+  theme_bac() +
+  theme(panel.grid.major.y = element_blank())
+```
+
+Le résultat est frappant : dans toutes les séries, le sommet de la courbe se trouve à gauche de la barre des 10. Aucune filière n'a sa médiane du côté de l'admission. Ce qui distingue les séries, c'est la part de candidats qui atteignent les bonnes notes, à droite. Les mathématiques et les sciences naturelles en ont un peu plus ; les lettres, très peu.
+
+## La série et la réussite sont-elles liées ?
+
+On voit bien un lien entre la série et la réussite. On peut le vérifier avec un test statistique. Le **test du khi-deux** compare la répartition réelle des décisions, série par série, à celle qu'on aurait si la série et la réussite n'avaient aucun rapport.
+
+```{r chi2}
+#| include: false
+tab <- d |> filter(present == 1) |>
+  mutate(issue = if_else(admis == 1, "Admis", "Non admis")) |>
+  {\(x) table(x$serie, x$issue)}()
+khi <- chisq.test(tab)
+v_cramer <- sqrt(as.numeric(khi$statistic) / (sum(tab) * (min(dim(tab)) - 1)))
+```
+
+Le résultat est très clair. La statistique du khi-deux vaut **`r format(round(khi$statistic), big.mark=" ")`** pour `r khi$parameter` degrés de liberté, et la probabilité qu'un tel écart soit dû au hasard est infime (p < 0,0001). Il existe donc bien un lien entre la série et la réussite. Reste à en mesurer la force : le **V de Cramér**, qui varie de 0 (aucun lien) à 1 (lien parfait), vaut **`r num_fr(v_cramer, 0.01)`**. Le lien est donc réel mais modéré. La série compte, mais elle ne décide pas de tout : une grande partie du résultat se joue à l'intérieur de chaque filière.
+
+## Des niveaux de notes vraiment différents ?
+
+Il reste à vérifier que les moyennes elles-mêmes sont différentes d'une série à l'autre, et pas seulement le fait de passer un seuil. Comme les distributions ne sont pas symétriques, on utilise le **test de Kruskal-Wallis**, qui compare les rangs plutôt que les moyennes.
+
+```{r kruskal}
+#| include: false
+kw <- kruskal.test(moyenne ~ serie, data = d |> filter(present == 1, serie %in% ps$serie))
+```
+
+Là encore, la différence est très nette : la statistique du test vaut **`r format(round(kw$statistic), big.mark=" ")`** pour `r kw$parameter` degrés de liberté, avec une probabilité quasi nulle que ce soit le fruit du hasard (p < 0,0001). Les séries ne se distinguent donc pas seulement par leur taux d'admission : c'est l'ensemble de leurs notes qui est différent. Le choix d'une filière, souvent fait vers quinze ans, a donc un vrai effet sur les chances de réussite. La page [Réussir](reussite.qmd) sépare ce facteur des autres, pour mesurer son poids une fois la région et l'âge pris en compte.

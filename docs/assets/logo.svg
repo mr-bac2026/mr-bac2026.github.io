@@ -1,0 +1,12 @@
+<svg width="60" height="40" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drapeau de la Mauritanie">
+  <!-- champ vert -->
+  <rect width="60" height="40" fill="#00a650"/>
+  <!-- bandes rouges (haut et bas), drapeau depuis 2017 -->
+  <rect x="0" y="0" width="60" height="6.5" fill="#d01c1f"/>
+  <rect x="0" y="33.5" width="60" height="6.5" fill="#d01c1f"/>
+  <!-- croissant ouvert vers le haut : disque or moins un disque vert décalé -->
+  <circle cx="30" cy="22" r="8" fill="#ffc400"/>
+  <circle cx="30" cy="18" r="8" fill="#00a650"/>
+  <!-- étoile à cinq branches -->
+  <path fill="#ffc400" d="M30.00 12.00 L30.94 14.71 L33.80 14.76 L31.52 16.49 L32.35 19.24 L30.00 17.60 L27.65 19.24 L28.48 16.49 L26.20 14.76 L29.06 14.71 Z"/>
+</svg>

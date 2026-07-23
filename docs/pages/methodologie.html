@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Méthode, sources et limites – Baccalauréat 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/logo.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6da96a88dd71628f4e6055e6859383af.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/index.html"> 
+<span class="menu-text">Ouverture</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/panorama.html"> 
+<span class="menu-text">Panorama</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/geographie.html"> 
+<span class="menu-text">Géographie</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/filieres.html"> 
+<span class="menu-text">Filières</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/reussite.html"> 
+<span class="menu-text">Réussir</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/etablissements.html"> 
+<span class="menu-text">Établissements</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../pages/methodologie.html" aria-current="page"> 
+<span class="menu-text">Méthode</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mr-bac2026/mr-bac2026.github.io"> <i class="bi bi-github" role="img" aria-label="Code source sur GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#la-source" id="toc-la-source" class="nav-link active" data-scroll-target="#la-source">La source</a></li>
+  <li><a href="#les-traitements-appliqués" id="toc-les-traitements-appliqués" class="nav-link" data-scroll-target="#les-traitements-appliqués">Les traitements appliqués</a></li>
+  <li><a href="#les-méthodes-statistiques" id="toc-les-méthodes-statistiques" class="nav-link" data-scroll-target="#les-méthodes-statistiques">Les méthodes statistiques</a></li>
+  <li><a href="#ce-que-ces-données-ne-disent-pas" id="toc-ce-que-ces-données-ne-disent-pas" class="nav-link" data-scroll-target="#ce-que-ces-données-ne-disent-pas">Ce que ces données ne disent pas</a></li>
+  <li><a href="#reproductibilité" id="toc-reproductibilité" class="nav-link" data-scroll-target="#reproductibilité">Reproductibilité</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Méthode, sources et limites</h1>
+<p class="subtitle lead">Une analyse doit être transparente. Voici d’où viennent les chiffres, comment ils ont été traités, et ce qu’ils ne permettent pas de dire.</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapo">
+<p>Ce site repose sur une seule source de données et sur un principe simple : ne dire que ce que les données montrent, et signaler clairement ce qu’elles ne permettent pas de savoir. Cette page détaille les traitements appliqués, pour que chacun puisse, s’il le souhaite, refaire le travail ou en discuter les choix.</p>
+</div>
+<section id="la-source" class="level2">
+<h2 class="anchored" data-anchor-id="la-source">La source</h2>
+<p>Les résultats proviennent des relevés de la <strong>session normale du baccalauréat 2026</strong>, publiés par la Direction en charge des examens. Chaque ligne correspond à un candidat : numéro de région, wilaya, centre d’examen, établissement, série, nom, lieu et date de naissance, moyenne générale et décision du jury. Le fichier de départ, au format tableur, a été converti puis analysé sans jamais modifier une valeur individuelle.</p>
+<p>Le fond de carte des wilayas est issu du projet <strong>geoBoundaries</strong> (niveau administratif 1), une base ouverte de délimitations administratives mondiales.</p>
+<div class="reperes">
+<div class="repere">
+<p><span class="chiffre">64 532</span> <span class="libelle">Candidats analysés</span></p>
+</div>
+<div class="repere">
+<p><span class="chiffre">18</span> <span class="libelle">Variables par candidat</span></p>
+</div>
+</div>
+</section>
+<section id="les-traitements-appliqués" class="level2">
+<h2 class="anchored" data-anchor-id="les-traitements-appliqués">Les traitements appliqués</h2>
+<p>Le nettoyage a été volontairement limité et il est documenté :</p>
+<ul>
+<li><strong>Espaces.</strong> Les noms de centres et d’établissements contenaient parfois des espaces en double, ramenés à un seul. Sans cela, un même établissement pouvait apparaître sous deux orthographes.</li>
+<li><strong>Moyennes.</strong> Converties en nombre. Aucune note n’a été retirée ni corrigée.</li>
+<li><strong>Décisions.</strong> Regroupées en cinq catégories : admis, sessionnaire, ajourné, absent, et examen annulé (surtout pour usage de téléphone).</li>
+<li><strong>Âge.</strong> Calculé à partir de l’année de naissance. Les dates manifestement fausses (moins de 15 ou plus de 30 ans, souvent des erreurs de saisie) ont été <strong>gardées dans les effectifs</strong> mais <strong>exclues seulement des analyses sur l’âge</strong>, pour ne pas les fausser.</li>
+<li><strong>Mentions.</strong> Recalculées à partir de la moyenne selon les seuils habituels (passable dès 10, assez bien dès 12, bien dès 14, très bien dès 16), et attribuées uniquement aux admis.</li>
+</ul>
+<div class="encadre">
+<p><span class="etiquette">Le cas de Nouakchott</span> Les données séparent la capitale en trois wilayas (Nouakchott Nord, Sud et Ouest) alors que le fond de carte n’en compte qu’une. Pour les <strong>cartes</strong>, les trois ont donc été regroupées en une seule forme « Nouakchott ». Partout ailleurs (classements, modèles, tableaux), les trois wilayas sont gardées séparées, comme dans les données. C’est pourquoi le nombre de régions passe de 15 à 13 selon qu’on regarde une carte ou un classement.</p>
+</div>
+</section>
+<section id="les-méthodes-statistiques" class="level2">
+<h2 class="anchored" data-anchor-id="les-méthodes-statistiques">Les méthodes statistiques</h2>
+<p>Plusieurs outils ont été utilisés, chacun pour une raison précise :</p>
+<ul>
+<li>Les <strong>intervalles de confiance de Wilson</strong> encadrent chaque taux d’admission. Ils sont plus fiables que la méthode classique quand le nombre de candidats est faible, et évitent de présenter comme sûre une estimation fragile.</li>
+<li>Le <strong>test du khi-deux</strong> et le <strong>V de Cramér</strong> mesurent le lien entre série et réussite ; le <strong>test de Kruskal-Wallis</strong> compare les notes entre filières sans supposer qu’elles suivent une loi normale.</li>
+<li>La <strong>régression logistique</strong> mesure l’effet de chaque facteur (série, wilaya, âge) sur les chances d’être admis, une fois les autres pris en compte. Sa qualité est évaluée par le pseudo-R² de McFadden et l’aire sous la courbe ROC.</li>
+<li>Le <strong>graphique en entonnoir</strong> sépare, parmi les établissements, les vraies réussites des simples effets du petit nombre de candidats.</li>
+</ul>
+<p>Le tout a été réalisé avec R et l’outil de publication Quarto. Le code source complet, qui régénère l’ensemble du site à partir des données, est disponible dans le dépôt du projet.</p>
+</section>
+<section id="ce-que-ces-données-ne-disent-pas" class="level2">
+<h2 class="anchored" data-anchor-id="ce-que-ces-données-ne-disent-pas">Ce que ces données ne disent pas</h2>
+<p>Il est important de dire ce que ces données ne permettent pas de savoir :</p>
+<ul>
+<li><strong>Aucune donnée sociale ou économique.</strong> Ni revenu, ni métier des parents, ni caractère public ou privé de l’établissement. Ces facteurs jouent pourtant beaucoup sur la réussite scolaire partout dans le monde. On ne peut donc rien conclure sur les causes profondes des écarts observés.</li>
+<li><strong>Pas d’information sur le genre.</strong> Le fichier ne contient pas d’information fiable sur le sexe des candidats. Nous n’avons pas voulu la deviner à partir des prénoms, car cela aurait ajouté une donnée inventée. L’analyse ne dit donc rien sur les différences entre filles et garçons.</li>
+<li><strong>Une seule session, une seule année.</strong> Sans les années précédentes, on ne peut pas dire si 2026 est une amélioration, une baisse ou la continuité. Les constats décrivent une seule photo, pas une évolution.</li>
+<li><strong>La session complémentaire n’est pas incluse.</strong> Une partie des sessionnaires sera admise plus tard ; le taux d’admission final de cette génération sera donc plus élevé que celui présenté ici, limité à la session normale.</li>
+<li><strong>Un lien n’est pas une cause.</strong> Le fait qu’une série ou une région soit liée à de meilleurs résultats ne veut pas dire qu’elle en est la cause. Les raisons de fond (sélection des élèves, moyens, contexte) ne sont pas dans ces données.</li>
+</ul>
+</section>
+<section id="reproductibilité" class="level2">
+<h2 class="anchored" data-anchor-id="reproductibilité">Reproductibilité</h2>
+<p>Toute l’analyse est faite par du code. À partir du fichier de résultats et du fond de carte, l’ensemble des graphiques, tableaux et statistiques se recalcule d’une seule commande. Cette page, comme les autres, vient directement de ce code, sans modification manuelle des chiffres. C’est la meilleure garantie possible : nos conclusions ne sont pas les seules envisageables, mais elles sont au moins vérifiables.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Retour au sommet</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/mr-bac2026\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Résultats du baccalauréat 2026 (session normale)</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
