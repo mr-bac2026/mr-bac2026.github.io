@@ -10,3 +10,4 @@ scratch_*
 *.tmp
 
 **/*.quarto_ipynb
+_build/

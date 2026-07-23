@@ -1,11 +1,11 @@
+# Configuration de base, partagée par les trois langues.
+# La liste des pages (render), la navbar et les libellés traduits vivent dans
+# les profils : _quarto-fr.yml, _quarto-en.yml, _quarto-ar.yml.
+# Construire le site avec ./render.sh (rend chaque profil).
 project:
   type: website
   output-dir: docs
   execute-dir: project
-  render:
-    - "pages/fr/*.qmd"
-    - "pages/en/*.qmd"
-    - "pages/ar/*.qmd"
   resources:
     - "assets/**"
     - "index.html"
@@ -18,49 +18,20 @@ execute:
   echo: false
 
 website:
-  title: "Baccalauréat 2026"
   description: "Une lecture statistique des résultats du baccalauréat mauritanien session normale 2026."
   site-url: "https://mr-bac2026.github.io/"
   favicon: assets/logo.svg
   page-navigation: true
   reader-mode: false
   back-to-top-navigation: true
-  navbar:
-    background: light
-    title: false
-    collapse-below: lg
-    left:
-      - text: "Ouverture"
-        href: pages/fr/index.qmd
-      - text: "Panorama"
-        href: pages/fr/panorama.qmd
-      - text: "Géographie"
-        href: pages/fr/geographie.qmd
-      - text: "Filières"
-        href: pages/fr/filieres.qmd
-      - text: "Réussir"
-        href: pages/fr/reussite.qmd
-      - text: "Établissements"
-        href: pages/fr/etablissements.qmd
-      - text: "Méthode"
-        href: pages/fr/methodologie.qmd
-    right:
-      - icon: github
-        href: https://github.com/mr-bac2026/mr-bac2026.github.io
-        aria-label: "Code source sur GitHub"
-  page-footer:
-    border: true
-    left: "Résultats du baccalauréat 2026 (session normale)"
 
 format:
   html:
-    lang: fr
     include-in-header: assets/cf-analytics.html
     theme:
       - cosmo
       - assets/theme.scss
     toc: true
-    toc-title: "Sur cette page"
     toc-depth: 3
     number-sections: false
     fig-align: center

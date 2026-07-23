@@ -1,0 +1,46 @@
+# English profile — build: quarto render --profile en
+project:
+  output-dir: _build/en
+  render:
+    - "pages/en/*.qmd"
+
+website:
+  title: "Baccalaureate 2026"
+  navbar:
+    background: light
+    title: false
+    collapse-below: lg
+    left:
+      - text: "Home"
+        href: pages/en/index.qmd
+      - text: "Overview"
+        href: pages/en/panorama.qmd
+      - text: "Geography"
+        href: pages/en/geographie.qmd
+      - text: "Tracks"
+        href: pages/en/filieres.qmd
+      - text: "Success"
+        href: pages/en/reussite.qmd
+      - text: "Schools"
+        href: pages/en/etablissements.qmd
+      - text: "Method"
+        href: pages/en/methodologie.qmd
+    right:
+      - text: "EN"
+        menu:
+          - text: "Français"
+            href: /pages/fr/index.html
+          - text: "English"
+            href: /pages/en/index.html
+          - text: "العربية"
+            href: /pages/ar/index.html
+      - icon: github
+        href: https://github.com/mr-bac2026/mr-bac2026.github.io
+        aria-label: "Source code on GitHub"
+  page-footer:
+    border: true
+    left: "Baccalaureate 2026 results (normal session)"
+
+format:
+  html:
+    toc-title: "On this page"

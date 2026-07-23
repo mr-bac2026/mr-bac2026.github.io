@@ -1,0 +1,28 @@
+---
+title: "Method, sources and limits"
+subtitle: "An analysis must be transparent. Here is where the figures come from, how they were processed, and what they cannot say."
+---
+
+::: {.callout-note}
+This page is being translated; the narrative text is not final.
+:::
+
+## The source
+
+*Text to be translated.*
+
+## The processing applied
+
+*Text to be translated.*
+
+## Statistical methods
+
+*Text to be translated.*
+
+## What this data does not say
+
+*Text to be translated.*
+
+## Reproducibility
+
+*Text to be translated.*

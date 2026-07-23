@@ -1,0 +1,46 @@
+# Profil français — rendu : quarto render --profile fr
+project:
+  output-dir: _build/fr
+  render:
+    - "pages/fr/*.qmd"
+
+website:
+  title: "Baccalauréat 2026"
+  navbar:
+    background: light
+    title: false
+    collapse-below: lg
+    left:
+      - text: "Ouverture"
+        href: pages/fr/index.qmd
+      - text: "Panorama"
+        href: pages/fr/panorama.qmd
+      - text: "Géographie"
+        href: pages/fr/geographie.qmd
+      - text: "Filières"
+        href: pages/fr/filieres.qmd
+      - text: "Réussir"
+        href: pages/fr/reussite.qmd
+      - text: "Établissements"
+        href: pages/fr/etablissements.qmd
+      - text: "Méthode"
+        href: pages/fr/methodologie.qmd
+    right:
+      - text: "FR"
+        menu:
+          - text: "Français"
+            href: /pages/fr/index.html
+          - text: "English"
+            href: /pages/en/index.html
+          - text: "العربية"
+            href: /pages/ar/index.html
+      - icon: github
+        href: https://github.com/mr-bac2026/mr-bac2026.github.io
+        aria-label: "Code source sur GitHub"
+  page-footer:
+    border: true
+    left: "Résultats du baccalauréat 2026 (session normale)"
+
+format:
+  html:
+    toc-title: "Sur cette page"
