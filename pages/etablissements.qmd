@@ -35,14 +35,16 @@ top |>
   transmute(Établissement = etab, Wilaya = wilaya, Candidats = n,
             `Taux d'admission` = taux, `Moyenne` = moyenne) |>
   gt() |>
-  fmt_percent(columns = `Taux d'admission`, decimals = 1, dec_mark = ",", sep_mark = " ") |>
+  fmt_percent(columns = `Taux d'admission`, decimals = 1,
+              dec_mark = ",", sep_mark = " ") |>
   fmt_number(columns = Moyenne, decimals = 2, dec_mark = ",") |>
   data_color(columns = `Taux d'admission`,
              fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
   cols_align("left", columns = c(Établissement, Wilaya)) |>
   tab_header(title = md("**Les douze établissements les mieux classés**"),
-             subtitle = "Parmi ceux ayant présenté au moins 30 candidats (session normale 2026)") |>
-  tab_source_note(md("*Source : Direction des examens. Calculs de l'auteur.*")) |>
+             subtitle = paste("Parmi ceux ayant présenté au moins 30",
+                              "candidats (session normale 2026)")) |>
+  tab_source_note(md(SRC_NOTE)) |>
   tab_options(table.font.size = px(13), table.width = pct(100),
               heading.title.font.size = px(16))
 ```
@@ -57,8 +59,8 @@ L'outil adapté s'appelle le **graphique en entonnoir** (*funnel plot*). Chaque 
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Graphique en entonnoir des établissements."
-grille <- tibble::tibble(
-    n = 10^seq(log10(10), log10(max(par_etab$n)), length.out = 250)) |>
+grille <- tibble::tibble(n = 10^seq(log10(10), log10(max(par_etab$n)),
+                                    length.out = 250)) |>
   mutate(
     se  = sqrt(tx_global * (1 - tx_global) / n),
     h95 = pmin(1, tx_global + 1.96 * se), b95 = pmax(0, tx_global - 1.96 * se),
@@ -88,11 +90,14 @@ ggplot() +
            colour = BAC_COL$terre, fill = BAC_COL$papier,
            label.size = 0, label.padding = unit(1.6, "pt")) +
   scale_size_area(max_size = 6, guide = "none") +
-  scale_x_log10(labels = label_number(big.mark = " "), expand = expansion(c(0.02, 0.03))) +
+  scale_x_log10(labels = label_number(big.mark = " "),
+                expand = expansion(c(0.02, 0.03))) +
   scale_y_continuous(labels = label_percent(accuracy = 1), limits = c(0, NA)) +
   labs(title = "Les établissements qui sortent vraiment du lot",
-       subtitle = "Chaque point est un établissement. Bandes : intervalles attendus à 95 % et 99 %.",
-       x = "Nombre de candidats (échelle logarithmique)", y = "Taux d'admission",
+       subtitle = paste("Chaque point est un établissement.",
+                        "Bandes : intervalles attendus à 95 % et 99 %."),
+       x = "Nombre de candidats (échelle logarithmique)",
+       y = "Taux d'admission",
        caption = SRC) +
   theme_bac()
 ```
@@ -114,12 +119,16 @@ solides |>
   transmute(Établissement = etab, Wilaya = wilaya, Candidats = n,
             `Taux` = taux, `IC 95 % (bas)` = bas) |>
   gt() |>
-  fmt_percent(columns = c(Taux, `IC 95 % (bas)`), decimals = 1, dec_mark = ",", sep_mark = " ") |>
-  data_color(columns = Taux, fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
+  fmt_percent(columns = c(Taux, `IC 95 % (bas)`), decimals = 1,
+              dec_mark = ",", sep_mark = " ") |>
+  data_color(columns = Taux,
+             fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
   cols_align("left", columns = c(Établissement, Wilaya)) |>
   tab_header(title = md("**Les établissements les plus solides**"),
-             subtitle = "Au moins 50 candidats et borne basse de l'IC 95 % au-dessus de la moyenne nationale") |>
-  tab_source_note(md("*Source : Direction des examens. Calculs de l'auteur.*")) |>
+             subtitle = paste("Au moins 50 candidats et borne basse",
+                              "de l'IC 95 % au-dessus de la moyenne",
+                              "nationale")) |>
+  tab_source_note(md(SRC_NOTE)) |>
   tab_options(table.font.size = px(13), table.width = pct(100),
               heading.title.font.size = px(16))
 ```

@@ -122,6 +122,8 @@ if (requireNamespace("knitr", quietly = TRUE)) {
 }
 
 SRC <- "Source : Direction des examens, résultats du baccalauréat 2026 (session normale). Calculs de l'auteur."
+# Variante courte (markdown) pour les notes de bas de tableau gt.
+SRC_NOTE <- "*Source : Direction des examens. Calculs de l'auteur.*"
 
 # =============================================================================
 #  DONNÉES

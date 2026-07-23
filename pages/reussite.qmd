@@ -56,11 +56,14 @@ os <- ors |>
 
 ggplot(os, aes(x = or, y = fct_reorder(lab, or))) +
   geom_vline(xintercept = 1, colour = BAC_COL$encre_douce, linewidth = 0.4) +
-  geom_segment(aes(x = bas, xend = haut, yend = lab), colour = BAC_COL$trait, linewidth = 1.5) +
+  geom_segment(aes(x = bas, xend = haut, yend = lab),
+               colour = BAC_COL$trait, linewidth = 1.5) +
   geom_point(colour = BAC_COL$terre, size = 3) +
   scale_x_log10() +
   labs(title = "À région égale, la série compte toujours",
-       subtitle = "Rapports de cotes d'admission par série, référence : sciences naturelles. Échelle logarithmique.",
+       subtitle = paste("Rapports de cotes d'admission par série,",
+                        "référence : sciences naturelles.",
+                        "Échelle logarithmique."),
        x = "Rapport de cotes (admission)", y = NULL, caption = SRC) +
   theme_bac() + theme(panel.grid.major.y = element_blank())
 ```
@@ -81,16 +84,23 @@ ow <- ors |>
 
 ggplot(ow, aes(x = or, y = lab)) +
   geom_vline(xintercept = 1, colour = BAC_COL$encre, linewidth = 0.5) +
-  geom_segment(aes(x = bas, xend = haut, yend = lab), colour = BAC_COL$trait, linewidth = 1.4) +
-  geom_point(aes(fill = or), shape = 21, colour = BAC_COL$papier, size = 3.4, stroke = 0.6) +
-  # la seule wilaya dont l'écart n'est pas significatif est signalée par un contour
+  geom_segment(aes(x = bas, xend = haut, yend = lab),
+               colour = BAC_COL$trait, linewidth = 1.4) +
+  geom_point(aes(fill = or), shape = 21, colour = BAC_COL$papier,
+             size = 3.4, stroke = 0.6) +
+  # la seule wilaya dont l'écart n'est pas significatif
+  # est signalée par un contour
   geom_point(data = ~ subset(.x, ns), shape = 21, fill = NA,
              colour = BAC_COL$encre, size = 5, stroke = 0.7) +
   scale_fill_gradientn(colours = rev(BAC_SEQ_CHAUD), guide = "none") +
   scale_x_log10(expand = expansion(c(0.05, 0.08))) +
   labs(title = "Après la filière, la géographie garde du poids",
-       subtitle = "Rapports de cotes d'admission par wilaya (référence : Nouakchott Ouest). Le cercle évidé marque le seul écart non significatif à 5 %.",
-       x = "Rapport de cotes (admission, échelle logarithmique)", y = NULL, caption = SRC) +
+       subtitle = paste("Rapports de cotes d'admission par wilaya",
+                        "(référence : Nouakchott Ouest).",
+                        "Le cercle évidé marque le seul écart",
+                        "non significatif à 5 %."),
+       x = "Rapport de cotes (admission, échelle logarithmique)",
+       y = NULL, caption = SRC) +
   theme_bac() + theme(panel.grid.major.y = element_blank())
 ```
 
@@ -116,7 +126,8 @@ ggplot(pa, aes(x = age_val, y = taux)) +
   scale_y_continuous(labels = label_percent(accuracy = 1)) +
   scale_x_continuous(breaks = seq(15, 30, 1)) +
   labs(title = "Passer tôt, réussir mieux",
-       subtitle = "Taux d'admission selon l'âge du candidat (points dimensionnés par effectif).",
+       subtitle = paste("Taux d'admission selon l'âge du candidat",
+                        "(points dimensionnés par effectif)."),
        x = "Âge au moment de l'examen", y = "Taux d'admission", caption = SRC) +
   theme_bac()
 ```
