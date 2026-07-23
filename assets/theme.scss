@@ -223,6 +223,18 @@ html[lang="ar"] .navbar .nav-link[href*="#l-ar"]::before {
 // Espace entre le groupe de drapeaux et les onglets.
 .navbar .nav-link[href*="#l-ar"] { margin-inline-end: 1rem; }
 
+// RTL : Bootstrap n'inverse pas .me-auto / .ms-auto sans sa feuille RTL, donc
+// la navbar arabe reste décalée. On échange les marges automatiques nous-mêmes
+// pour que les drapeaux collent au bord (droite en RTL).
+html[dir="rtl"] .navbar .navbar-nav.me-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+html[dir="rtl"] .navbar .navbar-nav.ms-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
 // --- Divers ----------------------------------------------------------------
 a { text-underline-offset: 2px; }
 pre.sourceCode { background: $paper-alt; border: 1px solid $rule; border-radius: 3px; }
