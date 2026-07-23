@@ -179,91 +179,48 @@ $flag-fr: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmc
 $flag-en: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2MCAzMCc+PGNsaXBQYXRoIGlkPSdhJz48cGF0aCBkPSdNMCAwdjMwaDYwVjB6Jy8+PC9jbGlwUGF0aD48Y2xpcFBhdGggaWQ9J2InPjxwYXRoIGQ9J00zMCAxNWgzMHYxNXp2MTVIMHpIMFYwelYwaDMweicvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSd1cmwoI2EpJz48cGF0aCBkPSdNMCAwdjMwaDYwVjB6JyBmaWxsPScjMDEyMTY5Jy8+PHBhdGggZD0nTTAgMCA2MCAzMG0wLTMwTDAgMzAnIHN0cm9rZT0nI2ZmZicgc3Ryb2tlLXdpZHRoPSc2Jy8+PHBhdGggZD0nTTAgMCA2MCAzMG0wLTMwTDAgMzAnIGNsaXAtcGF0aD0ndXJsKCNiKScgc3Ryb2tlPScjQzgxMDJFJyBzdHJva2Utd2lkdGg9JzQnLz48cGF0aCBkPSdNMzAgMHYzME0wIDE1aDYwJyBzdHJva2U9JyNmZmYnIHN0cm9rZS13aWR0aD0nMTAnLz48cGF0aCBkPSdNMzAgMHYzME0wIDE1aDYwJyBzdHJva2U9JyNDODEwMkUnIHN0cm9rZS13aWR0aD0nNicvPjwvZz48L3N2Zz4=");
 $flag-mr: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzMCAyMCc+PHJlY3Qgd2lkdGg9JzMwJyBoZWlnaHQ9JzIwJyBmaWxsPScjY2QyYTNlJy8+PHJlY3QgeT0nNCcgd2lkdGg9JzMwJyBoZWlnaHQ9JzEyJyBmaWxsPScjMDA2MjMzJy8+PGNpcmNsZSBjeD0nMTUnIGN5PScxMS42JyByPSc0LjMnIGZpbGw9JyNmZmM0MDAnLz48Y2lyY2xlIGN4PScxNScgY3k9JzkuMScgcj0nNC4zJyBmaWxsPScjMDA2MjMzJy8+PHBhdGggZmlsbD0nI2ZmYzQwMCcgZD0nTTE1IDguMWwuNjYgMi4wM2gyLjEzbC0xLjcyIDEuMjUuNjYgMi4wM0wxNSAxMi4ybC0xLjczIDEuMjUuNjYtMi4wMy0xLjcyLTEuMjVoMi4xM3onLz48L3N2Zz4=");
 
-$flag-w: 22px;
-$flag-h: 15px;
+$flag-w: 25px;
+$flag-h: 17px;
 
-.navbar .nav-item.dropdown > .dropdown-toggle {
+// Trois liens-drapeaux inline, repérés par l'ancre #l-XX (distincte des
+// onglets). Langue courante en couleur, les autres en gris.
+.navbar .nav-link[href*="#l-"] {
   display: inline-flex;
   align-items: center;
-  gap: .34rem;
-  padding: .32rem .4rem;
-  margin-inline-start: .1rem;
-  font-size: 0;                        // masque le code FR/EN/ع (gardé pour a11y)
-  border: 0;
-  border-radius: 8px;
-  line-height: 1;
-  transition: background .15s ease;
+  padding: .4rem .3rem;
+  font-size: 0;                  // masque le libellé (conservé pour l'accessibilité)
 }
-.navbar .nav-item.dropdown > .dropdown-toggle::before {
+.navbar .nav-link[href*="#l-"]::before {
   content: "";
   width: $flag-w;
   height: $flag-h;
-  flex: 0 0 auto;
-  border-radius: 3px;
-  background-repeat: no-repeat;         // longhand : ne réinitialise pas l'image
-  background-position: center;
-  background-size: cover;
-  box-shadow: 0 0 0 1px rgba($ink, .1), 0 1px 2px rgba($ink, .18);
-}
-.navbar .nav-item.dropdown > .dropdown-toggle::after {   // chevron discret
-  content: "";
-  width: 5px;
-  height: 5px;
-  margin: -2px 0 0 0;
-  border: 0;
-  border-right: 1.5px solid $muted;
-  border-bottom: 1.5px solid $muted;
-  transform: rotate(45deg);
-  transition: border-color .15s ease;
-}
-.navbar .nav-item.dropdown > .dropdown-toggle:hover,
-.navbar .nav-item.dropdown.show > .dropdown-toggle {
-  background: $paper-alt;
-}
-.navbar .nav-item.dropdown.show > .dropdown-toggle::after { border-color: $accent; }
-
-html[lang="fr"] .navbar .nav-item.dropdown > .dropdown-toggle::before { background-image: $flag-fr; }
-html[lang="en"] .navbar .nav-item.dropdown > .dropdown-toggle::before { background-image: $flag-en; }
-html[lang="ar"] .navbar .nav-item.dropdown > .dropdown-toggle::before { background-image: $flag-mr; }
-
-.navbar .dropdown-menu {
-  margin-top: .5rem;
-  min-width: 11rem;
-  padding: .3rem;
-  border: 1px solid $rule;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba($ink, .12);
-}
-.navbar .dropdown-menu .dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: .55rem;
-  padding: .44rem .7rem;
-  border-radius: 5px;
-  font-size: .95rem;
-  font-weight: 500;
-  color: $ink;
-  transition: background .12s ease, color .12s ease;
-}
-.navbar .dropdown-menu .dropdown-item::before {
-  content: "";
-  width: $flag-w;
-  height: $flag-h;
-  flex: 0 0 auto;
   border-radius: 3px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  box-shadow: 0 0 0 1px rgba($ink, .1);
+  box-shadow: 0 0 0 1px rgba($ink, .12);
+  filter: grayscale(1);
+  opacity: .5;
+  transition: filter .15s ease, opacity .15s ease, box-shadow .15s ease;
 }
-.navbar .dropdown-menu .dropdown-item[href*="pages/fr/index"]::before { background-image: $flag-fr; }
-.navbar .dropdown-menu .dropdown-item[href*="pages/en/index"]::before { background-image: $flag-en; }
-.navbar .dropdown-menu .dropdown-item[href*="pages/ar/index"]::before { background-image: $flag-mr; }
-.navbar .dropdown-menu .dropdown-item:hover,
-.navbar .dropdown-menu .dropdown-item:focus {
-  background: $paper-alt;
-  color: $accent;
+.navbar .nav-link[href*="#l-fr"]::before { background-image: $flag-fr; }
+.navbar .nav-link[href*="#l-en"]::before { background-image: $flag-en; }
+.navbar .nav-link[href*="#l-ar"]::before { background-image: $flag-mr; }
+
+.navbar .nav-link[href*="#l-"]:hover::before {
+  filter: grayscale(0);
+  opacity: 1;
 }
+// Langue courante : en couleur + anneau cobalt.
+html[lang="fr"] .navbar .nav-link[href*="#l-fr"]::before,
+html[lang="en"] .navbar .nav-link[href*="#l-en"]::before,
+html[lang="ar"] .navbar .nav-link[href*="#l-ar"]::before {
+  filter: none;
+  opacity: 1;
+  box-shadow: 0 0 0 1.5px $accent, 0 1px 2px rgba($ink, .18);
+}
+// Espace entre le groupe de drapeaux et les onglets.
+.navbar .nav-link[href*="#l-ar"] { margin-inline-end: 1rem; }
 
 // --- Divers ----------------------------------------------------------------
 a { text-underline-offset: 2px; }

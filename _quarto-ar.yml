@@ -11,6 +11,12 @@ website:
     title: false
     collapse-below: lg
     left:
+      - text: "Français"
+        href: /pages/fr/index.html#l-fr
+      - text: "English"
+        href: /pages/en/index.html#l-en
+      - text: "العربية"
+        href: /pages/ar/index.html#l-ar
       - text: "البداية"
         href: pages/ar/index.qmd
       - text: "بانوراما"
@@ -26,14 +32,6 @@ website:
       - text: "المنهجية"
         href: pages/ar/methodologie.qmd
     right:
-      - text: "ع"
-        menu:
-          - text: "Français"
-            href: /pages/fr/index.html
-          - text: "English"
-            href: /pages/en/index.html
-          - text: "العربية"
-            href: /pages/ar/index.html
       - icon: github
         href: https://github.com/mr-bac2026/mr-bac2026.github.io
         aria-label: "الشيفرة المصدرية على GitHub"
