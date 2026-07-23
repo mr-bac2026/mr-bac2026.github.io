@@ -201,6 +201,7 @@ $flag-h: 17px;
   box-shadow: 0 0 0 1px rgba($ink, .12);
   filter: grayscale(1);
   opacity: .5;
+  transform: translateY(3px);        // léger décalage vers le bas
   transition: filter .15s ease, opacity .15s ease, box-shadow .15s ease;
 }
 .navbar .nav-link[href*="#l-fr"]::before { background-image: $flag-fr; }
