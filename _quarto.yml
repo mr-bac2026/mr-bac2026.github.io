@@ -53,6 +53,7 @@ website:
 format:
   html:
     lang: fr
+    include-in-header: assets/cf-analytics.html
     theme:
       - cosmo
       - assets/theme.scss
