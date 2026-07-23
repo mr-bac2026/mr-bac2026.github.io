@@ -57,30 +57,41 @@ L'outil adapté s'appelle le **graphique en entonnoir** (*funnel plot*). Chaque 
 #| fig-width: 8
 #| fig-height: 5
 #| fig-alt: "Graphique en entonnoir des établissements."
-grille <- tibble::tibble(n = seq(10, max(par_etab$n), length.out = 200)) |>
+grille <- tibble::tibble(
+    n = 10^seq(log10(10), log10(max(par_etab$n)), length.out = 250)) |>
   mutate(
-    se = sqrt(tx_global * (1 - tx_global) / n),
-    haut95 = tx_global + 1.96 * se,
-    bas95  = pmax(0, tx_global - 1.96 * se),
-    haut99 = tx_global + 2.58 * se,
-    bas99  = pmax(0, tx_global - 2.58 * se)
+    se  = sqrt(tx_global * (1 - tx_global) / n),
+    h95 = pmin(1, tx_global + 1.96 * se), b95 = pmax(0, tx_global - 1.96 * se),
+    h99 = pmin(1, tx_global + 2.58 * se), b99 = pmax(0, tx_global - 2.58 * se)
   )
 
-ggplot(par_etab |> filter(n >= 10), aes(x = n, y = taux)) +
-  geom_ribbon(data = grille, aes(x = n, ymin = bas99, ymax = haut99),
-              inherit.aes = FALSE, fill = BAC_COL$papier_alt) +
-  geom_line(data = grille, aes(n, haut95), colour = BAC_COL$or, linewidth = 0.4) +
-  geom_line(data = grille, aes(n, bas95),  colour = BAC_COL$or, linewidth = 0.4) +
-  geom_hline(yintercept = tx_global, colour = BAC_COL$terre, linewidth = 0.5) +
-  geom_point(aes(size = n), colour = BAC_COL$encre, alpha = 0.35, stroke = 0) +
-  annotate("text", x = max(par_etab$n) * 0.98, y = tx_global, vjust = -0.6, hjust = 1,
+n_lab  <- 12
+se_lab <- sqrt(tx_global * (1 - tx_global) / n_lab)
+
+ggplot() +
+  # bandes emboîtées : 99 % (gris clair) puis 95 % (bleu clair) par-dessus
+  geom_ribbon(data = grille, aes(n, ymin = b99, ymax = h99), fill = "#eef1f4") +
+  geom_ribbon(data = grille, aes(n, ymin = b95, ymax = h95), fill = "#d3e0f7") +
+  geom_hline(yintercept = tx_global, colour = BAC_COL$terre, linewidth = 0.7) +
+  geom_point(data = par_etab |> filter(n >= 10), aes(n, taux, size = n),
+             shape = 21, fill = scales::alpha(BAC_COL$encre_douce, 0.35),
+             colour = BAC_COL$papier, stroke = 0.2) +
+  annotate("text", x = n_lab, y = tx_global + 2.58 * se_lab, label = "99 %",
+           hjust = 0, vjust = -0.35, family = BAC_FONT_BODY, size = 2.9,
+           colour = BAC_COL$encre_douce) +
+  annotate("text", x = n_lab, y = tx_global + 1.96 * se_lab, label = "95 %",
+           hjust = 0, vjust = -0.35, family = BAC_FONT_BODY, size = 2.9,
+           colour = BAC_COL$encre_douce) +
+  annotate("label", x = 10, y = tx_global,
            label = paste0("moyenne nationale : ", pct_fr(tx_global)),
-           family = BAC_FONT_BODY, size = 3, colour = BAC_COL$terre) +
-  scale_size_area(max_size = 7, guide = "none") +
-  scale_x_log10(labels = label_number(big.mark = " ")) +
-  scale_y_continuous(labels = label_percent(accuracy = 1)) +
+           hjust = 0, vjust = 0.5, family = BAC_FONT_BODY, size = 2.9,
+           colour = BAC_COL$terre, fill = BAC_COL$papier,
+           label.size = 0, label.padding = unit(1.6, "pt")) +
+  scale_size_area(max_size = 6, guide = "none") +
+  scale_x_log10(labels = label_number(big.mark = " "), expand = expansion(c(0.02, 0.03))) +
+  scale_y_continuous(labels = label_percent(accuracy = 1), limits = c(0, NA)) +
   labs(title = "Les établissements qui sortent vraiment du lot",
-       subtitle = "Chaque point est un établissement. Bande : intervalle attendu à 95 % et 99 % autour de la moyenne nationale.",
+       subtitle = "Chaque point est un établissement. Bandes : intervalles attendus à 95 % et 99 %.",
        x = "Nombre de candidats (échelle logarithmique)", y = "Taux d'admission",
        caption = SRC) +
   theme_bac()
