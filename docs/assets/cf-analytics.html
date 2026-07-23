@@ -1,1 +1,15 @@
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b9736bdb847946a79dba35e5d7e5bb5b"}'></script><!-- End Cloudflare Web Analytics -->
+<!-- Cloudflare Web Analytics — chargé uniquement en production -->
+<script>
+  (function () {
+    var h = location.hostname;
+    if (h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0" ||
+        h === "" || h.endsWith(".local")) return;
+    var s = document.createElement("script");
+    s.defer = true;
+    s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    s.setAttribute("data-cf-beacon",
+                   '{"token": "b9736bdb847946a79dba35e5d7e5bb5b"}');
+    document.head.appendChild(s);
+  })();
+</script>
+<!-- End Cloudflare Web Analytics -->
