@@ -3,9 +3,9 @@ project:
   output-dir: docs
   execute-dir: project
   render:
-    - "fr/*.qmd"
-    - "en/*.qmd"
-    - "ar/*.qmd"
+    - "pages/fr/*.qmd"
+    - "pages/en/*.qmd"
+    - "pages/ar/*.qmd"
   resources:
     - "assets/**"
     - "index.html"
@@ -31,19 +31,19 @@ website:
     collapse-below: lg
     left:
       - text: "Ouverture"
-        href: fr/index.qmd
+        href: pages/fr/index.qmd
       - text: "Panorama"
-        href: fr/panorama.qmd
+        href: pages/fr/panorama.qmd
       - text: "Géographie"
-        href: fr/geographie.qmd
+        href: pages/fr/geographie.qmd
       - text: "Filières"
-        href: fr/filieres.qmd
+        href: pages/fr/filieres.qmd
       - text: "Réussir"
-        href: fr/reussite.qmd
+        href: pages/fr/reussite.qmd
       - text: "Établissements"
-        href: fr/etablissements.qmd
+        href: pages/fr/etablissements.qmd
       - text: "Méthode"
-        href: fr/methodologie.qmd
+        href: pages/fr/methodologie.qmd
     right:
       - icon: github
         href: https://github.com/mr-bac2026/mr-bac2026.github.io
