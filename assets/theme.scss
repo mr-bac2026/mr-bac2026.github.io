@@ -183,43 +183,46 @@ $flag-h: 15px;
 .navbar .nav-item.dropdown > .dropdown-toggle {
   display: inline-flex;
   align-items: center;
-  gap: .4rem;
-  padding: .22rem .6rem;
+  gap: .34rem;
+  padding: .32rem .4rem;
+  margin-inline-start: .1rem;
   font-size: 0;                        // masque le code FR/EN/ع (gardé pour a11y)
-  border: 1px solid $rule;
+  border: 0;
   border-radius: 8px;
-  transition: border-color .15s ease, background .15s ease;
+  line-height: 1;
+  transition: background .15s ease;
 }
 .navbar .nav-item.dropdown > .dropdown-toggle::before {
   content: "";
   width: $flag-w;
   height: $flag-h;
   flex: 0 0 auto;
-  border-radius: 2px;
-  background: no-repeat center / cover;
-  box-shadow: 0 0 0 1px rgba($ink, .12);
+  border-radius: 3px;
+  background-repeat: no-repeat;         // longhand : ne réinitialise pas l'image
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 0 0 1px rgba($ink, .1), 0 1px 2px rgba($ink, .18);
 }
 .navbar .nav-item.dropdown > .dropdown-toggle::after {   // chevron discret
   content: "";
-  width: 6px;
-  height: 6px;
-  margin: 0 1px -1px 0;
+  width: 5px;
+  height: 5px;
+  margin: -2px 0 0 0;
   border: 0;
-  border-right: 1.5px solid $ink-soft;
-  border-bottom: 1.5px solid $ink-soft;
+  border-right: 1.5px solid $muted;
+  border-bottom: 1.5px solid $muted;
   transform: rotate(45deg);
   transition: border-color .15s ease;
 }
 .navbar .nav-item.dropdown > .dropdown-toggle:hover,
 .navbar .nav-item.dropdown.show > .dropdown-toggle {
-  border-color: rgba($accent, .5);
-  background: rgba($accent, .06);
+  background: $paper-alt;
 }
 .navbar .nav-item.dropdown.show > .dropdown-toggle::after { border-color: $accent; }
 
-html[lang="fr"] .navbar .dropdown-toggle::before { background-image: $flag-fr; }
-html[lang="en"] .navbar .dropdown-toggle::before { background-image: $flag-en; }
-html[lang="ar"] .navbar .dropdown-toggle::before { background-image: $flag-mr; }
+html[lang="fr"] .navbar .nav-item.dropdown > .dropdown-toggle::before { background-image: $flag-fr; }
+html[lang="en"] .navbar .nav-item.dropdown > .dropdown-toggle::before { background-image: $flag-en; }
+html[lang="ar"] .navbar .nav-item.dropdown > .dropdown-toggle::before { background-image: $flag-mr; }
 
 .navbar .dropdown-menu {
   margin-top: .5rem;
@@ -245,8 +248,10 @@ html[lang="ar"] .navbar .dropdown-toggle::before { background-image: $flag-mr; }
   width: $flag-w;
   height: $flag-h;
   flex: 0 0 auto;
-  border-radius: 2px;
-  background: no-repeat center / cover;
+  border-radius: 3px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   box-shadow: 0 0 0 1px rgba($ink, .1);
 }
 .navbar .dropdown-menu .dropdown-item[href*="pages/fr/index"]::before { background-image: $flag-fr; }
