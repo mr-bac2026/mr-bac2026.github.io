@@ -54,7 +54,7 @@ ggplot(carte_j, aes(long, lat, group = group)) +
   theme_bac_carte()
 ```
 
-Nouakchott rassemble à elle seule plus du tiers des candidats du pays. En ajoutant le Trarza et les wilayas du fleuve (Gorgol, Brakna, les deux Hodh), on obtient la grande majorité des candidats. Les régions du Nord, comme le Tiris Zemmour, l'Adrar ou l'Inchiri, en comptent chacune quelques centaines seulement.
+Nouakchott rassemble à elle seule plus de la moitié des candidats du pays. En y ajoutant les wilayas du fleuve (Trarza, Gorgol, Brakna), on obtient la grande majorité des candidats. Les régions du Nord, comme le Tiris Zemmour, l'Adrar ou l'Inchiri, en comptent chacune quelques centaines seulement.
 
 ## Rapporté à la population
 
