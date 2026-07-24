@@ -44,6 +44,45 @@ bac_font_title <- function(lang = "fr") {
   if (identical(lang, "ar")) BAC_FONT_AR else BAC_FONT_TITLE
 }
 
+bac_rtl <- function(lang = "fr") identical(lang, "ar")
+
+bac_pos_y <- function(lang = "fr") if (bac_rtl(lang)) "right" else "left"
+
+bac_h <- function(lang, h) if (bac_rtl(lang)) 1 - h else h
+
+bac_x_num <- function(lang, ...) {
+  a <- list(...)
+  if (!bac_rtl(lang)) return(do.call(scale_x_continuous, a))
+  if (!is.null(a$expand) && length(a$expand) == 4) {
+    a$expand <- a$expand[c(3, 4, 1, 2)]
+  }
+  do.call(scale_x_reverse, a)
+}
+
+bac_x_log <- function(lang, ...) {
+  a <- list(...)
+  if (!bac_rtl(lang)) return(do.call(scale_x_log10, a))
+  if (!is.null(a$expand) && length(a$expand) == 4) {
+    a$expand <- a$expand[c(3, 4, 1, 2)]
+  }
+  a$transform <- scales::transform_compose("log10", "reverse")
+  do.call(scale_x_continuous, a)
+}
+
+bac_x_disc <- function(lang, ...) {
+  a <- list(...)
+  if (bac_rtl(lang)) a$limits <- rev
+  do.call(scale_x_discrete, a)
+}
+
+bac_y_num <- function(lang, ...) {
+  scale_y_continuous(..., position = bac_pos_y(lang))
+}
+
+bac_y_disc <- function(lang, ...) {
+  scale_y_discrete(..., position = bac_pos_y(lang))
+}
+
 BAC_ETIQ_RES <- 300
 
 bac_etiquette_pivotee <- function(label, lang, size = 3,
@@ -78,9 +117,9 @@ bac_seuil <- function(label, x, lang, size = 3, vjust = 1.6, dy = 3) {
   m <- bac_etiquette_pivotee(label, lang, size, BAC_COL$encre_douce)
   gr <- grid::rasterGrob(
     m,
-    x = grid::unit(1, "npc") - grid::unit(2, "pt"),
+    x = grid::unit(0, "npc") + grid::unit(2, "pt"),
     y = grid::unit(1, "npc") - grid::unit(dy, "pt"),
-    hjust = 1, vjust = 1,
+    hjust = 0, vjust = 1,
     width = grid::unit(ncol(m) / BAC_ETIQ_RES, "in"),
     height = grid::unit(nrow(m) / BAC_ETIQ_RES, "in"),
     interpolate = TRUE
@@ -121,7 +160,7 @@ theme_bac <- function(base_size = 12, lang = "fr") {
   cote <- if (rtl) "right" else "left"
   titre_y <- if (rtl) {
     element_text(colour = BAC_COL$encre_douce, size = rel(0.9), angle = 0,
-                 hjust = 1, vjust = 1.04, margin = margin(l = 4, b = -6))
+                 hjust = 1, vjust = 1, margin = margin(l = 6))
   } else {
     element_text(colour = BAC_COL$encre_douce, size = rel(0.9))
   }
@@ -140,6 +179,7 @@ theme_bac <- function(base_size = 12, lang = "fr") {
         colour = BAC_COL$encre_douce, size = rel(0.9)
       ),
       axis.title.y = titre_y,
+      axis.title.y.right = titre_y,
       plot.title = element_text(
         family = bac_font_title(lang), colour = BAC_COL$encre,
         size = rel(1.4), face = "bold", lineheight = 1.08,
@@ -173,6 +213,7 @@ theme_bac <- function(base_size = 12, lang = "fr") {
 theme_bac_carte <- function(lang = "fr") {
   theme_bac(lang = lang) + theme(
     axis.text = element_blank(), axis.title = element_blank(),
+    axis.title.y = element_blank(), axis.title.y.right = element_blank(),
     panel.grid = element_blank(),
     legend.position = "right", legend.key.height = unit(24, "pt"),
     legend.key.width = unit(10, "pt")

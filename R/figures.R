@@ -37,10 +37,12 @@ fig_geo_effectifs <- function(g, lang = "fr") {
 fig_geo_population <- function(g, lang = "fr") {
   ggplot(g$par_pop, aes(x = pop, y = fct_reorder(shapeName, pop))) +
     geom_col(width = 0.68, fill = BAC_COL$vert) +
-    geom_text(aes(label = format(pop, big.mark = " ")), hjust = -0.08,
+    geom_text(aes(label = format(pop, big.mark = " ")),
+              hjust = bac_h(lang, -0.08),
               family = bac_font(lang), size = 2.7, colour = BAC_COL$encre) +
-    scale_x_continuous(limits = c(0, max(g$par_pop$pop) * 1.15),
-                       expand = expansion(c(0, 0))) +
+    bac_x_num(lang, limits = c(0, max(g$par_pop$pop) * 1.15),
+              expand = expansion(c(0, 0))) +
+    bac_y_disc(lang) +
     labs(title = tr("geo_pop_title", lang),
          subtitle = tr("geo_pop_sub", lang),
          x = NULL, y = NULL, caption = cap_src_pop(lang)) +
@@ -53,15 +55,16 @@ fig_geo_par_habitant <- function(g, lang = "fr") {
     geom_vline(xintercept = g$nat_pm, colour = BAC_COL$encre_douce,
                linewidth = 0.4, linetype = "dashed") +
     geom_col(aes(fill = pm), width = 0.68) +
-    geom_text(aes(label = num_fr(pm, 0.1)), hjust = -0.15,
+    geom_text(aes(label = num_fr(pm, 0.1)), hjust = bac_h(lang, -0.15),
               family = bac_font(lang), size = 2.8, colour = BAC_COL$encre) +
     annotate("text", x = g$nat_pm, y = 0.7,
              label = paste0(tr("geo_pm_moyenne", lang), num_fr(g$nat_pm, 0.1)),
-             hjust = -0.05, family = bac_font(lang), size = 2.7,
+             hjust = bac_h(lang, -0.05), family = bac_font(lang), size = 2.7,
              colour = BAC_COL$encre_douce) +
     scale_fill_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
-    scale_x_continuous(limits = c(0, max(g$par_pop$pm) * 1.12),
-                       expand = expansion(c(0, 0))) +
+    bac_x_num(lang, limits = c(0, max(g$par_pop$pm) * 1.12),
+              expand = expansion(c(0, 0))) +
+    bac_y_disc(lang) +
     labs(title = tr("geo_pm_title", lang),
          subtitle = tr("geo_pm_sub", lang),
          x = tr("geo_pm_x", lang), y = NULL, caption = cap_src_both(lang)) +
@@ -87,12 +90,14 @@ fig_geo_classement <- function(g, lang = "fr") {
     geom_segment(aes(x = bas, xend = haut, yend = nom),
                  colour = BAC_COL$trait, linewidth = 1.4) +
     geom_point(aes(colour = taux), size = 2.8) +
-    geom_text(aes(label = pct_fr(taux)), hjust = -0.35, vjust = -0.4,
+    geom_text(aes(label = pct_fr(taux)), hjust = bac_h(lang, -0.35),
+              vjust = -0.4,
               family = bac_font(lang), size = 2.7,
               colour = BAC_COL$encre_douce) +
     scale_colour_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
-    scale_x_continuous(labels = label_percent(accuracy = 1),
-                       limits = c(0, max(g$par_wilaya$haut) * 1.08)) +
+    bac_x_num(lang, labels = label_percent(accuracy = 1),
+              limits = c(0, max(g$par_wilaya$haut) * 1.08)) +
+    bac_y_disc(lang) +
     labs(title = tr("geo_rank_title", lang),
          subtitle = tr("geo_rank_sub", lang),
          x = tr("geo_rank_x", lang), y = NULL, caption = cap_src(lang)) +
@@ -110,11 +115,11 @@ fig_geo_pole <- function(g, lang = "fr") {
     geom_text(aes(label = paste0(pct_fr(taux), "  (",
                                  format(n, big.mark = " "), " ",
                                  tr("word_candidats", lang), ")")),
-              hjust = -0.12, family = bac_font(lang), size = 3.1,
+              hjust = bac_h(lang, -0.12), family = bac_font(lang), size = 3.1,
               colour = BAC_COL$encre) +
-    scale_y_discrete(labels = lab_pole) +
-    scale_x_continuous(labels = label_percent(accuracy = 1),
-                       limits = c(0, max(g$par_pole$taux) * 1.5)) +
+    bac_y_disc(lang, labels = lab_pole) +
+    bac_x_num(lang, labels = label_percent(accuracy = 1),
+              limits = c(0, max(g$par_pole$taux) * 1.5)) +
     labs(title = tr("geo_pole_title", lang),
          subtitle = tr("geo_pole_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
@@ -147,9 +152,9 @@ fig_index_hist <- function(g, lang = "fr") {
     scale_fill_manual(values = BAC_PAL_DECISION, labels = lab_dec, name = NULL,
                       guide = guide_legend(override.aes =
                                              list(linewidth = 0))) +
-    scale_x_continuous(breaks = seq(0, 18, 2), limits = c(0, 18)) +
-    scale_y_continuous(labels = label_number(big.mark = " "),
-                       expand = expansion(c(0, 0.05))) +
+    bac_x_num(lang, breaks = seq(0, 18, 2), limits = c(0, 18)) +
+    bac_y_num(lang, labels = label_number(big.mark = " "),
+              expand = expansion(c(0, 0.05))) +
     labs(title = tr("idx_hist_title", lang),
          subtitle = tr("idx_hist_sub", lang),
          x = tr("ax_moyenne", lang), y = tr("idx_hist_y", lang),
@@ -186,12 +191,12 @@ fig_pano_decisions <- function(g, lang = "fr") {
     geom_col(width = 0.68) +
     geom_text(aes(label = paste0(format(n, big.mark = " "), "  ·  ",
                                  pct_fr(part))),
-              hjust = -0.05, family = bac_font(lang), size = 3.1,
+              hjust = bac_h(lang, -0.05), family = bac_font(lang), size = 3.1,
               colour = BAC_COL$encre) +
     scale_fill_manual(values = BAC_PAL_DECISION, guide = "none") +
-    scale_y_discrete(labels = lab_dec) +
-    scale_x_continuous(limits = c(0, max(g$rep$n) * 1.22),
-                       expand = expansion(c(0, 0))) +
+    bac_y_disc(lang, labels = lab_dec) +
+    bac_x_num(lang, limits = c(0, max(g$rep$n) * 1.22),
+              expand = expansion(c(0, 0))) +
     labs(title = tr("pano_dec_title", lang),
          subtitle = paste0(tr("pano_dec_sub_a", lang),
                            format(g$n_tot, big.mark = " "),
@@ -213,9 +218,9 @@ fig_pano_entonnoir <- function(g, lang = "fr") {
                                  pct_fr(part, 1))),
               vjust = -0.25, family = bac_font(lang), size = 3.1,
               colour = BAC_COL$encre, lineheight = 0.95) +
-    scale_x_discrete(labels = lab_step) +
-    scale_y_continuous(labels = label_number(big.mark = " "),
-                       expand = expansion(c(0, 0.15))) +
+    bac_x_disc(lang, labels = lab_step) +
+    bac_y_num(lang, labels = label_number(big.mark = " "),
+              expand = expansion(c(0, 0.15))) +
     labs(title = tr("pano_ent_title", lang),
          subtitle = tr("pano_ent_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
@@ -234,9 +239,11 @@ fig_pano_densite <- function(g, lang = "fr") {
     geom_vline(xintercept = g$med, colour = BAC_COL$vert, linewidth = 0.6) +
     annotate("text", x = g$med, y = Inf,
              label = paste0(tr("pano_den_med", lang), num_fr(g$med, 0.1)),
-             hjust = -0.08, vjust = 2, family = bac_font(lang), size = 3,
+             hjust = bac_h(lang, -0.08), vjust = 2,
+             family = bac_font(lang), size = 3,
              colour = BAC_COL$vert) +
-    scale_x_continuous(breaks = seq(0, 18, 2), limits = c(0, 18)) +
+    bac_x_num(lang, breaks = seq(0, 18, 2), limits = c(0, 18)) +
+    bac_y_num(lang) +
     labs(title = tr("pano_den_title", lang),
          subtitle = tr("pano_den_sub", lang),
          x = tr("ax_moyenne", lang), y = tr("ax_densite", lang),
@@ -255,9 +262,9 @@ fig_pano_mentions <- function(g, lang = "fr") {
                                  pct_fr(part))),
               vjust = -0.3, family = bac_font(lang), size = 3,
               colour = BAC_COL$encre) +
-    scale_x_discrete(labels = lab_ment) +
-    scale_y_continuous(labels = label_number(big.mark = " "),
-                       expand = expansion(c(0, 0.16))) +
+    bac_x_disc(lang, labels = lab_ment) +
+    bac_y_num(lang, labels = label_number(big.mark = " "),
+              expand = expansion(c(0, 0.16))) +
     labs(title = tr("pano_ment_title", lang),
          subtitle = tr("pano_ment_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
@@ -288,10 +295,12 @@ filieres_data <- function() {
 fig_fil_effectifs <- function(g, lang = "fr") {
   ggplot(g$par_serie, aes(x = n, y = fct_reorder(serie, n))) +
     geom_col(width = 0.68, fill = BAC_COL$encre_douce) +
-    geom_text(aes(label = format(n, big.mark = " ")), hjust = -0.12,
+    geom_text(aes(label = format(n, big.mark = " ")),
+              hjust = bac_h(lang, -0.12),
               family = bac_font(lang), size = 3, colour = BAC_COL$encre) +
-    scale_x_continuous(limits = c(0, max(g$par_serie$n) * 1.15),
-                       expand = expansion(c(0, 0))) +
+    bac_x_num(lang, limits = c(0, max(g$par_serie$n) * 1.15),
+              expand = expansion(c(0, 0))) +
+    bac_y_disc(lang) +
     labs(title = tr("fil_eff_title", lang),
          subtitle = tr("fil_eff_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
@@ -304,12 +313,14 @@ fig_fil_taux <- function(g, lang = "fr") {
     geom_segment(aes(x = bas, xend = haut, yend = serie),
                  colour = BAC_COL$trait, linewidth = 1.5) +
     geom_point(aes(colour = taux), size = 3.2) +
-    geom_text(aes(label = pct_fr(taux)), hjust = -0.35, vjust = -0.5,
+    geom_text(aes(label = pct_fr(taux)), hjust = bac_h(lang, -0.35),
+              vjust = -0.5,
               family = bac_font(lang), size = 2.9,
               colour = BAC_COL$encre_douce) +
     scale_colour_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
-    scale_x_continuous(labels = label_percent(accuracy = 1),
-                       limits = c(0, max(g$ps$haut) * 1.1)) +
+    bac_x_num(lang, labels = label_percent(accuracy = 1),
+              limits = c(0, max(g$ps$haut) * 1.1)) +
+    bac_y_disc(lang) +
     labs(title = tr("fil_taux_title", lang),
          subtitle = tr("fil_taux_sub", lang),
          x = tr("ax_taux", lang), y = NULL, caption = cap_src(lang)) +
@@ -325,7 +336,8 @@ fig_fil_ridgeline <- function(g, lang = "fr") {
     geom_vline(xintercept = 10, linetype = "dashed", colour = BAC_COL$encre,
                linewidth = 0.4) +
     scale_fill_gradientn(colours = BAC_SEQ_CHAUD, guide = "none") +
-    scale_x_continuous(breaks = seq(0, 18, 2), limits = c(0, 18)) +
+    bac_x_num(lang, breaks = seq(0, 18, 2), limits = c(0, 18)) +
+    bac_y_disc(lang) +
     labs(title = tr("fil_ridge_title", lang),
          subtitle = tr("fil_ridge_sub", lang),
          x = tr("ax_moyenne", lang), y = NULL, caption = cap_src(lang)) +
@@ -381,7 +393,8 @@ fig_reu_serie <- function(g, lang = "fr") {
     geom_segment(aes(x = bas, xend = haut, yend = lab),
                  colour = BAC_COL$trait, linewidth = 1.5) +
     geom_point(colour = BAC_COL$terre, size = 3) +
-    scale_x_log10() +
+    bac_x_log(lang) +
+    bac_y_disc(lang) +
     labs(title = tr("reu_serie_title", lang),
          subtitle = tr("reu_serie_sub", lang),
          x = tr("reu_or_x", lang), y = NULL, caption = cap_src(lang)) +
@@ -398,7 +411,8 @@ fig_reu_wilaya <- function(g, lang = "fr") {
     geom_point(data = ~ subset(.x, ns), shape = 21, fill = NA,
                colour = BAC_COL$encre, size = 5, stroke = 0.7) +
     scale_fill_gradientn(colours = rev(BAC_SEQ_CHAUD), guide = "none") +
-    scale_x_log10(expand = expansion(c(0.05, 0.08))) +
+    bac_x_log(lang, expand = expansion(c(0.05, 0.08))) +
+    bac_y_disc(lang) +
     labs(title = tr("reu_wil_title", lang),
          subtitle = tr("reu_wil_sub", lang),
          x = tr("reu_wil_x", lang), y = NULL, caption = cap_src(lang)) +
@@ -410,8 +424,8 @@ fig_reu_age <- function(g, lang = "fr") {
     geom_line(colour = BAC_COL$trait, linewidth = 0.8) +
     geom_point(aes(size = n), colour = BAC_COL$terre) +
     scale_size_area(max_size = 6, guide = "none") +
-    scale_y_continuous(labels = label_percent(accuracy = 1)) +
-    scale_x_continuous(breaks = seq(15, 30, 1)) +
+    bac_y_num(lang, labels = label_percent(accuracy = 1)) +
+    bac_x_num(lang, breaks = seq(15, 30, 1)) +
     labs(title = tr("reu_age_title", lang),
          subtitle = tr("reu_age_sub", lang),
          x = tr("reu_age_x", lang), y = tr("ax_taux", lang),
@@ -504,24 +518,25 @@ fig_etab_funnel <- function(g, lang = "fr") {
                shape = 21, fill = scales::alpha(BAC_COL$encre_douce, 0.35),
                colour = BAC_COL$papier, stroke = 0.2) +
     annotate("text", x = n_lab, y = g$tx_global + 2.58 * se_lab,
-             label = "99 %", hjust = 0, vjust = -0.35,
+             label = "99 %", hjust = bac_h(lang, 0), vjust = -0.35,
              family = bac_font(lang), size = 2.9,
              colour = BAC_COL$encre_douce) +
     annotate("text", x = n_lab, y = g$tx_global + 1.96 * se_lab,
-             label = "95 %", hjust = 0, vjust = -0.35,
+             label = "95 %", hjust = bac_h(lang, 0), vjust = -0.35,
              family = bac_font(lang), size = 2.9,
              colour = BAC_COL$encre_douce) +
     annotate("label", x = 10, y = g$tx_global,
              label = paste0(tr("etab_fun_moyenne", lang),
                             pct_fr(g$tx_global)),
-             hjust = 0, vjust = 0.5, family = bac_font(lang), size = 2.9,
+             hjust = bac_h(lang, 0), vjust = 0.5,
+             family = bac_font(lang), size = 2.9,
              colour = BAC_COL$terre, fill = BAC_COL$papier,
              label.size = 0, label.padding = unit(1.6, "pt")) +
     scale_size_area(max_size = 6, guide = "none") +
-    scale_x_log10(labels = label_number(big.mark = " "),
-                  expand = expansion(c(0.02, 0.03))) +
-    scale_y_continuous(labels = label_percent(accuracy = 1),
-                       limits = c(0, NA)) +
+    bac_x_log(lang, labels = label_number(big.mark = " "),
+              expand = expansion(c(0.02, 0.03))) +
+    bac_y_num(lang, labels = label_percent(accuracy = 1),
+              limits = c(0, NA)) +
     labs(title = tr("etab_fun_title", lang),
          subtitle = tr("etab_fun_sub", lang),
          x = tr("etab_fun_x", lang), y = tr("ax_taux", lang),
