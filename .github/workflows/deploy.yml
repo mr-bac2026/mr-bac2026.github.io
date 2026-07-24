@@ -19,7 +19,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - run: |
           sudo apt-get update
@@ -36,7 +36,7 @@ jobs:
           mkdir -p ~/R/library
           echo "R_LIBS_USER=$HOME/R/library" >> "$GITHUB_ENV"
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/R/library
           key: rlib2-ubuntu-24.04-R4.5.2-${{ hashFiles('install_pkgs.R') }}
@@ -47,14 +47,14 @@ jobs:
         with:
           version: 1.9.38
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: _freeze
           key: freeze-${{ hashFiles('pages/**/*.qmd', 'R/**/*.R', 'l10n/**', 'data/**', 'fonts/**', 'mrt_adm1.geojson') }}
 
       - run: ./render.sh
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs
 
@@ -67,4 +67,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
