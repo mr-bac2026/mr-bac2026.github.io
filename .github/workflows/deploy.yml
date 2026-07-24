@@ -32,10 +32,14 @@ jobs:
           r-version: 4.5.2
           use-public-rspm: true
 
+      - run: |
+          mkdir -p ~/R/library
+          echo "R_LIBS_USER=$HOME/R/library" >> "$GITHUB_ENV"
+
       - uses: actions/cache@v4
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: rlib-ubuntu-24.04-R4.5.2-${{ hashFiles('install_pkgs.R') }}
+          path: ~/R/library
+          key: rlib2-ubuntu-24.04-R4.5.2-${{ hashFiles('install_pkgs.R') }}
 
       - run: Rscript install_pkgs.R
 
