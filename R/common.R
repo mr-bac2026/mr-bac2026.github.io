@@ -50,6 +50,11 @@ bac_pos_y <- function(lang = "fr") if (bac_rtl(lang)) "right" else "left"
 
 bac_h <- function(lang, h) if (bac_rtl(lang)) 1 - h else h
 
+bac_closed <- function(lang, closed = "left") {
+  if (!bac_rtl(lang)) return(closed)
+  if (identical(closed, "left")) "right" else "left"
+}
+
 bac_x_num <- function(lang, ...) {
   a <- list(...)
   if (!bac_rtl(lang)) return(do.call(scale_x_continuous, a))

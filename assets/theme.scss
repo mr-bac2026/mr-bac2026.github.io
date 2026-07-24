@@ -119,6 +119,7 @@ figcaption, .figure-caption { color: $muted; font-size: .9rem; font-style: itali
   display: block; margin-top: .5rem; font-size: .84rem;
   color: $ink-soft; line-height: 1.35; font-style: italic;
 }
+.reperes:has(.repere:nth-child(4)) .libelle { min-height: 4.05em; }
 
 .encadre {
   background: $paper-alt;

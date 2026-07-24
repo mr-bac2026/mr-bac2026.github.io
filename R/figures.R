@@ -146,7 +146,7 @@ fig_index_hist <- function(g, lang = "fr") {
                "Examen annulé" = tr("dec_annule", lang))
   ggplot(g$pres, aes(x = moyenne, fill = decision)) +
     geom_histogram(binwidth = 0.5, colour = BAC_COL$papier, linewidth = 0.15,
-                   boundary = 0, closed = "left") +
+                   boundary = 0, closed = bac_closed(lang)) +
     geom_vline(xintercept = c(8, 10), colour = BAC_COL$encre,
                linewidth = 0.4, linetype = "dashed") +
     bac_seuil(tr("idx_seuil_8", lang), 8, lang, vjust = 1.6, dy = 3) +
@@ -233,6 +233,7 @@ fig_pano_entonnoir <- function(g, lang = "fr") {
 fig_pano_densite <- function(g, lang = "fr") {
   ggplot(g$pres, aes(x = moyenne)) +
     geom_histogram(aes(y = after_stat(density)), binwidth = 0.5, boundary = 0,
+                   closed = bac_closed(lang, "right"),
                    fill = BAC_COL$papier_alt, colour = BAC_COL$papier,
                    linewidth = 0.15) +
     geom_density(colour = BAC_COL$terre, linewidth = 0.9, adjust = 1.1) +
