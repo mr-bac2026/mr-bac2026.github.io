@@ -29,7 +29,7 @@ fig_geo_effectifs <- function(g, lang = "fr") {
                          trans = "sqrt") +
     coord_quickmap() +
     labs(title = tr("geo_eff_title", lang),
-         subtitle = tr("geo_eff_sub", lang),
+         subtitle = bac_sous_titre("geo_eff_sub", lang),
          caption = cap_src_geo(lang)) +
     theme_bac_carte(lang)
 }
@@ -44,7 +44,7 @@ fig_geo_population <- function(g, lang = "fr") {
               expand = expansion(c(0, 0))) +
     bac_y_disc(lang) +
     labs(title = tr("geo_pop_title", lang),
-         subtitle = tr("geo_pop_sub", lang),
+         subtitle = bac_sous_titre("geo_pop_sub", lang),
          x = NULL, y = NULL, caption = cap_src_pop(lang)) +
     theme_bac(lang = lang) +
     theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
@@ -66,7 +66,7 @@ fig_geo_par_habitant <- function(g, lang = "fr") {
               expand = expansion(c(0, 0))) +
     bac_y_disc(lang) +
     labs(title = tr("geo_pm_title", lang),
-         subtitle = tr("geo_pm_sub", lang),
+         subtitle = bac_sous_titre("geo_pm_sub", lang),
          x = tr("geo_pm_x", lang), y = NULL, caption = cap_src_both(lang)) +
     theme_bac(lang = lang) +
     theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
@@ -80,7 +80,7 @@ fig_geo_carte_taux <- function(g, lang = "fr") {
                          labels = label_percent(accuracy = 1)) +
     coord_quickmap() +
     labs(title = tr("geo_taux_title", lang),
-         subtitle = tr("geo_taux_sub", lang),
+         subtitle = bac_sous_titre("geo_taux_sub", lang),
          caption = cap_src_geo(lang)) +
     theme_bac_carte(lang)
 }
@@ -101,7 +101,7 @@ fig_geo_classement <- function(g, lang = "fr") {
               limits = c(0, max(g$par_wilaya$haut) * 1.08)) +
     bac_y_disc(lang) +
     labs(title = tr("geo_rank_title", lang),
-         subtitle = tr("geo_rank_sub", lang),
+         subtitle = bac_sous_titre("geo_rank_sub", lang),
          x = tr("geo_rank_x", lang), y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(panel.grid.major.y = element_blank())
@@ -123,7 +123,7 @@ fig_geo_pole <- function(g, lang = "fr") {
     bac_x_num(lang, labels = label_percent(accuracy = 1),
               limits = c(0, max(g$par_pole$taux) * 1.5)) +
     labs(title = tr("geo_pole_title", lang),
-         subtitle = tr("geo_pole_sub", lang),
+         subtitle = bac_sous_titre("geo_pole_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(panel.grid.major.y = element_blank(),
@@ -158,7 +158,7 @@ fig_index_hist <- function(g, lang = "fr") {
     bac_y_num(lang, labels = label_number(big.mark = " "),
               expand = expansion(c(0, 0.05))) +
     labs(title = tr("idx_hist_title", lang),
-         subtitle = tr("idx_hist_sub", lang),
+         subtitle = bac_sous_titre("idx_hist_sub", lang),
          x = tr("ax_moyenne", lang), y = tr("idx_hist_y", lang),
          caption = cap_src(lang)) +
     theme_bac(lang = lang)
@@ -200,9 +200,9 @@ fig_pano_decisions <- function(g, lang = "fr") {
     bac_x_num(lang, limits = c(0, max(g$rep$n) * 1.22),
               expand = expansion(c(0, 0))) +
     labs(title = tr("pano_dec_title", lang),
-         subtitle = paste0(tr("pano_dec_sub_a", lang),
-                           format(g$n_tot, big.mark = " "),
-                           tr("pano_dec_sub_b", lang)),
+         subtitle = bac_replier(paste0(tr("pano_dec_sub_a", lang),
+                                       format(g$n_tot, big.mark = " "),
+                                       tr("pano_dec_sub_b", lang)), lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(panel.grid.major.y = element_blank(),
@@ -224,7 +224,7 @@ fig_pano_entonnoir <- function(g, lang = "fr") {
     bac_y_num(lang, labels = label_number(big.mark = " "),
               expand = expansion(c(0, 0.15))) +
     labs(title = tr("pano_ent_title", lang),
-         subtitle = tr("pano_ent_sub", lang),
+         subtitle = bac_sous_titre("pano_ent_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(panel.grid.major.x = element_blank())
@@ -247,7 +247,7 @@ fig_pano_densite <- function(g, lang = "fr") {
     bac_x_num(lang, breaks = seq(0, 18, 2), limits = c(0, 18)) +
     bac_y_num(lang) +
     labs(title = tr("pano_den_title", lang),
-         subtitle = tr("pano_den_sub", lang),
+         subtitle = bac_sous_titre("pano_den_sub", lang),
          x = tr("ax_moyenne", lang), y = tr("ax_densite", lang),
          caption = cap_src(lang)) +
     theme_bac(lang = lang)
@@ -268,7 +268,7 @@ fig_pano_mentions <- function(g, lang = "fr") {
     bac_y_num(lang, labels = label_number(big.mark = " "),
               expand = expansion(c(0, 0.16))) +
     labs(title = tr("pano_ment_title", lang),
-         subtitle = tr("pano_ment_sub", lang),
+         subtitle = bac_sous_titre("pano_ment_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(panel.grid.major.x = element_blank())
@@ -304,7 +304,7 @@ fig_fil_effectifs <- function(g, lang = "fr") {
               expand = expansion(c(0, 0))) +
     bac_y_disc(lang) +
     labs(title = tr("fil_eff_title", lang),
-         subtitle = tr("fil_eff_sub", lang),
+         subtitle = bac_sous_titre("fil_eff_sub", lang),
          x = NULL, y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
@@ -324,7 +324,7 @@ fig_fil_taux <- function(g, lang = "fr") {
               limits = c(0, max(g$ps$haut) * 1.1)) +
     bac_y_disc(lang) +
     labs(title = tr("fil_taux_title", lang),
-         subtitle = tr("fil_taux_sub", lang),
+         subtitle = bac_sous_titre("fil_taux_sub", lang),
          x = tr("ax_taux", lang), y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) + theme(panel.grid.major.y = element_blank())
 }
@@ -341,7 +341,7 @@ fig_fil_ridgeline <- function(g, lang = "fr") {
     bac_x_num(lang, breaks = seq(0, 18, 2), limits = c(0, 18)) +
     bac_y_disc(lang) +
     labs(title = tr("fil_ridge_title", lang),
-         subtitle = tr("fil_ridge_sub", lang),
+         subtitle = bac_sous_titre("fil_ridge_sub", lang),
          x = tr("ax_moyenne", lang), y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) +
     theme(panel.grid.major.y = element_blank())
@@ -399,7 +399,7 @@ fig_reu_serie <- function(g, lang = "fr") {
     bac_x_log(lang) +
     bac_y_disc(lang) +
     labs(title = tr("reu_serie_title", lang),
-         subtitle = tr("reu_serie_sub", lang),
+         subtitle = bac_sous_titre("reu_serie_sub", lang),
          x = tr("reu_or_x", lang), y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) + theme(panel.grid.major.y = element_blank())
 }
@@ -419,7 +419,7 @@ fig_reu_wilaya <- function(g, lang = "fr") {
     bac_x_log(lang, expand = expansion(c(0.05, 0.08))) +
     bac_y_disc(lang) +
     labs(title = tr("reu_wil_title", lang),
-         subtitle = tr("reu_wil_sub", lang),
+         subtitle = bac_sous_titre("reu_wil_sub", lang),
          x = tr("reu_wil_x", lang), y = NULL, caption = cap_src(lang)) +
     theme_bac(lang = lang) + theme(panel.grid.major.y = element_blank())
 }
@@ -432,7 +432,7 @@ fig_reu_age <- function(g, lang = "fr") {
     bac_y_num(lang, labels = label_percent(accuracy = 1)) +
     bac_x_num(lang, breaks = seq(15, 30, 1)) +
     labs(title = tr("reu_age_title", lang),
-         subtitle = tr("reu_age_sub", lang),
+         subtitle = bac_sous_titre("reu_age_sub", lang),
          x = tr("reu_age_x", lang), y = tr("ax_taux", lang),
          caption = cap_src(lang)) +
     theme_bac(lang = lang)
@@ -549,7 +549,7 @@ fig_etab_funnel <- function(g, lang = "fr") {
     bac_y_num(lang, labels = label_percent(accuracy = 1),
               limits = c(0, NA)) +
     labs(title = tr("etab_fun_title", lang),
-         subtitle = tr("etab_fun_sub", lang),
+         subtitle = bac_sous_titre("etab_fun_sub", lang),
          x = tr("etab_fun_x", lang), y = tr("ax_taux", lang),
          caption = cap_src(lang)) +
     theme_bac(lang = lang)

@@ -83,6 +83,37 @@ bac_y_disc <- function(lang, ...) {
   scale_y_discrete(..., position = bac_pos_y(lang))
 }
 
+BAC_SOUS_TITRE_PT <- 11.4
+BAC_LARGEUR_UTILE <- 7.5
+
+bac_replier <- function(txt, lang = "fr", largeur = BAC_LARGEUR_UTILE,
+                        taille = BAC_SOUS_TITRE_PT) {
+  if (!nzchar(txt)) return(txt)
+  cap <- ragg::agg_capture(width = 200, height = 200, units = "px",
+                           res = 72, background = NA)
+  on.exit(grDevices::dev.off(), add = TRUE)
+  op <- graphics::par(family = bac_font(lang), ps = taille)
+  on.exit(graphics::par(op), add = TRUE, after = FALSE)
+  mots <- strsplit(txt, " ", fixed = TRUE)[[1]]
+  lignes <- character(0)
+  cur <- ""
+  for (m in mots) {
+    essai <- if (nzchar(cur)) paste(cur, m) else m
+    trop <- graphics::strwidth(essai, units = "inches") > largeur
+    if (trop && nzchar(cur)) {
+      lignes <- c(lignes, cur)
+      cur <- m
+    } else {
+      cur <- essai
+    }
+  }
+  paste(c(lignes, cur), collapse = "\n")
+}
+
+bac_sous_titre <- function(cle, lang = "fr") {
+  bac_replier(tr(cle, lang), lang)
+}
+
 BAC_ETIQ_RES <- 300
 
 bac_etiquette_pivotee <- function(label, lang, size = 3,
