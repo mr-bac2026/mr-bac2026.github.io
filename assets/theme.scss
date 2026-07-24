@@ -99,6 +99,16 @@ p { max-width: 39em; }
   padding: 0.06em 0.1em 0 0;
   color: $accent;
 }
+// En arabe, l'écriture est cursive : détacher la première lettre la coupe
+// du reste de son mot. On désactive donc la lettrine en RTL.
+html[dir="rtl"] .chapo > p:first-of-type::first-letter {
+  float: none;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  padding: 0;
+  color: inherit;
+}
 
 // --- Figures ---------------------------------------------------------------
 figure, .figure, .cell-output-display { margin: 2.6rem 0; }
