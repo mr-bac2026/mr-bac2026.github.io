@@ -247,7 +247,7 @@
   "pano_den_title": {
     "fr": "Une distribution qui penche à gauche",
     "en": "A left-leaning distribution",
-    "ar": "توزيع مائل نحو اليسار"
+    "ar": "توزيع مائل نحو اليمين"
   },
   "pano_den_sub": {
     "fr": "Densité des moyennes des candidats présents. Les tirets marquent les seuils de 8 et 10.",
@@ -267,7 +267,7 @@
   "pano_ment_sub": {
     "fr": "Répartition des mentions parmi les seuls admis.",
     "en": "Distribution of honours among admitted candidates only.",
-    "ar": "توزيع الملاحظات بين الناجحين فقط."
+    "ar": "توزيع التقديرات بين الناجحين فقط."
   },
   "fil_eff_title": {
     "fr": "Les sciences naturelles, série la plus choisie",
