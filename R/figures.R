@@ -4,7 +4,7 @@ geo_data <- function() {
 
   par_wilaya <- synth_taux(d, wilaya) |>
     arrange(desc(taux)) |>
-    mutate(nom = joli_nom(wilaya))
+    mutate(nom = joli_nom(wilaya), nom_ar = nom_wilaya(wilaya, "ar"))
 
   d <- d |> mutate(shapeName = BAC_CROSSWALK[wilaya])
   par_forme <- synth_taux(d, shapeName)
@@ -86,8 +86,10 @@ fig_geo_carte_taux <- function(g, lang = "fr") {
 }
 
 fig_geo_classement <- function(g, lang = "fr") {
-  ggplot(g$par_wilaya, aes(x = taux, y = fct_reorder(nom, taux))) +
-    geom_segment(aes(x = bas, xend = haut, yend = nom),
+  dw <- g$par_wilaya |>
+    mutate(aff = if (bac_rtl(lang)) nom_ar else nom)
+  ggplot(dw, aes(x = taux, y = fct_reorder(aff, taux))) +
+    geom_segment(aes(x = bas, xend = haut, yend = aff),
                  colour = BAC_COL$trait, linewidth = 1.4) +
     geom_point(aes(colour = taux), size = 2.8) +
     geom_text(aes(label = pct_fr(taux)), hjust = bac_h(lang, -0.35),
@@ -369,8 +371,9 @@ reussite_data <- function() {
     mutate(lab = gsub("^serie", "", terme))
   ow <- ors |>
     filter(grepl("^wilaya", terme)) |>
-    mutate(lab = joli_nom(gsub("^wilaya", "", terme)),
-           ns  = p >= 0.05, lab = fct_reorder(lab, or))
+    mutate(cle = gsub("^wilaya", "", terme),
+           lab = joli_nom(cle), lab_ar = nom_wilaya(cle, "ar"),
+           ns  = p >= 0.05)
   pa <- dm |>
     group_by(age_val) |>
     summarise(n = n(), taux = mean(admis), .groups = "drop") |>
@@ -402,9 +405,11 @@ fig_reu_serie <- function(g, lang = "fr") {
 }
 
 fig_reu_wilaya <- function(g, lang = "fr") {
-  ggplot(g$ow, aes(x = or, y = lab)) +
+  dw <- g$ow |>
+    mutate(aff = fct_reorder(if (bac_rtl(lang)) lab_ar else lab, or))
+  ggplot(dw, aes(x = or, y = aff)) +
     geom_vline(xintercept = 1, colour = BAC_COL$encre, linewidth = 0.5) +
-    geom_segment(aes(x = bas, xend = haut, yend = lab),
+    geom_segment(aes(x = bas, xend = haut, yend = aff),
                  colour = BAC_COL$trait, linewidth = 1.4) +
     geom_point(aes(fill = or), shape = 21, colour = BAC_COL$papier,
                size = 3.4, stroke = 0.6) +
@@ -438,7 +443,7 @@ etab_data <- function() {
   d <- lire_bac()
   tx_global <- mean(d$admis)
   par_etab <- d |>
-    group_by(etab, wilaya) |>
+    group_by(etab, etab_ar, wilaya) |>
     summarise(n = n(), admis = sum(admis),
               moyenne = mean(moyenne, na.rm = TRUE), .groups = "drop") |>
     mutate(ic_wilson(admis, n)) |>
@@ -461,7 +466,9 @@ etab_data <- function() {
 
 tbl_etab_top <- function(g, lang = "fr") {
   g$top |>
-    transmute(etablissement = etab, wilaya = wilaya, candidats = n,
+    transmute(etablissement = if (bac_rtl(lang)) etab_ar else etab,
+              wilaya = if (bac_rtl(lang)) nom_wilaya(wilaya, lang) else wilaya,
+              candidats = n,
               taux = taux, moyenne = moyenne) |>
     gt() |>
     cols_label(etablissement = tr("col_etab", lang),
@@ -474,7 +481,8 @@ tbl_etab_top <- function(g, lang = "fr") {
     fmt_number(columns = moyenne, decimals = 2, dec_mark = ",") |>
     data_color(columns = taux,
                fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
-    cols_align("left", columns = c(etablissement, wilaya)) |>
+    cols_align(if (bac_rtl(lang)) "right" else "left",
+               columns = c(etablissement, wilaya)) |>
     tab_header(title = md(tr("etab_top_title", lang)),
                subtitle = tr("etab_top_sub", lang)) |>
     tab_source_note(md(tr("src_note", lang))) |>
@@ -484,7 +492,9 @@ tbl_etab_top <- function(g, lang = "fr") {
 
 tbl_etab_solides <- function(g, lang = "fr") {
   g$solides |>
-    transmute(etablissement = etab, wilaya = wilaya, candidats = n,
+    transmute(etablissement = if (bac_rtl(lang)) etab_ar else etab,
+              wilaya = if (bac_rtl(lang)) nom_wilaya(wilaya, lang) else wilaya,
+              candidats = n,
               taux = taux, ic_bas = bas) |>
     gt() |>
     cols_label(etablissement = tr("col_etab", lang),
@@ -496,7 +506,8 @@ tbl_etab_solides <- function(g, lang = "fr") {
                 sep_mark = " ") |>
     data_color(columns = taux,
                fn = scales::col_numeric(BAC_SEQ_CHAUD, domain = NULL)) |>
-    cols_align("left", columns = c(etablissement, wilaya)) |>
+    cols_align(if (bac_rtl(lang)) "right" else "left",
+               columns = c(etablissement, wilaya)) |>
     tab_header(title = md(tr("etab_sol_title", lang)),
                subtitle = tr("etab_sol_sub", lang)) |>
     tab_source_note(md(tr("src_note", lang))) |>

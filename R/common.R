@@ -240,9 +240,11 @@ lire_bac <- function() {
     mutate(
       moyenne   = suppressWarnings(as.numeric(Moy_Bac)),
       wilaya    = norm_ws(Wilaya_FR),
+      wilaya_ar = norm_ws(Wilaya_AR),
       serie     = norm_ws(Serie_FR),
       centre    = norm_ws(`Centre Examen  FR`),
       etab      = norm_ws(Etablissement_FR),
+      etab_ar   = norm_ws(Etablissement_AR),
       naissance = suppressWarnings(as.Date(substr(`Date Naiss`, 1, 10))),
       annee_n   = as.integer(substr(`Date Naiss`, 1, 4)),
       age       = 2026L - annee_n,
@@ -344,6 +346,30 @@ BAC_NOM <- c(
 joli_nom <- function(x) {
   r <- unname(BAC_NOM[x])
   ifelse(is.na(r), x, r)
+}
+
+BAC_NOM_AR <- c(
+  "Adrar"            = "ادرار",
+  "Assaba"           = "لعصابه",
+  "Brakna"           = "لبراكنه",
+  "Dakhlet NDB"      = "داخلت انواذيب",
+  "Gorgol"           = "كوركل",
+  "Guidimagha"       = "كيدي ماغه",
+  "Hod Charghy"      = "الحوض الشرقي",
+  "Hod Gharby"       = "الحوض الغربي",
+  "Inchiri"          = "اينشيري",
+  "Nouakchott Nord"  = "انواكشوط الشمالية",
+  "Nouakchott Ouest" = "انواكشوط الغربية",
+  "Nouakchott Sud"   = "انواكشوط الجنوبية",
+  "Tagant"           = "تكانت",
+  "Tiris Zemour"     = "تيرس ازمور",
+  "Trarza"           = "اترارزه"
+)
+
+nom_wilaya <- function(x, lang = "fr") {
+  if (!bac_rtl(lang)) return(joli_nom(x))
+  r <- unname(BAC_NOM_AR[x])
+  ifelse(is.na(r), joli_nom(x), r)
 }
 
 lire_carte <- function() {
