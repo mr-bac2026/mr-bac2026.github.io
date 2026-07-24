@@ -142,14 +142,8 @@ fig_index_hist <- function(g, lang = "fr") {
                    boundary = 0, closed = "left") +
     geom_vline(xintercept = c(8, 10), colour = BAC_COL$encre,
                linewidth = 0.4, linetype = "dashed") +
-    annotate("text", x = 8, y = Inf, label = tr("idx_seuil_8", lang),
-             family = bac_font(lang), hjust = bac_hjust(lang, 1.03),
-             vjust = bac_vjust(lang, 1.6, 1.8), size = 3,
-             colour = BAC_COL$encre_douce, angle = bac_angle(lang)) +
-    annotate("text", x = 10, y = Inf, label = tr("idx_seuil_10", lang),
-             family = bac_font(lang), hjust = bac_hjust(lang, 1.03),
-             vjust = bac_vjust(lang, -0.7, 3.4), size = 3,
-             colour = BAC_COL$encre_douce, angle = bac_angle(lang)) +
+    bac_seuil(tr("idx_seuil_8", lang), 8, lang, vjust = 1.6, dy = 3) +
+    bac_seuil(tr("idx_seuil_10", lang), 10, lang, vjust = -0.7, dy = 3) +
     scale_fill_manual(values = BAC_PAL_DECISION, labels = lab_dec, name = NULL,
                       guide = guide_legend(override.aes =
                                              list(linewidth = 0))) +

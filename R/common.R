@@ -44,12 +44,48 @@ bac_font_title <- function(lang = "fr") {
   if (identical(lang, "ar")) BAC_FONT_AR else BAC_FONT_TITLE
 }
 
-bac_angle <- function(lang = "fr") if (identical(lang, "ar")) 0 else 90
-bac_hjust <- function(lang = "fr", h = 1.03) {
-  if (identical(lang, "ar")) 1.03 else h
+BAC_ETIQ_RES <- 300
+
+bac_etiquette_pivotee <- function(label, lang, size = 3,
+                                  colour = "#585d66") {
+  res <- BAC_ETIQ_RES
+  cap <- ragg::agg_capture(width = 2400, height = 400, units = "px",
+                           res = res, background = NA)
+  op <- graphics::par(mar = c(0, 0, 0, 0))
+  graphics::plot.new()
+  graphics::plot.window(c(0, 1), c(0, 1), xaxs = "i", yaxs = "i")
+  graphics::text(0.005, 0.5, label, adj = c(0, 0.5),
+                 family = bac_font(lang),
+                 cex = size * .pt / graphics::par("ps"),
+                 col = colour, xpd = NA)
+  m <- cap(native = FALSE)
+  graphics::par(op)
+  grDevices::dev.off()
+  plein <- m != "transparent"
+  kr <- range(which(apply(plein, 1, any)))
+  kc <- range(which(apply(plein, 2, any)))
+  m <- m[kr[1]:kr[2], kc[1]:kc[2], drop = FALSE]
+  tm <- t(m)
+  tm[rev(seq_len(nrow(tm))), , drop = FALSE]
 }
-bac_vjust <- function(lang = "fr", v = 1.6, v_ar = 1.8) {
-  if (identical(lang, "ar")) v_ar else v
+
+bac_seuil <- function(label, x, lang, size = 3, vjust = 1.6, dy = 3) {
+  if (!identical(lang, "ar")) {
+    return(annotate("text", x = x, y = Inf, label = label,
+                    family = bac_font(lang), hjust = 1.03, vjust = vjust,
+                    size = size, colour = BAC_COL$encre_douce, angle = 90))
+  }
+  m <- bac_etiquette_pivotee(label, lang, size, BAC_COL$encre_douce)
+  gr <- grid::rasterGrob(
+    m,
+    x = grid::unit(1, "npc") - grid::unit(2, "pt"),
+    y = grid::unit(1, "npc") - grid::unit(dy, "pt"),
+    hjust = 1, vjust = 1,
+    width = grid::unit(ncol(m) / BAC_ETIQ_RES, "in"),
+    height = grid::unit(nrow(m) / BAC_ETIQ_RES, "in"),
+    interpolate = TRUE
+  )
+  annotation_custom(gr, xmin = x, xmax = x, ymin = -Inf, ymax = Inf)
 }
 
 BAC_COL <- list(
