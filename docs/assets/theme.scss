@@ -237,6 +237,10 @@ html[dir="rtl"] .navbar .navbar-nav.ms-auto {
 }
 
 // --- Divers ----------------------------------------------------------------
+// Nombres latins isolés dans un texte RTL (ex. « 64 532 ») : le dir="ltr"
+// rétablit l'ordre des groupes, et nowrap empêche la coupure sur l'espace
+// des milliers en fin de ligne.
+span[dir="ltr"] { white-space: nowrap; }
 a { text-underline-offset: 2px; }
 pre.sourceCode { background: $paper-alt; border: 1px solid $rule; border-radius: 3px; }
 .footer { border-top: 1px solid $rule; color: $ink-soft; font-size: .86rem; }
