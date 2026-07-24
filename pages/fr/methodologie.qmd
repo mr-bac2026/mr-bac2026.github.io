@@ -68,22 +68,13 @@ Il est important de dire ce que ces données ne permettent pas de savoir :
 
 ## Le recours à l'intelligence artificielle
 
-Par souci de transparence : un assistant d'intelligence artificielle a été
-utilisé pendant la préparation de ce site, sur trois points précis.
+Par souci de transparence : un assistant d'intelligence artificielle a été utilisé pendant la préparation de ce site, sur trois points précis.
 
-- **Reformulation.** Certains passages ont été retravaillés pour gagner en
-  clarté et en concision. Le fond, les choix d'analyse et les conclusions
-  restent ceux de l'auteur.
-- **Traduction.** Les versions anglaise et arabe reposent sur une traduction
-  assistée, encore en cours de relecture. Les noms de wilayas et
-  d'établissements en arabe viennent directement du fichier source, et non
-  d'une traduction.
-- **Code.** Des erreurs du code R, ainsi que des défauts d'affichage et de
-  mise en page, ont été repérés et corrigés avec cette aide.
+- **Reformulation.** Certains passages ont été retravaillés pour gagner en clarté et en concision. Le fond, les choix d'analyse et les conclusions restent ceux de l'auteur.
+- **Traduction.** Les versions anglaise et arabe reposent sur une traduction assistée, encore en cours de relecture. Les noms de wilayas et d'établissements en arabe viennent directement du fichier source, et non d'une traduction.
+- **Code.** Des erreurs du code R, ainsi que des défauts d'affichage et de mise en page, ont été repérés et corrigés avec cette aide.
 
-Aucun chiffre, aucun résultat statistique et aucune interprétation ne sont
-produits par l'IA : ils viennent tous du code appliqué aux données, que
-chacun peut réexécuter.
+Aucun chiffre, aucun résultat statistique et aucune interprétation ne sont produits par l'IA : ils viennent tous du code appliqué aux données, que chacun peut réexécuter.
 
 ## Reproductibilité
 
