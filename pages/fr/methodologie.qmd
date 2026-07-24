@@ -69,7 +69,6 @@ Il est important de dire ce que ces données ne permettent pas de savoir :
 ## Le recours à l'intelligence artificielle
 
 ::: {.encadre .ia}
-[Transparence sur l'IA]{.etiquette}
 Par souci de transparence : un assistant d'intelligence artificielle a été utilisé pendant la préparation de ce site, sur trois points précis.
 
 - **Reformulation.** Certains passages ont été retravaillés pour gagner en clarté et en concision. Le fond, les choix d'analyse et les conclusions restent ceux de l'auteur.
