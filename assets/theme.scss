@@ -134,6 +134,16 @@ figcaption, .figure-caption { color: $muted; font-size: .9rem; font-style: itali
   display: block; font-size: .82rem; font-weight: 700; color: $accent;
   margin-bottom: .45rem; font-style: normal;
 }
+.encadre.ia {
+  background: rgba($accent, .07);
+  border: 1px solid rgba($accent, .3);
+  border-left: 4px solid $accent;
+  border-radius: 3px;
+}
+html[dir="rtl"] .encadre.ia {
+  border-left: 1px solid rgba($accent, .3);
+  border-right: 4px solid $accent;
+}
 
 .navbar { border-bottom: 1px solid $rule; }
 .navbar-brand { font-weight: 700; }
