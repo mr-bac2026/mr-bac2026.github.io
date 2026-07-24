@@ -146,11 +146,12 @@ bac_seuil <- function(label, x, lang, size = 3, vjust = 1.6, dy = 3) {
                     size = size, colour = BAC_COL$encre_douce, angle = 90))
   }
   m <- bac_etiquette_pivotee(label, lang, size, BAC_COL$encre_douce)
+  a_gauche <- vjust > 0
   gr <- grid::rasterGrob(
     m,
-    x = grid::unit(0, "npc") + grid::unit(2, "pt"),
+    x = grid::unit(0, "npc") + grid::unit(if (a_gauche) -2 else 2, "pt"),
     y = grid::unit(1, "npc") - grid::unit(dy, "pt"),
-    hjust = 0, vjust = 1,
+    hjust = if (a_gauche) 1 else 0, vjust = 1,
     width = grid::unit(ncol(m) / BAC_ETIQ_RES, "in"),
     height = grid::unit(nrow(m) / BAC_ETIQ_RES, "in"),
     interpolate = TRUE

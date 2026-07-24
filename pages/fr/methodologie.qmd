@@ -68,6 +68,8 @@ Il est important de dire ce que ces données ne permettent pas de savoir :
 
 ## Le recours à l'intelligence artificielle
 
+::: {.encadre .ia}
+[Transparence sur l'IA]{.etiquette}
 Par souci de transparence : un assistant d'intelligence artificielle a été utilisé pendant la préparation de ce site, sur trois points précis.
 
 - **Reformulation.** Certains passages ont été retravaillés pour gagner en clarté et en concision. Le fond, les choix d'analyse et les conclusions restent ceux de l'auteur.
@@ -75,6 +77,7 @@ Par souci de transparence : un assistant d'intelligence artificielle a été uti
 - **Code.** Des erreurs du code R, ainsi que des défauts d'affichage et de mise en page, ont été repérés et corrigés avec cette aide.
 
 Aucun chiffre, aucun résultat statistique et aucune interprétation ne sont produits par l'IA : ils viennent tous du code appliqué aux données, que chacun peut réexécuter.
+:::
 
 ## Reproductibilité
 

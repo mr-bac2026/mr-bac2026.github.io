@@ -25,6 +25,8 @@ This page is being translated; the narrative text is not final.
 
 ## Use of artificial intelligence
 
+::: {.encadre .ia}
+[Transparency on AI]{.etiquette}
 For the sake of transparency: an artificial intelligence assistant was used while preparing this site, on three specific points.
 
 - **Rewording.** Some passages were reworked for clarity and concision. The substance, the analytical choices and the conclusions remain the author's.
@@ -32,6 +34,7 @@ For the sake of transparency: an artificial intelligence assistant was used whil
 - **Code.** Errors in the R code, along with display and layout defects, were found and fixed with that help.
 
 No figure, no statistical result and no interpretation is produced by the AI: they all come from the code applied to the data, which anyone can re-run.
+:::
 
 ## Reproducibility
 
