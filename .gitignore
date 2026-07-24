@@ -1,13 +1,13 @@
-# Cache Quarto / R (le site publié vit dans docs/, versionné)
 /.quarto/
 .Rproj.user/
 .Rhistory
 .RData
 
-# Journaux et fichiers temporaires
 install_pkgs.log
 scratch_*
 *.tmp
 
 **/*.quarto_ipynb
 _build/
+_freeze/
+docs/
