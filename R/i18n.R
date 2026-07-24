@@ -1,15 +1,14 @@
-BAC_I18N <- local({
-  path <- file.path(BAC_ROOT, "l10n", "l10n.csv")
-  df <- readr::read_csv(path, show_col_types = FALSE, progress = FALSE)
-  split(df, df$key)
-})
+BAC_I18N <- jsonlite::fromJSON(
+  file.path(BAC_ROOT, "l10n", "l10n.json"),
+  simplifyVector = FALSE
+)
 
 tr <- function(key, lang = "fr") {
   row <- BAC_I18N[[key]]
   if (is.null(row)) stop("Clé i18n manquante : ", key)
   val <- row[[lang]]
-  if (length(val) == 0 || is.na(val) || !nzchar(val)) val <- row[["fr"]]
-  gsub("\\\\n", "\n", val)
+  if (is.null(val) || is.na(val) || !nzchar(val)) val <- row[["fr"]]
+  val
 }
 
 cap_src      <- function(lang = "fr") tr("src", lang)
