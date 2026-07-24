@@ -17,7 +17,7 @@ g <- index_data()
 Le baccalauréat est un moment important pour les élèves mauritaniens. C'est l'examen qui ouvre l'accès à l'université, et le seul que l'on mesure à l'échelle de tout le pays. La session normale de 2026 a réuni **`r format(g$n_tot, big.mark = " ")` candidats**. Le premier constat est simple : réussir reste rare.
 :::
 
-Sur l'ensemble des candidats, `r format(g$n_adm, big.mark = " ")` ont été admis, soit un taux de réussite de **`r scales::percent(g$tx_adm, accuracy = 0.1, decimal.mark = ",")`**. Les autres sont ajournés, absents, ou renvoyés à la session complémentaire. La moyenne générale des présents est de **`r scales::number(g$moy_pres, accuracy = 0.01, decimal.mark = ",")` sur 20**, soit deux points sous le seuil de la session complémentaire et quatre sous celui de l'admission.
+Sur l'ensemble des candidats, `r format(g$n_adm, big.mark = " ")` ont été admis, soit un taux de réussite de **`r scales::percent(g$tx_adm, accuracy = 0.1, decimal.mark = ",")`**. Les autres sont ajournés, absents, ou renvoyés à la session complémentaire. La moyenne générale des présents est de **`r scales::number(g$moy_pres, accuracy = 0.01, decimal.mark = ",")` sur 20**, soit `r scales::number(8 - g$moy_pres, accuracy = 0.1, decimal.mark = ",")` point sous le seuil de la session complémentaire et `r scales::number(10 - g$moy_pres, accuracy = 0.1, decimal.mark = ",")` points sous celui de l'admission.
 
 ::: {.reperes}
 ::: {.repere}

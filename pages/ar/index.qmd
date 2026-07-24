@@ -17,7 +17,7 @@ g <- index_data()
 تُعدّ الباكالوريا محطة مهمة لدى التلاميذ الموريتانيين. فهي الامتحان الذي يفتح أبواب الجامعة، والوحيد الذي يُقاس على مستوى البلد بأكمله. وقد جمعت الدورة العادية لسنة 2026 **[`r format(g$n_tot, big.mark = " ")`]{dir="ltr"} مترشح**. والملاحظة الأولى بسيطة: النجاح يبقى نادرًا.
 :::
 
-من مجموع المترشحين، نجح [`r format(g$n_adm, big.mark = " ")`]{dir="ltr"}، أي بنسبة نجاح تبلغ **`r scales::percent(g$tx_adm, accuracy = 0.1, decimal.mark = ",")`**. أما الباقون فهم بين راسب وغائب ومُحال على الدورة التكميلية. ويبلغ المعدل العام للحاضرين **`r scales::number(g$moy_pres, accuracy = 0.01, decimal.mark = ",")` من 20**، أي أقل بنقطتين من عتبة الدورة التكميلية وبأربع نقاط من عتبة النجاح.
+من مجموع المترشحين، نجح [`r format(g$n_adm, big.mark = " ")`]{dir="ltr"}، أي بنسبة نجاح تبلغ **`r scales::percent(g$tx_adm, accuracy = 0.1, decimal.mark = ",")`**. أما الباقون فهم بين راسب وغائب ومُحال على الدورة التكميلية. ويبلغ المعدل العام للحاضرين **`r scales::number(g$moy_pres, accuracy = 0.01, decimal.mark = ",")` من 20**، أي أقل بـ`r scales::number(8 - g$moy_pres, accuracy = 0.1, decimal.mark = ",")` نقطة من عتبة الدورة التكميلية وبـ`r scales::number(10 - g$moy_pres, accuracy = 0.1, decimal.mark = ",")` نقطة من عتبة النجاح.
 
 ::: {.reperes}
 ::: {.repere}
