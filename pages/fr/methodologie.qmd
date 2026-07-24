@@ -66,6 +66,25 @@ Il est important de dire ce que ces données ne permettent pas de savoir :
 - **La session complémentaire n'est pas incluse.** Une partie des sessionnaires sera admise plus tard ; le taux d'admission final de cette génération sera donc plus élevé que celui présenté ici, limité à la session normale.
 - **Un lien n'est pas une cause.** Le fait qu'une série ou une région soit liée à de meilleurs résultats ne veut pas dire qu'elle en est la cause. Les raisons de fond (sélection des élèves, moyens, contexte) ne sont pas dans ces données.
 
+## Le recours à l'intelligence artificielle
+
+Par souci de transparence : un assistant d'intelligence artificielle a été
+utilisé pendant la préparation de ce site, sur trois points précis.
+
+- **Reformulation.** Certains passages ont été retravaillés pour gagner en
+  clarté et en concision. Le fond, les choix d'analyse et les conclusions
+  restent ceux de l'auteur.
+- **Traduction.** Les versions anglaise et arabe reposent sur une traduction
+  assistée, encore en cours de relecture. Les noms de wilayas et
+  d'établissements en arabe viennent directement du fichier source, et non
+  d'une traduction.
+- **Code.** Des erreurs du code R, ainsi que des défauts d'affichage et de
+  mise en page, ont été repérés et corrigés avec cette aide.
+
+Aucun chiffre, aucun résultat statistique et aucune interprétation ne sont
+produits par l'IA : ils viennent tous du code appliqué aux données, que
+chacun peut réexécuter.
+
 ## Reproductibilité
 
 Toute l'analyse est faite par du code. À partir du fichier de résultats et du fond de carte, l'ensemble des graphiques, tableaux et statistiques se recalcule d'une seule commande. Cette page, comme les autres, vient directement de ce code, sans modification manuelle des chiffres. C'est la meilleure garantie possible : nos conclusions ne sont pas les seules envisageables, mais elles sont au moins vérifiables.

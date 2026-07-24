@@ -23,6 +23,22 @@ This page is being translated; the narrative text is not final.
 
 *Text to be translated.*
 
+## Use of artificial intelligence
+
+For the sake of transparency: an artificial intelligence assistant was used
+while preparing this site, on three specific points.
+
+- **Rewording.** Some passages were reworked for clarity and concision. The
+  substance, the analytical choices and the conclusions remain the author's.
+- **Translation.** The English and Arabic versions rest on assisted
+  translation, still under review. The Arabic names of wilayas and schools
+  come straight from the source file, not from a translation.
+- **Code.** Errors in the R code, along with display and layout defects, were
+  found and fixed with that help.
+
+No figure, no statistical result and no interpretation is produced by the AI:
+they all come from the code applied to the data, which anyone can re-run.
+
 ## Reproducibility
 
 *Text to be translated.*
