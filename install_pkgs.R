@@ -1,6 +1,8 @@
-# Fast binary installs from Posit Public Package Manager.
+PPM_URL <- paste0("https://packagemanager.posit.co/cran/",
+                  "__linux__/noble/latest")
+
 options(
-  repos = c(PPM = "https://packagemanager.posit.co/cran/__linux__/noble/latest"),
+  repos = c(PPM = PPM_URL),
   HTTPUserAgent = sprintf(
     "R/%s R (%s)",
     getRversion(),
@@ -12,7 +14,7 @@ options(
 need <- c(
   "ggplot2", "dplyr", "tidyr", "readr", "forcats", "stringr", "scales",
   "patchwork", "ggridges", "viridis", "ggtext", "jsonlite", "gt",
-  "sysfonts", "showtext"
+  "systemfonts", "textshaping", "ragg"
 )
 have <- rownames(installed.packages())
 miss <- setdiff(need, have)
@@ -20,5 +22,7 @@ cat("To install:", paste(miss, collapse = ", "), "\n")
 if (length(miss)) install.packages(miss, quiet = TRUE)
 
 have2 <- rownames(installed.packages())
-for (p in need) cat(sprintf("%-10s %s\n", p, if (p %in% have2) "OK" else "FAILED"))
+for (p in need) {
+  cat(sprintf("%-12s %s\n", p, if (p %in% have2) "OK" else "FAILED"))
+}
 cat("DONE\n")

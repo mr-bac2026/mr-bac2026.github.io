@@ -1,4 +1,3 @@
-# English profile — build: quarto render --profile en
 project:
   output-dir: _build/en
   render:

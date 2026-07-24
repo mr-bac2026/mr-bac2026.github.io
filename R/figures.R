@@ -1,10 +1,3 @@
-# =============================================================================
-#  FIGURES PARTAGÉES — Géographie
-#  Chaque fonction prend les données préparées (geo_data()) et une langue,
-#  et tire tous ses textes de tr(). Appelée depuis fr/, en/ et ar/.
-# =============================================================================
-
-# Prépare une fois toutes les tables utilisées par les figures de la page.
 geo_data <- function() {
   d <- lire_bac()
   carte <- lire_carte()
@@ -27,7 +20,6 @@ geo_data <- function() {
        nat_pm = nat_pm)
 }
 
-# Carte : effectifs de candidats par région.
 fig_geo_effectifs <- function(g, lang = "fr") {
   ggplot(g$carte_j, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = n), colour = BAC_COL$papier, linewidth = 0.3) +
@@ -42,7 +34,6 @@ fig_geo_effectifs <- function(g, lang = "fr") {
     theme_bac_carte(lang)
 }
 
-# Barres : population par région (RGPH 2023).
 fig_geo_population <- function(g, lang = "fr") {
   ggplot(g$par_pop, aes(x = pop, y = fct_reorder(shapeName, pop))) +
     geom_col(width = 0.68, fill = BAC_COL$vert) +
@@ -57,7 +48,6 @@ fig_geo_population <- function(g, lang = "fr") {
     theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
 }
 
-# Barres : candidats pour 1 000 habitants, avec moyenne nationale.
 fig_geo_par_habitant <- function(g, lang = "fr") {
   ggplot(g$par_pop, aes(x = pm, y = fct_reorder(shapeName, pm))) +
     geom_vline(xintercept = g$nat_pm, colour = BAC_COL$encre_douce,
@@ -79,7 +69,6 @@ fig_geo_par_habitant <- function(g, lang = "fr") {
     theme(axis.text.x = element_blank(), panel.grid.major = element_blank())
 }
 
-# Carte : taux d'admission par région.
 fig_geo_carte_taux <- function(g, lang = "fr") {
   ggplot(g$carte_j, aes(long, lat, group = group)) +
     geom_polygon(aes(fill = taux), colour = BAC_COL$papier, linewidth = 0.3) +
@@ -93,7 +82,6 @@ fig_geo_carte_taux <- function(g, lang = "fr") {
     theme_bac_carte(lang)
 }
 
-# Classement des wilayas par taux d'admission (IC 95 % de Wilson).
 fig_geo_classement <- function(g, lang = "fr") {
   ggplot(g$par_wilaya, aes(x = taux, y = fct_reorder(nom, taux))) +
     geom_segment(aes(x = bas, xend = haut, yend = nom),
@@ -112,7 +100,6 @@ fig_geo_classement <- function(g, lang = "fr") {
     theme(panel.grid.major.y = element_blank())
 }
 
-# Comparaison Nouakchott / intérieur.
 fig_geo_pole <- function(g, lang = "fr") {
   lab_pole <- c("Nouakchott" = tr("pole_nkc", lang),
                 "Intérieur"  = tr("pole_int", lang))
@@ -136,9 +123,6 @@ fig_geo_pole <- function(g, lang = "fr") {
           panel.grid.major.x = element_blank())
 }
 
-# =============================================================================
-#  FIGURES PARTAGÉES — Ouverture (index)
-# =============================================================================
 index_data <- function() {
   d <- lire_bac()
   pres <- d |> filter(present == 1, !is.na(moyenne))
@@ -159,11 +143,13 @@ fig_index_hist <- function(g, lang = "fr") {
     geom_vline(xintercept = c(8, 10), colour = BAC_COL$encre,
                linewidth = 0.4, linetype = "dashed") +
     annotate("text", x = 8, y = Inf, label = tr("idx_seuil_8", lang),
-             family = bac_font(lang), hjust = 1.03, vjust = 1.6, size = 3,
-             colour = BAC_COL$encre_douce, angle = 90) +
+             family = bac_font(lang), hjust = bac_hjust(lang, 1.03),
+             vjust = bac_vjust(lang, 1.6, 1.8), size = 3,
+             colour = BAC_COL$encre_douce, angle = bac_angle(lang)) +
     annotate("text", x = 10, y = Inf, label = tr("idx_seuil_10", lang),
-             family = bac_font(lang), hjust = 1.03, vjust = -0.7, size = 3,
-             colour = BAC_COL$encre_douce, angle = 90) +
+             family = bac_font(lang), hjust = bac_hjust(lang, 1.03),
+             vjust = bac_vjust(lang, -0.7, 3.4), size = 3,
+             colour = BAC_COL$encre_douce, angle = bac_angle(lang)) +
     scale_fill_manual(values = BAC_PAL_DECISION, labels = lab_dec, name = NULL,
                       guide = guide_legend(override.aes =
                                              list(linewidth = 0))) +
@@ -177,9 +163,6 @@ fig_index_hist <- function(g, lang = "fr") {
     theme_bac(lang = lang)
 }
 
-# =============================================================================
-#  FIGURES PARTAGÉES — Panorama
-# =============================================================================
 panorama_data <- function() {
   d <- lire_bac()
   n_tot <- nrow(d)
@@ -191,7 +174,9 @@ panorama_data <- function() {
           sum(d$present == 1 & d$moyenne >= 8, na.rm = TRUE), sum(d$admis))
   ) |> mutate(part = n / n_tot)
   pres <- d |> filter(present == 1, !is.na(moyenne))
-  men <- d |> filter(decision == "Admis") |> count(mention) |>
+  men <- d |>
+    filter(decision == "Admis") |>
+    count(mention) |>
     mutate(part = n / sum(n))
   list(d = d, n_tot = n_tot, rep = rep, etapes = etapes,
        pres = pres, med = median(pres$moyenne), men = men)
@@ -286,9 +271,6 @@ fig_pano_mentions <- function(g, lang = "fr") {
     theme(panel.grid.major.x = element_blank())
 }
 
-# =============================================================================
-#  FIGURES PARTAGÉES — Filières
-# =============================================================================
 filieres_data <- function() {
   suppressPackageStartupMessages(library(ggridges))
   d <- lire_bac()
@@ -296,7 +278,8 @@ filieres_data <- function() {
   d <- d |> mutate(serie = factor(serie, levels = par_serie$serie))
   ps <- par_serie |> filter(n >= 100)
   dr <- d |> filter(present == 1, !is.na(moyenne), serie %in% ps$serie)
-  dd <- d |> filter(present == 1) |>
+  dd <- d |>
+    filter(present == 1) |>
     mutate(issue = if_else(admis == 1, "Admis", "Non admis"))
   tab <- table(dd$serie, dd$issue)
   khi <- chisq.test(tab)
@@ -356,9 +339,6 @@ fig_fil_ridgeline <- function(g, lang = "fr") {
     theme(panel.grid.major.y = element_blank())
 }
 
-# =============================================================================
-#  FIGURES PARTAGÉES — Réussir (régression logistique)
-# =============================================================================
 reussite_data <- function() {
   d <- lire_bac()
   dm <- d |>
@@ -378,12 +358,15 @@ reussite_data <- function() {
     p     = co[, "Pr(>|z|)"],
     row.names = NULL
   )
-  os <- ors |> filter(grepl("^serie", terme)) |>
+  os <- ors |>
+    filter(grepl("^serie", terme)) |>
     mutate(lab = gsub("^serie", "", terme))
-  ow <- ors |> filter(grepl("^wilaya", terme)) |>
+  ow <- ors |>
+    filter(grepl("^wilaya", terme)) |>
     mutate(lab = joli_nom(gsub("^wilaya", "", terme)),
            ns  = p >= 0.05, lab = fct_reorder(lab, or))
-  pa <- dm |> group_by(age_val) |>
+  pa <- dm |>
+    group_by(age_val) |>
     summarise(n = n(), taux = mean(admis), .groups = "drop") |>
     filter(n >= 50)
   or_age <- ors$or[ors$terme == "age_val"]
@@ -442,9 +425,6 @@ fig_reu_age <- function(g, lang = "fr") {
     theme_bac(lang = lang)
 }
 
-# =============================================================================
-#  FIGURES PARTAGÉES — Établissements (tableaux gt + entonnoir)
-# =============================================================================
 etab_data <- function() {
   suppressPackageStartupMessages(library(gt))
   d <- lire_bac()
@@ -456,8 +436,10 @@ etab_data <- function() {
     mutate(ic_wilson(admis, n)) |>
     rename(taux = p)
   top <- par_etab |> filter(n >= 30) |> arrange(desc(taux)) |> head(12)
-  solides <- par_etab |> filter(n >= 50, bas > tx_global) |>
-    arrange(desc(taux)) |> head(12)
+  solides <- par_etab |>
+    filter(n >= 50, bas > tx_global) |>
+    arrange(desc(taux)) |>
+    head(12)
   grille <- tibble::tibble(n = 10^seq(log10(10), log10(max(par_etab$n)),
                                       length.out = 250)) |>
     mutate(se  = sqrt(tx_global * (1 - tx_global) / n),

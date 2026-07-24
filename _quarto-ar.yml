@@ -1,4 +1,3 @@
-# الملف العربي — البناء: quarto render --profile ar
 project:
   output-dir: _build/ar
   render:
